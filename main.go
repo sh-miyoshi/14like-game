@@ -4,6 +4,7 @@ import (
 	"runtime"
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/fps"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
@@ -29,11 +30,18 @@ func main() {
 	dxlib.DxLib_Init()
 	dxlib.SetDrawScreen(dxlib.DX_SCREEN_BACK)
 
+	// WIP: 別の場所で管理
+	player := object.Player{}
+	player.Init()
+
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {
 		inputs.KeyStateUpdate()
 
 		// Main Game Proc
+		player.Update()
+
+		player.Draw()
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
 			logger.Info("Game end by escape command")
@@ -42,6 +50,8 @@ MAIN:
 
 		fpsMgr.Wait()
 	}
+
+	player.End()
 
 	dxlib.DxLib_End()
 }

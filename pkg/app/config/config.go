@@ -1,6 +1,6 @@
 package config
 
 const (
-	ScreenSizeX = 1280
-	ScreenSizeY = 960
+	ScreenSizeX = 640 // 1280
+	ScreenSizeY = 480 // 960
 )
