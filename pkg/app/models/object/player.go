@@ -10,19 +10,22 @@ import (
 
 const (
 	PlayerHitRange = 50
-	PlayerSkillMax = 4
+	PlayerSkillMax = 3
 )
 
 type Player struct {
 	pos         point.Point
 	skills      [PlayerSkillMax]skill.Skill
 	targetEnemy Object
+	hp          int
 }
 
 func (p *Player) Init() {
 	p.pos.X = config.ScreenSizeX / 4
 	p.pos.Y = config.ScreenSizeY / 2
 	p.skills[0] = &skill.Attack1{}
+	p.skills[1] = &skill.Heal1{}
+	p.skills[2] = &skill.Defense1{}
 
 	for _, s := range p.skills {
 		if s != nil {
@@ -65,9 +68,9 @@ func (p *Player) Draw() {
 }
 
 func (p *Player) Update() {
-	// WIP: ガード
+	// WIP: ガード, なめらかに移動する
 	// Move
-	spd := 5
+	spd := 10
 	if inputs.CheckKey(inputs.KeyUp)%10 == 1 {
 		p.pos.Y -= spd
 	} else if inputs.CheckKey(inputs.KeyDown)%10 == 1 {
@@ -84,6 +87,10 @@ func (p *Player) GetPos() point.Point {
 }
 
 func (p *Player) availableByDistance(s skill.Skill) bool {
+	if s.GetParam().Range < 0 {
+		return true
+	}
+
 	if p.targetEnemy == nil {
 		return false
 	}

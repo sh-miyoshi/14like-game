@@ -12,6 +12,7 @@ const (
 
 type Enemy1 struct {
 	pos point.Point
+	hp  int
 }
 
 func (e *Enemy1) Init() {
