@@ -17,7 +17,7 @@ type Player struct {
 	pos         point.Point
 	skills      [PlayerSkillMax]skill.Skill
 	targetEnemy Object
-	hp          int
+	// hp          int
 }
 
 func (p *Player) Init() {
@@ -68,18 +68,30 @@ func (p *Player) Draw() {
 }
 
 func (p *Player) Update() {
-	// WIP: ガード, なめらかに移動する
+	// WIP: ガード, ななめ移動
 	// Move
-	spd := 10
-	if inputs.CheckKey(inputs.KeyUp)%10 == 1 {
-		p.pos.Y -= spd
-	} else if inputs.CheckKey(inputs.KeyDown)%10 == 1 {
-		p.pos.Y += spd
-	} else if inputs.CheckKey(inputs.KeyRight)%10 == 1 {
-		p.pos.X += spd
-	} else if inputs.CheckKey(inputs.KeyLeft)%10 == 1 {
-		p.pos.X -= spd
+	spd := 4
+
+	moveLR := 0
+	moveUD := 0
+	if inputs.CheckKey(inputs.KeyUp) > 0 {
+		moveUD = -spd
+	} else if inputs.CheckKey(inputs.KeyDown) > 0 {
+		moveUD = spd
 	}
+
+	if inputs.CheckKey(inputs.KeyRight) > 0 {
+		moveLR = spd
+	} else if inputs.CheckKey(inputs.KeyLeft) > 0 {
+		moveLR = -spd
+	}
+	if moveLR != 0 && moveUD != 0 {
+		// NOTE: 本来は√2で割るべきだが、見栄え的な観点で1.2にしている
+		moveLR = int(float64(moveLR) / 1.2)
+		moveUD = int(float64(moveUD) / 1.2)
+	}
+	p.pos.X += moveLR
+	p.pos.Y += moveUD
 }
 
 func (p *Player) GetPos() point.Point {
@@ -103,9 +115,5 @@ func (p *Player) availableByDistance(s skill.Skill) bool {
 	dist2 := (px-ex)*(px-ex) + (py-ey)*(py-ey)
 	hitRange := PlayerHitRange + s.GetParam().Range + Enemy1HitRange
 
-	if dist2 < hitRange*hitRange {
-		return true
-	}
-
-	return false
+	return dist2 < hitRange*hitRange
 }
