@@ -4,6 +4,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/inputs"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
@@ -13,8 +14,9 @@ const (
 )
 
 type Player struct {
-	pos    point.Point
-	skills [PlayerSkillMax]skill.Skill
+	pos         point.Point
+	skills      [PlayerSkillMax]skill.Skill
+	targetEnemy Object
 }
 
 func (p *Player) Init() {
@@ -37,6 +39,10 @@ func (p *Player) End() {
 	}
 }
 
+func (p *Player) SetTargetEnemy(e Object) {
+	p.targetEnemy = e
+}
+
 func (p *Player) Draw() {
 	dxlib.DrawCircle(p.pos.X, p.pos.Y, PlayerHitRange, dxlib.GetColor(255, 255, 255), false)
 
@@ -48,13 +54,51 @@ func (p *Player) Draw() {
 			dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(255, 255, 255), false)
 		} else {
 			dxlib.DrawGraph(x, y, s.GetIcon(), true)
-			dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 192)
-			dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(0, 0, 0), true)
-			dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
-			// WIP: 使えない場合はグレーにする
+			// 使えない場合はグレーにする
+			if !p.availableByDistance(s) {
+				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 160)
+				dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(0, 0, 0), true)
+				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
+			}
 		}
 	}
 }
 
 func (p *Player) Update() {
+	// WIP: ガード
+	// Move
+	spd := 5
+	if inputs.CheckKey(inputs.KeyUp)%10 == 1 {
+		p.pos.Y -= spd
+	} else if inputs.CheckKey(inputs.KeyDown)%10 == 1 {
+		p.pos.Y += spd
+	} else if inputs.CheckKey(inputs.KeyRight)%10 == 1 {
+		p.pos.X += spd
+	} else if inputs.CheckKey(inputs.KeyLeft)%10 == 1 {
+		p.pos.X -= spd
+	}
+}
+
+func (p *Player) GetPos() point.Point {
+	return p.pos
+}
+
+func (p *Player) availableByDistance(s skill.Skill) bool {
+	if p.targetEnemy == nil {
+		return false
+	}
+
+	px := p.pos.X
+	py := p.pos.Y
+	ex := p.targetEnemy.GetPos().X
+	ey := p.targetEnemy.GetPos().Y
+
+	dist2 := (px-ex)*(px-ex) + (py-ey)*(py-ey)
+	hitRange := PlayerHitRange + s.GetParam().Range + Enemy1HitRange
+
+	if dist2 < hitRange*hitRange {
+		return true
+	}
+
+	return false
 }

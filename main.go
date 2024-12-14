@@ -30,12 +30,16 @@ func main() {
 	dxlib.DxLib_Init()
 	dxlib.SetDrawScreen(dxlib.DX_SCREEN_BACK)
 
+	inputs.Init(inputs.DeviceTypeKeyboard)
+
 	// WIP: 別の場所で管理
 	player := object.Player{}
 	player.Init()
 
 	enemy1 := object.Enemy1{}
 	enemy1.Init()
+
+	player.SetTargetEnemy(&enemy1)
 
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {

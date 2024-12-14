@@ -26,5 +26,9 @@ func (e *Enemy1) Draw() {
 	dxlib.DrawCircle(e.pos.X, e.pos.Y, Enemy1HitRange, dxlib.GetColor(255, 255, 255), false)
 }
 
-func (p *Enemy1) Update() {
+func (e *Enemy1) Update() {
+}
+
+func (e *Enemy1) GetPos() point.Point {
+	return e.pos
 }
