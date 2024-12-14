@@ -19,6 +19,7 @@ func (p *pad) Init() error {
 	p.keyBind[KeyLButton] = 9
 	p.keyBind[KeyRButton] = 10
 	p.keyBind[KeyDebug] = 12
+	// WIP: 1,2,3,4
 
 	return nil
 }

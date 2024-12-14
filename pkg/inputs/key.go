@@ -17,6 +17,10 @@ func (k *keyboard) Init() error {
 	k.keyBind[KeyLButton] = dxlib.KEY_INPUT_A
 	k.keyBind[KeyRButton] = dxlib.KEY_INPUT_S
 	k.keyBind[KeyDebug] = dxlib.KEY_INPUT_D
+	k.keyBind[Key1] = dxlib.KEY_INPUT_1
+	k.keyBind[Key2] = dxlib.KEY_INPUT_2
+	k.keyBind[Key3] = dxlib.KEY_INPUT_3
+	k.keyBind[Key4] = dxlib.KEY_INPUT_4
 
 	return nil
 }

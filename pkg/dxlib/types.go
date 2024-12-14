@@ -48,6 +48,10 @@ const (
 	KEY_INPUT_S      = dxlib.KEY_INPUT_S
 	KEY_INPUT_D      = dxlib.KEY_INPUT_D
 	KEY_INPUT_ESCAPE = dxlib.KEY_INPUT_ESCAPE
+	KEY_INPUT_1      = dxlib.KEY_INPUT_1
+	KEY_INPUT_2      = dxlib.KEY_INPUT_2
+	KEY_INPUT_3      = dxlib.KEY_INPUT_3
+	KEY_INPUT_4      = dxlib.KEY_INPUT_4
 )
 
 const (

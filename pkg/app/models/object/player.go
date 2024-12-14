@@ -5,6 +5,7 @@ import (
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
+	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
@@ -15,31 +16,52 @@ const (
 	PlayerSkillMax = 3
 )
 
+type playerSkill struct {
+	info     skill.Skill
+	waitTime int
+}
+
 type Player struct {
-	pos         point.Point
-	skills      [PlayerSkillMax]skill.Skill
-	targetEnemy Object
+	pos            point.Point
+	skills         [PlayerSkillMax]*playerSkill
+	targetEnemy    Object
+	imgSkillCircle int
 	// hp          int
 }
 
 func (p *Player) Init() {
+	p.imgSkillCircle = dxlib.LoadGraph("data/images/skill_circle.png")
+	if p.imgSkillCircle == -1 {
+		system.FailWithError("Failed to load skill circle image")
+	}
+
 	p.pos.X = config.ScreenSizeX / 4
 	p.pos.Y = config.ScreenSizeY / 2
-	p.skills[0] = &skill.Attack1{}
-	p.skills[1] = &skill.Heal1{}
-	p.skills[2] = &skill.Defense1{}
+	p.skills[0] = &playerSkill{
+		info:     &skill.Attack1{},
+		waitTime: 0,
+	}
+	p.skills[1] = &playerSkill{
+		info:     &skill.Heal1{},
+		waitTime: 0,
+	}
+	p.skills[2] = &playerSkill{
+		info:     &skill.Defense1{},
+		waitTime: 0,
+	}
 
 	for _, s := range p.skills {
 		if s != nil {
-			s.Init()
+			s.info.Init()
 		}
 	}
 }
 
 func (p *Player) End() {
+	dxlib.DeleteGraph(p.imgSkillCircle)
 	for _, s := range p.skills {
 		if s != nil {
-			s.End()
+			s.info.End()
 		}
 	}
 }
@@ -58,12 +80,12 @@ func (p *Player) Draw() {
 		if s == nil {
 			dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(255, 255, 255), false)
 		} else {
-			dxlib.DrawGraph(x, y, s.GetIcon(), true)
-			// 使えない場合はグレーにする
-			if !p.availableByDistance(s) {
+			dxlib.DrawGraph(x, y, s.info.GetIcon(), true)
+			if s.waitTime > 0 {
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 160)
 				dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(0, 0, 0), true)
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
+				dxlib.DrawCircleGauge(x+size/2, y+size/2, 100, p.imgSkillCircle)
 			}
 		}
 		dxlib.DrawStringToHandle(x, y, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%d", i+1))
@@ -72,6 +94,15 @@ func (p *Player) Draw() {
 
 func (p *Player) Update() {
 	// WIP: スキル発動
+	if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) {
+		p.skills[0].waitTime = p.skills[0].info.GetParam().RecastTime
+	}
+
+	for _, s := range p.skills {
+		if s != nil && s.waitTime > 0 {
+			s.waitTime--
+		}
+	}
 
 	// Move
 	spd := 4

@@ -14,6 +14,10 @@ const (
 	KeyLButton
 	KeyRButton
 	KeyDebug
+	Key1
+	Key2
+	Key3
+	Key4
 
 	keyMax
 )
