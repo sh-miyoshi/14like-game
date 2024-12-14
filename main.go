@@ -31,6 +31,9 @@ func main() {
 	dxlib.SetDrawScreen(dxlib.DX_SCREEN_BACK)
 
 	inputs.Init(inputs.DeviceTypeKeyboard)
+	config.SkillNumberFontHandle = dxlib.CreateFontToHandle(dxlib.CreateFontToHandleOption{
+		Size: dxlib.Int32Ptr(10),
+	})
 
 	// WIP: 別の場所で管理
 	player := object.Player{}

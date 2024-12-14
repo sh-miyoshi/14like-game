@@ -4,3 +4,7 @@ const (
 	ScreenSizeX = 800 // 1280
 	ScreenSizeY = 600 // 960
 )
+
+var (
+	SkillNumberFontHandle int
+)

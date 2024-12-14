@@ -1,6 +1,8 @@
 package object
 
 import (
+	"fmt"
+
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
@@ -64,16 +66,19 @@ func (p *Player) Draw() {
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 			}
 		}
+		dxlib.DrawStringToHandle(x, y, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%d", i+1))
 	}
 }
 
 func (p *Player) Update() {
-	// WIP: ガード, ななめ移動
+	// WIP: スキル発動
+
 	// Move
 	spd := 4
 
 	moveLR := 0
 	moveUD := 0
+	// WIP: 移動ガード
 	if inputs.CheckKey(inputs.KeyUp) > 0 {
 		moveUD = -spd
 	} else if inputs.CheckKey(inputs.KeyDown) > 0 {
