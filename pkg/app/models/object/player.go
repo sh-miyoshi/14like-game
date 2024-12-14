@@ -93,9 +93,16 @@ func (p *Player) Draw() {
 }
 
 func (p *Player) Update() {
-	// WIP: スキル発動
+	// スキル発動
 	if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) {
 		p.skills[0].waitTime = p.skills[0].info.GetParam().RecastTime
+		// WIP: 攻撃処理
+	}
+	if inputs.CheckKey(inputs.Key2) == 1 && p.availableByDistance(p.skills[1].info) {
+		p.skills[1].waitTime = p.skills[1].info.GetParam().RecastTime
+	}
+	if inputs.CheckKey(inputs.Key3) == 1 && p.availableByDistance(p.skills[2].info) {
+		p.skills[2].waitTime = p.skills[2].info.GetParam().RecastTime
 	}
 
 	for _, s := range p.skills {
