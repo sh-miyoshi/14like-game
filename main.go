@@ -34,14 +34,19 @@ func main() {
 	player := object.Player{}
 	player.Init()
 
+	enemy1 := object.Enemy1{}
+	enemy1.Init()
+
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {
 		inputs.KeyStateUpdate()
 
 		// Main Game Proc
 		player.Update()
+		enemy1.Update()
 
 		player.Draw()
+		enemy1.Draw()
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
 			logger.Info("Game end by escape command")
@@ -52,6 +57,7 @@ MAIN:
 	}
 
 	player.End()
+	enemy1.End()
 
 	dxlib.DxLib_End()
 }

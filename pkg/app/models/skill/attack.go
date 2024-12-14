@@ -21,8 +21,12 @@ func (a *Attack1) End() {
 }
 
 func (a *Attack1) GetParam() Param {
-	// WIP
-	return Param{}
+	return Param{
+		CastTime:   0,
+		RecastTime: 180,
+		Power:      30,
+		Range:      50,
+	}
 }
 
 func (a *Attack1) GetIcon() int {

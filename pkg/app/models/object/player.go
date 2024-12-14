@@ -18,7 +18,7 @@ type Player struct {
 }
 
 func (p *Player) Init() {
-	p.pos.X = config.ScreenSizeY / 4
+	p.pos.X = config.ScreenSizeX / 4
 	p.pos.Y = config.ScreenSizeY / 2
 	p.skills[0] = &skill.Attack1{}
 
@@ -48,6 +48,9 @@ func (p *Player) Draw() {
 			dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(255, 255, 255), false)
 		} else {
 			dxlib.DrawGraph(x, y, s.GetIcon(), true)
+			dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 192)
+			dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(0, 0, 0), true)
+			dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 			// WIP: 使えない場合はグレーにする
 		}
 	}
