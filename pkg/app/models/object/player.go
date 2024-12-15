@@ -85,7 +85,8 @@ func (p *Player) Draw() {
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 160)
 				dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(0, 0, 0), true)
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
-				dxlib.DrawCircleGauge(x+size/2, y+size/2, 100, p.imgSkillCircle)
+				tm := s.waitTime/60 + 1
+				dxlib.DrawFormatString(x+size/2-3, y+size/2-5, 0xffffff, "%d", tm)
 			}
 		}
 		dxlib.DrawStringToHandle(x, y, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%d", i+1))

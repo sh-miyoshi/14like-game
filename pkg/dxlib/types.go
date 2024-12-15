@@ -18,6 +18,13 @@ type DrawRotaGraphOption struct {
 	ReverseYFlag *int32
 }
 
+type DrawCircleGaugeOption struct {
+	StartPercent *float64
+	Scale        *float64
+	ReverseX     *int32
+	ReverseY     *int32
+}
+
 const (
 	DX_BLENDMODE_INVSRC  = dxlib.DX_BLENDMODE_INVSRC
 	DX_BLENDMODE_ADD     = dxlib.DX_BLENDMODE_ADD

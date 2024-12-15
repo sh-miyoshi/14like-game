@@ -401,10 +401,20 @@ func OptXReverse(isReverse bool) DrawRotaGraphOption {
 	return DrawRotaGraphOption{}
 }
 
-func DrawCircleGauge(centerX int, centerY int, percent float64, grHandle int) {
+func DrawCircleGauge(centerX int, centerY int, percent float64, grHandle int, opt ...DrawCircleGaugeOption) {
 	if disabled {
 		return
 	}
 
-	dxlib.DrawCircleGauge(int32(centerX), int32(centerY), percent, int32(grHandle))
+	if opt != nil {
+		dxopt := dxlib.DrawCircleGaugeOption{
+			StartPercent: opt[0].StartPercent,
+			Scale:        opt[0].Scale,
+			ReverseX:     opt[0].ReverseX,
+			ReverseY:     opt[0].ReverseY,
+		}
+		dxlib.DrawCircleGauge(int32(centerX), int32(centerY), percent, int32(grHandle), dxopt)
+	} else {
+		dxlib.DrawCircleGauge(int32(centerX), int32(centerY), percent, int32(grHandle))
+	}
 }
