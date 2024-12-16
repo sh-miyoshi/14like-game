@@ -1,5 +1,7 @@
 package skill
 
+import "github.com/sh-miyoshi/14like-game/pkg/app/models"
+
 type Param struct {
 	CastTime   int
 	RecastTime int
@@ -10,6 +12,7 @@ type Param struct {
 type Skill interface {
 	Init()
 	End()
+	Exec(AddDamage func(models.Damage))
 
 	GetParam() Param
 	GetIcon() int

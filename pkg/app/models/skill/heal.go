@@ -1,6 +1,7 @@
 package skill
 
 import (
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 )
@@ -18,6 +19,10 @@ func (h *Heal1) Init() {
 
 func (h *Heal1) End() {
 	dxlib.DeleteGraph(h.iconImage)
+}
+
+func (h *Heal1) Exec(AddDamage func(models.Damage)) {
+	// WIP: HPを回復する
 }
 
 func (h *Heal1) GetParam() Param {

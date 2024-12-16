@@ -1,6 +1,8 @@
 package skill
 
 import (
+	"github.com/google/uuid"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 )
@@ -18,6 +20,15 @@ func (a *Attack1) Init() {
 
 func (a *Attack1) End() {
 	dxlib.DeleteGraph(a.iconImage)
+}
+
+func (a *Attack1) Exec(AddDamage func(models.Damage)) {
+	AddDamage(models.Damage{
+		ID:         uuid.New().String(),
+		Power:      a.GetParam().Power,
+		DamageType: models.TypeObject,
+		TargetType: models.TargetEnemy,
+	})
 }
 
 func (a *Attack1) GetParam() Param {

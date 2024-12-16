@@ -3,6 +3,7 @@ package object
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
@@ -42,4 +43,16 @@ func (e *Enemy1) Update() {
 
 func (e *Enemy1) GetPos() point.Point {
 	return e.pos
+}
+
+func (e *Enemy1) IsPlayer() bool {
+	return false
+}
+
+func (e *Enemy1) HandleDamage(power int) {
+	logger.Debug("Enemy1 got damage %d", power)
+	e.hp -= power
+	if e.hp < 0 {
+		e.hp = 0
+	}
 }

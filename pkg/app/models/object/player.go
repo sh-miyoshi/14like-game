@@ -4,10 +4,12 @@ import (
 	"fmt"
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
+	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
@@ -27,13 +29,16 @@ type Player struct {
 	targetEnemy    Object
 	imgSkillCircle int
 	// hp          int
+
+	addDamage func(models.Damage)
 }
 
-func (p *Player) Init() {
+func (p *Player) Init(addDamage func(models.Damage)) {
 	p.imgSkillCircle = dxlib.LoadGraph("data/images/skill_circle.png")
 	if p.imgSkillCircle == -1 {
 		system.FailWithError("Failed to load skill circle image")
 	}
+	p.addDamage = addDamage
 
 	p.pos.X = config.ScreenSizeX / 4
 	p.pos.Y = config.ScreenSizeY / 2
@@ -97,7 +102,7 @@ func (p *Player) Update() {
 	// スキル発動
 	if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) {
 		p.skills[0].waitTime = p.skills[0].info.GetParam().RecastTime
-		// WIP: 攻撃処理
+		p.skills[0].info.Exec(p.addDamage)
 	}
 	if inputs.CheckKey(inputs.Key2) == 1 && p.availableByDistance(p.skills[1].info) {
 		p.skills[1].waitTime = p.skills[1].info.GetParam().RecastTime
@@ -140,6 +145,15 @@ func (p *Player) Update() {
 
 func (p *Player) GetPos() point.Point {
 	return p.pos
+}
+
+func (p *Player) IsPlayer() bool {
+	return true
+}
+
+func (p *Player) HandleDamage(power int) {
+	logger.Debug("Player got damage %d", power)
+	// WIP: ダメージ処理
 }
 
 func (p *Player) availableByDistance(s skill.Skill) bool {

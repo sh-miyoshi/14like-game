@@ -4,6 +4,7 @@ import (
 	"runtime"
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
+	"github.com/sh-miyoshi/14like-game/pkg/app/manager"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/fps"
@@ -37,11 +38,12 @@ func main() {
 
 	// WIP: 別の場所で管理
 	player := object.Player{}
-	player.Init()
+	player.Init(manager.GetDamageManager().AddDamage)
 
 	enemy1 := object.Enemy1{}
 	enemy1.Init()
 
+	manager.GetDamageManager().SetInsts([]object.Object{&player, &enemy1})
 	player.SetTargetEnemy(&enemy1)
 
 MAIN:
@@ -51,6 +53,7 @@ MAIN:
 		// Main Game Proc
 		player.Update()
 		enemy1.Update()
+		manager.GetDamageManager().Update()
 
 		player.Draw()
 		enemy1.Draw()
