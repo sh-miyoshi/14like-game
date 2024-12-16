@@ -34,7 +34,7 @@ func (a *Attack1) Exec(AddDamage func(models.Damage)) {
 func (a *Attack1) GetParam() Param {
 	return Param{
 		CastTime:   0,
-		RecastTime: 180,
+		RecastTime: 150,
 		Power:      30,
 		Range:      50,
 	}

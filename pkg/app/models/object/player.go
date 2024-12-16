@@ -28,6 +28,8 @@ type Player struct {
 	skills         [PlayerSkillMax]*playerSkill
 	targetEnemy    Object
 	imgSkillCircle int
+	castTime       int
+	castSkillIndex int
 	// hp          int
 
 	addDamage func(models.Damage)
@@ -40,6 +42,8 @@ func (p *Player) Init(addDamage func(models.Damage)) {
 	}
 	p.addDamage = addDamage
 
+	p.castTime = 0
+	p.castSkillIndex = 0
 	p.pos.X = config.ScreenSizeX / 4
 	p.pos.Y = config.ScreenSizeY / 2
 	p.skills[0] = &playerSkill{
@@ -90,25 +94,39 @@ func (p *Player) Draw() {
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 160)
 				dxlib.DrawBox(x, y, x+size, y+size, dxlib.GetColor(0, 0, 0), true)
 				dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
-				tm := s.waitTime/60 + 1
-				dxlib.DrawFormatString(x+size/2-3, y+size/2-5, 0xffffff, "%d", tm)
+				tm := float64(s.waitTime) / 60.0
+				dxlib.DrawFormatString(x+size/2-13, y+size/2-3, 0xffffff, "%.1f", tm)
 			}
 		}
 		dxlib.DrawStringToHandle(x, y, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%d", i+1))
 	}
+
+	// WIP: 詠唱バー
 }
 
 func (p *Player) Update() {
 	// スキル発動
-	if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) {
-		p.skills[0].waitTime = p.skills[0].info.GetParam().RecastTime
-		p.skills[0].info.Exec(p.addDamage)
+	if p.castTime == 0 {
+		if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) {
+			p.castTime = p.skills[0].info.GetParam().CastTime + 1
+			p.castSkillIndex = 0
+		}
+		if inputs.CheckKey(inputs.Key2) == 1 && p.availableByDistance(p.skills[1].info) {
+			p.castTime = p.skills[1].info.GetParam().CastTime + 1
+			p.castSkillIndex = 1
+		}
+		if inputs.CheckKey(inputs.Key3) == 1 && p.availableByDistance(p.skills[2].info) {
+			p.castTime = p.skills[2].info.GetParam().CastTime + 1
+			p.castSkillIndex = 2
+		}
 	}
-	if inputs.CheckKey(inputs.Key2) == 1 && p.availableByDistance(p.skills[1].info) {
-		p.skills[1].waitTime = p.skills[1].info.GetParam().RecastTime
-	}
-	if inputs.CheckKey(inputs.Key3) == 1 && p.availableByDistance(p.skills[2].info) {
-		p.skills[2].waitTime = p.skills[2].info.GetParam().RecastTime
+
+	if p.castTime > 0 {
+		p.castTime--
+		if p.castTime == 0 {
+			p.skills[p.castSkillIndex].waitTime = p.skills[p.castSkillIndex].info.GetParam().RecastTime
+			p.skills[p.castSkillIndex].info.Exec(p.addDamage)
+		}
 	}
 
 	for _, s := range p.skills {
@@ -138,6 +156,10 @@ func (p *Player) Update() {
 		// NOTE: 本来は√2で割るべきだが、見栄え的な観点で1.2にしている
 		moveLR = int(float64(moveLR) / 1.2)
 		moveUD = int(float64(moveUD) / 1.2)
+	}
+	// 動いたらキャンセル
+	if moveLR != 0 || moveUD != 0 {
+		p.castTime = 0
 	}
 	p.pos.X += moveLR
 	p.pos.Y += moveUD

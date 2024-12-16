@@ -28,7 +28,7 @@ func (d *Defense1) Exec(AddDamage func(models.Damage)) {
 func (d *Defense1) GetParam() Param {
 	return Param{
 		CastTime:   0,
-		RecastTime: 180,
+		RecastTime: 540,
 		Power:      30,
 		Range:      -1,
 	}

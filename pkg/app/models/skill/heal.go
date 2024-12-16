@@ -27,8 +27,8 @@ func (h *Heal1) Exec(AddDamage func(models.Damage)) {
 
 func (h *Heal1) GetParam() Param {
 	return Param{
-		CastTime:   0,
-		RecastTime: 180,
+		CastTime:   120,
+		RecastTime: 150,
 		Power:      30,
 		Range:      -1,
 	}
