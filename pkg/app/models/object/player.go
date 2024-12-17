@@ -107,15 +107,15 @@ func (p *Player) Draw() {
 func (p *Player) Update() {
 	// スキル発動
 	if p.castTime == 0 {
-		if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) {
+		if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) && p.skills[0].waitTime == 0 {
 			p.castTime = p.skills[0].info.GetParam().CastTime + 1
 			p.castSkillIndex = 0
 		}
-		if inputs.CheckKey(inputs.Key2) == 1 && p.availableByDistance(p.skills[1].info) {
+		if inputs.CheckKey(inputs.Key2) == 1 && p.availableByDistance(p.skills[1].info) && p.skills[1].waitTime == 0 {
 			p.castTime = p.skills[1].info.GetParam().CastTime + 1
 			p.castSkillIndex = 1
 		}
-		if inputs.CheckKey(inputs.Key3) == 1 && p.availableByDistance(p.skills[2].info) {
+		if inputs.CheckKey(inputs.Key3) == 1 && p.availableByDistance(p.skills[2].info) && p.skills[2].waitTime == 0 {
 			p.castTime = p.skills[2].info.GetParam().CastTime + 1
 			p.castSkillIndex = 2
 		}
