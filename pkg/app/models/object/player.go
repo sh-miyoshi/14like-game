@@ -5,7 +5,7 @@ import (
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	"github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
+	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/player"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
