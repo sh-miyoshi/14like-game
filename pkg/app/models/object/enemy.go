@@ -2,6 +2,7 @@ package object
 
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
+	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
@@ -12,10 +13,16 @@ const (
 	Enemy1HitRange = 150
 )
 
+type enemySkill struct {
+	info        skill.Skill
+	triggerTime int
+}
+
 type Enemy1 struct {
-	pos   point.Point
-	hp    int
-	hpMax int
+	pos      point.Point
+	hp       int
+	hpMax    int
+	timeline []enemySkill
 }
 
 func (e *Enemy1) Init() {
@@ -23,6 +30,9 @@ func (e *Enemy1) Init() {
 	e.pos.Y = config.ScreenSizeY / 2
 	e.hpMax = 1000
 	e.hp = e.hpMax
+	e.timeline = []enemySkill{
+		{},
+	}
 }
 
 func (e *Enemy1) End() {
