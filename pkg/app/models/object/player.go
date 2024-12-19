@@ -101,7 +101,16 @@ func (p *Player) Draw() {
 		dxlib.DrawStringToHandle(x, y, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%d", i+1))
 	}
 
-	// WIP: 詠唱バー
+	// 詠唱バー
+	if p.castTime > 0 {
+		size := 100
+		px := p.pos.X - size/2
+		py := p.pos.Y + PlayerHitRange + 30
+		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
+		castSize := size * p.castTime / p.skills[p.castSkillIndex].info.GetParam().CastTime
+		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
+		dxlib.DrawFormatString(px, py+25, 0xffffff, "CAST")
+	}
 }
 
 func (p *Player) Update() {
