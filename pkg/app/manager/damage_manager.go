@@ -34,18 +34,11 @@ func (m *DamageManager) Update() {
 			if obj != nil {
 				obj.HandleDamage(m.damages[i].Power)
 			}
-
-			m.damages = append(m.damages[:i], m.damages[i+1:]...)
-			i--
-		} else if m.damages[i].DamageType == models.TypeArea {
-			m.damages[i].TTL--
-			if m.damages[i].TTL == 0 {
-				// WIP: 範囲内のObjectにダメージを追加
-
-				m.damages = append(m.damages[:i], m.damages[i+1:]...)
-				i--
-			}
 		}
+		// WIP: それ以外なら範囲内のObjectにダメージを追加
+
+		m.damages = append(m.damages[:i], m.damages[i+1:]...)
+		i--
 	}
 }
 

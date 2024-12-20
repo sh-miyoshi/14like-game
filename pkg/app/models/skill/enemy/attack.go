@@ -15,5 +15,9 @@ func (a *Attack) Exec(AddDamage func(models.Damage)) {
 }
 
 func (a *Attack) GetParam() Param {
-	return Param{}
+	return Param{
+		CastTime: 200,
+		Power:    100,
+		Name:     "通常攻撃",
+	}
 }

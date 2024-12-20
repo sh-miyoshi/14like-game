@@ -9,7 +9,7 @@ const (
 
 const (
 	TypeObject int = iota
-	TypeArea
+	TypeAreaCircle
 )
 
 type Damage struct {
@@ -20,8 +20,7 @@ type Damage struct {
 	// DamageTypeがTypeObjectの時使うパラメータ
 	TargetType int
 
-	// DamageTypeがTypeAreaの時使うパラメータ
+	// DamageTypeがTypeAreaCircleの時使うパラメータ
 	CenterPos point.Point
 	Range     int
-	TTL       int
 }

@@ -41,7 +41,7 @@ func main() {
 	player.Init(manager.GetDamageManager().AddDamage)
 
 	enemy1 := object.Enemy1{}
-	enemy1.Init()
+	enemy1.Init(manager.GetDamageManager().AddDamage)
 
 	manager.GetDamageManager().SetInsts([]object.Object{&player, &enemy1})
 	player.SetTargetEnemy(&enemy1)
