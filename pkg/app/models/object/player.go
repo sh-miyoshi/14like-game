@@ -15,7 +15,6 @@ import (
 )
 
 const (
-	PlayerHitRange = 50
 	PlayerSkillMax = 3
 )
 
@@ -83,7 +82,7 @@ func (p *Player) SetTargetEnemy(e Object) {
 }
 
 func (p *Player) Draw() {
-	dxlib.DrawCircle(p.pos.X, p.pos.Y, PlayerHitRange, dxlib.GetColor(255, 255, 255), false)
+	dxlib.DrawCircle(p.pos.X, p.pos.Y, config.PlayerHitRange, dxlib.GetColor(255, 255, 255), false)
 
 	for i, s := range p.skills {
 		size := 32
@@ -108,7 +107,7 @@ func (p *Player) Draw() {
 	if p.castTime > 0 {
 		size := 100
 		px := p.pos.X - size/2
-		py := p.pos.Y + PlayerHitRange + 30
+		py := p.pos.Y + config.PlayerHitRange + 30
 		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
 		castSize := size * p.castTime / p.skills[p.castSkillIndex].info.GetParam().CastTime
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
@@ -205,7 +204,7 @@ func (p *Player) availableByDistance(s skill.Skill) bool {
 	ey := p.targetEnemy.GetParam().Pos.Y
 
 	dist2 := (px-ex)*(px-ex) + (py-ey)*(py-ey)
-	hitRange := PlayerHitRange + s.GetParam().Range + Enemy1HitRange
+	hitRange := config.PlayerHitRange + s.GetParam().Range + Enemy1HitRange
 
 	return dist2 < hitRange*hitRange
 }

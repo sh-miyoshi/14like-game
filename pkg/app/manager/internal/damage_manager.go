@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 )
 
@@ -27,10 +28,23 @@ func (m *DamageManager) Update() {
 				obj.HandleDamage(m.damages[i].Power)
 			}
 		} else if m.damages[i].DamageType == models.TypeAreaCircle {
+			// WIP: 現状は敵の攻撃のみサポート
 			// 範囲内のObjectにダメージを追加
+			objs := m.objManager.GetObjects(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
+			for _, obj := range objs {
+				x1 := obj.GetParam().Pos.X
+				y1 := obj.GetParam().Pos.Y
+				x2 := m.damages[i].CenterPos.X
+				y2 := m.damages[i].CenterPos.Y
 
+				dist2 := (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2)
+				hitRange := config.PlayerHitRange + m.damages[i].Range
+
+				if dist2 < hitRange*hitRange {
+					obj.HandleDamage(m.damages[i].Power)
+				}
+			}
 		}
-		// WIP: それ以外なら範囲内のObjectにダメージを追加
 
 		m.damages = append(m.damages[:i], m.damages[i+1:]...)
 		i--

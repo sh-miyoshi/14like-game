@@ -14,13 +14,14 @@ func (m *ObjectManager) SetObjects(objs []object.Object) {
 	m.objects = objs
 }
 
-func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
-	res := []point.Point{}
+func (m *ObjectManager) GetObjects(filter *models.ObjectFilter) []object.Object {
+	res := []object.Object{}
 	for _, o := range m.objects {
 		if filter != nil {
 			if filter.ID != "" && filter.ID != o.GetParam().ID {
 				continue
 			}
+
 			switch filter.Type {
 			case models.FilterObjectTypePlayer:
 				if !o.GetParam().IsPlayer {
@@ -32,6 +33,15 @@ func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
 				}
 			}
 		}
+		res = append(res, o)
+	}
+	return res
+}
+
+func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
+	res := []point.Point{}
+	objs := m.GetObjects(filter)
+	for _, o := range objs {
 		res = append(res, o.GetParam().Pos)
 	}
 	return res
@@ -39,19 +49,8 @@ func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
 
 func (m *ObjectManager) GetObjectsID(filter *models.ObjectFilter) []string {
 	res := []string{}
-	for _, o := range m.objects {
-		if filter != nil {
-			switch filter.Type {
-			case models.FilterObjectTypePlayer:
-				if !o.GetParam().IsPlayer {
-					continue
-				}
-			case models.FilterObjectTypeEnemy:
-				if o.GetParam().IsPlayer {
-					continue
-				}
-			}
-		}
+	objs := m.GetObjects(filter)
+	for _, o := range objs {
 		res = append(res, o.GetParam().ID)
 	}
 	return res

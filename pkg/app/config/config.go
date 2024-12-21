@@ -8,3 +8,7 @@ const (
 var (
 	SkillNumberFontHandle int
 )
+
+const (
+	PlayerHitRange = 50
+)
