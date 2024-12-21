@@ -3,11 +3,6 @@ package models
 import "github.com/sh-miyoshi/14like-game/pkg/utils/point"
 
 const (
-	TargetPlayer int = iota
-	TargetEnemy
-)
-
-const (
 	TypeObject int = iota
 	TypeAreaCircle
 )
@@ -18,7 +13,7 @@ type Damage struct {
 	DamageType int
 
 	// DamageTypeがTypeObjectの時使うパラメータ
-	TargetType int
+	TargetID string
 
 	// DamageTypeがTypeAreaCircleの時使うパラメータ
 	CenterPos point.Point

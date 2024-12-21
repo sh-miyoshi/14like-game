@@ -13,8 +13,8 @@ type Manager struct {
 }
 
 func (m *Manager) SetObjects(objs []object.Object) {
-	m.damageMgr.SetInsts(objs)
 	m.objectMgr.SetObjects(objs)
+	m.damageMgr.SetManager(m.objectMgr)
 }
 
 func (m *Manager) AddDamage(damage models.Damage) {
@@ -23,6 +23,10 @@ func (m *Manager) AddDamage(damage models.Damage) {
 
 func (m *Manager) GetPosList(filter *models.ObjectFilter) []point.Point {
 	return m.objectMgr.GetPosList(filter)
+}
+
+func (m *Manager) GetObjectsID(filter *models.ObjectFilter) []string {
+	return m.objectMgr.GetObjectsID(filter)
 }
 
 func (m *Manager) Update() {

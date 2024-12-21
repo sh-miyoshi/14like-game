@@ -23,11 +23,16 @@ func (a *Attack1) End() {
 }
 
 func (a *Attack1) Exec(manager models.Manager) {
+	ids := manager.GetObjectsID(&models.ObjectFilter{Type: models.FilterObjectTypeEnemy})
+	if len(ids) == 0 {
+		return
+	}
+
 	manager.AddDamage(models.Damage{
 		ID:         uuid.New().String(),
 		Power:      a.GetParam().Power,
 		DamageType: models.TypeObject,
-		TargetType: models.TargetEnemy,
+		TargetID:   ids[0],
 	})
 }
 

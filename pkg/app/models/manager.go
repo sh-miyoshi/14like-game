@@ -16,4 +16,5 @@ type ObjectFilter struct {
 type Manager interface {
 	AddDamage(damage Damage)
 	GetPosList(filter *ObjectFilter) []point.Point
+	GetObjectsID(filter *ObjectFilter) []string
 }

@@ -36,3 +36,32 @@ func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
 	}
 	return res
 }
+
+func (m *ObjectManager) GetObjectsID(filter *models.ObjectFilter) []string {
+	res := []string{}
+	for _, o := range m.objects {
+		if filter != nil {
+			switch filter.Type {
+			case models.FilterObjectTypePlayer:
+				if !o.GetParam().IsPlayer {
+					continue
+				}
+			case models.FilterObjectTypeEnemy:
+				if o.GetParam().IsPlayer {
+					continue
+				}
+			}
+		}
+		res = append(res, o.GetParam().ID)
+	}
+	return res
+}
+
+func (m *ObjectManager) Find(id string) object.Object {
+	for _, o := range m.objects {
+		if o.GetParam().ID == id {
+			return o
+		}
+	}
+	return nil
+}
