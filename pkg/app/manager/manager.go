@@ -21,8 +21,8 @@ func (m *Manager) AddDamage(damage models.Damage) {
 	m.damageMgr.AddDamage(damage)
 }
 
-func (m *Manager) GetPosList() []point.Point {
-	return m.objectMgr.GetPosList()
+func (m *Manager) GetPosList(filter *models.ObjectFilter) []point.Point {
+	return m.objectMgr.GetPosList(filter)
 }
 
 func (m *Manager) Update() {

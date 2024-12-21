@@ -9,13 +9,20 @@ const (
 	attackStateSign
 )
 
+const (
+	attackCastTime = 60
+)
+
 type Attack struct {
 	state int
 	count int
+
+	manager models.Manager
 }
 
-func (a *Attack) Init() {
+func (a *Attack) Init(manager models.Manager) {
 	a.state = attackStateCast
+	a.manager = manager
 }
 
 func (a *Attack) End() {
@@ -38,11 +45,15 @@ func (a *Attack) Draw() {
 	}
 }
 
-func (a *Attack) Update(manager models.Manager) bool {
+func (a *Attack) Update() bool {
 	switch a.state {
 	case attackStateCast:
 		// 詠唱
-		a.state = attackStateSign
+		if a.count >= attackCastTime {
+			a.count = 0
+			a.state = attackStateSign
+			return false
+		}
 	case attackStateSign:
 		// 攻撃
 	}

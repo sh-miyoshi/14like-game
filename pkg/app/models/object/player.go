@@ -3,6 +3,7 @@ package object
 import (
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/player"
@@ -24,6 +25,7 @@ type playerSkill struct {
 }
 
 type Player struct {
+	id             string
 	pos            point.Point
 	skills         [PlayerSkillMax]*playerSkill
 	targetEnemy    Object
@@ -36,6 +38,7 @@ type Player struct {
 }
 
 func (p *Player) Init(manager models.Manager) {
+	p.id = uuid.New().String()
 	p.imgSkillCircle = dxlib.LoadGraph("data/images/skill_circle.png")
 	if p.imgSkillCircle == -1 {
 		system.FailWithError("Failed to load skill circle image")
@@ -174,12 +177,12 @@ func (p *Player) Update() {
 	p.pos.Y += moveUD
 }
 
-func (p *Player) GetPos() point.Point {
-	return p.pos
-}
-
-func (p *Player) IsPlayer() bool {
-	return true
+func (p *Player) GetParam() Param {
+	return Param{
+		ID:       p.id,
+		Pos:      p.pos,
+		IsPlayer: true,
+	}
 }
 
 func (p *Player) HandleDamage(power int) {
@@ -198,8 +201,8 @@ func (p *Player) availableByDistance(s skill.Skill) bool {
 
 	px := p.pos.X
 	py := p.pos.Y
-	ex := p.targetEnemy.GetPos().X
-	ey := p.targetEnemy.GetPos().Y
+	ex := p.targetEnemy.GetParam().Pos.X
+	ey := p.targetEnemy.GetParam().Pos.Y
 
 	dist2 := (px-ex)*(px-ex) + (py-ey)*(py-ey)
 	hitRange := PlayerHitRange + s.GetParam().Range + Enemy1HitRange

@@ -1,6 +1,7 @@
 package object
 
 import (
+	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
@@ -20,6 +21,7 @@ type enemySkill struct {
 }
 
 type Enemy1 struct {
+	id           string
 	pos          point.Point
 	hp           int
 	hpMax        int
@@ -30,6 +32,7 @@ type Enemy1 struct {
 }
 
 func (e *Enemy1) Init(manager models.Manager) {
+	e.id = uuid.New().String()
 	e.pos.X = config.ScreenSizeX * 3 / 4
 	e.pos.Y = config.ScreenSizeY / 2
 	e.hpMax = 1000
@@ -59,7 +62,8 @@ func (e *Enemy1) Draw() {
 
 func (e *Enemy1) Update() {
 	if e.currentSkill != nil {
-		if e.currentSkill.Update(e.manager) {
+		if e.currentSkill.Update() {
+			e.currentSkill.End()
 			e.currentSkill = nil
 		}
 		return
@@ -70,17 +74,18 @@ func (e *Enemy1) Update() {
 		if s.triggerTime == e.count {
 			logger.Debug("Enemy1 trigger skill %d", i)
 			e.currentSkill = s.info
+			e.currentSkill.Init(e.manager)
 			break
 		}
 	}
 }
 
-func (e *Enemy1) GetPos() point.Point {
-	return e.pos
-}
-
-func (e *Enemy1) IsPlayer() bool {
-	return false
+func (e *Enemy1) GetParam() Param {
+	return Param{
+		ID:       e.id,
+		Pos:      e.pos,
+		IsPlayer: false,
+	}
 }
 
 func (e *Enemy1) HandleDamage(power int) {

@@ -2,11 +2,16 @@ package object
 
 import "github.com/sh-miyoshi/14like-game/pkg/utils/point"
 
+type Param struct {
+	ID       string
+	Pos      point.Point
+	IsPlayer bool
+}
+
 type Object interface {
 	Draw()
 	Update()
 
-	GetPos() point.Point
-	IsPlayer() bool
 	HandleDamage(power int)
+	GetParam() Param
 }

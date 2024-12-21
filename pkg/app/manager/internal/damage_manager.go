@@ -36,9 +36,9 @@ func (m *DamageManager) Update() {
 
 func (m *DamageManager) findObject(typ int) object.Object {
 	for _, obj := range m.objInsts {
-		if typ == models.TargetPlayer && obj.IsPlayer() {
+		if typ == models.TargetPlayer && obj.GetParam().IsPlayer {
 			return obj
-		} else if typ == models.TargetEnemy && !obj.IsPlayer() {
+		} else if typ == models.TargetEnemy && !obj.GetParam().IsPlayer {
 			return obj
 		}
 	}

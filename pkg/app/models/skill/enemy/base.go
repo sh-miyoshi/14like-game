@@ -3,8 +3,8 @@ package skill
 import "github.com/sh-miyoshi/14like-game/pkg/app/models"
 
 type Skill interface {
-	Init()
+	Init(manager models.Manager)
 	End()
 	Draw()
-	Update(manager models.Manager) bool
+	Update() bool
 }
