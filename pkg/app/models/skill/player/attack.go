@@ -22,8 +22,8 @@ func (a *Attack1) End() {
 	dxlib.DeleteGraph(a.iconImage)
 }
 
-func (a *Attack1) Exec(AddDamage func(models.Damage)) {
-	AddDamage(models.Damage{
+func (a *Attack1) Exec(manager models.Manager) {
+	manager.AddDamage(models.Damage{
 		ID:         uuid.New().String(),
 		Power:      a.GetParam().Power,
 		DamageType: models.TypeObject,

@@ -32,15 +32,15 @@ type Player struct {
 	castSkillIndex int
 	// hp          int
 
-	addDamage func(models.Damage)
+	manager models.Manager
 }
 
-func (p *Player) Init(addDamage func(models.Damage)) {
+func (p *Player) Init(manager models.Manager) {
 	p.imgSkillCircle = dxlib.LoadGraph("data/images/skill_circle.png")
 	if p.imgSkillCircle == -1 {
 		system.FailWithError("Failed to load skill circle image")
 	}
-	p.addDamage = addDamage
+	p.manager = manager
 
 	p.castTime = 0
 	p.castSkillIndex = 0
@@ -134,7 +134,7 @@ func (p *Player) Update() {
 		p.castTime--
 		if p.castTime == 0 {
 			p.skills[p.castSkillIndex].waitTime = p.skills[p.castSkillIndex].info.GetParam().RecastTime
-			p.skills[p.castSkillIndex].info.Exec(p.addDamage)
+			p.skills[p.castSkillIndex].info.Exec(p.manager)
 		}
 	}
 

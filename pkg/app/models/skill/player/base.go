@@ -12,7 +12,7 @@ type Param struct {
 type Skill interface {
 	Init()
 	End()
-	Exec(AddDamage func(models.Damage))
+	Exec(manager models.Manager)
 
 	GetParam() Param
 	GetIcon() int

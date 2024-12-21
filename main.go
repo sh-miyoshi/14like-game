@@ -37,13 +37,15 @@ func main() {
 	})
 
 	// WIP: 別の場所で管理
+	mgr := manager.Manager{}
+
 	player := object.Player{}
-	player.Init(manager.GetDamageManager().AddDamage)
+	player.Init(&mgr)
 
 	enemy1 := object.Enemy1{}
-	enemy1.Init(manager.GetDamageManager().AddDamage)
+	enemy1.Init(&mgr)
 
-	manager.GetDamageManager().SetInsts([]object.Object{&player, &enemy1})
+	mgr.SetObjects([]object.Object{&player, &enemy1})
 	player.SetTargetEnemy(&enemy1)
 
 MAIN:
@@ -53,7 +55,7 @@ MAIN:
 		// Main Game Proc
 		player.Update()
 		enemy1.Update()
-		manager.GetDamageManager().Update()
+		mgr.Update()
 
 		player.Draw()
 		enemy1.Draw()

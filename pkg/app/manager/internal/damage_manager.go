@@ -10,14 +10,6 @@ type DamageManager struct {
 	objInsts []object.Object
 }
 
-var (
-	damageManager DamageManager
-)
-
-func GetDamageManager() *DamageManager {
-	return &damageManager
-}
-
 func (m *DamageManager) SetInsts(objs []object.Object) {
 	m.objInsts = objs
 }

@@ -21,7 +21,7 @@ func (d *Defense1) End() {
 	dxlib.DeleteGraph(d.iconImage)
 }
 
-func (d *Defense1) Exec(AddDamage func(models.Damage)) {
+func (d *Defense1) Exec(manager models.Manager) {
 	// WIP: 自分の防御力をアップ or 味方全体の防御力をアップ
 }
 

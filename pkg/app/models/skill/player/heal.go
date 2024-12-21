@@ -21,7 +21,7 @@ func (h *Heal1) End() {
 	dxlib.DeleteGraph(h.iconImage)
 }
 
-func (h *Heal1) Exec(AddDamage func(models.Damage)) {
+func (h *Heal1) Exec(manager models.Manager) {
 	// WIP: HPを回復する
 }
 
