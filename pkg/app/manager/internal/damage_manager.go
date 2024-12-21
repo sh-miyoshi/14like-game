@@ -22,7 +22,6 @@ func (m *DamageManager) Update() {
 	for i := 0; i < len(m.damages); i++ {
 		if m.damages[i].DamageType == models.TypeObject {
 			// 対象のObjectにダメージを追加
-
 			obj := m.objManager.Find(m.damages[i].TargetID)
 			if obj != nil {
 				obj.HandleDamage(m.damages[i].Power)
