@@ -18,8 +18,18 @@ func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
 	res := []point.Point{}
 	for _, o := range m.objects {
 		if filter != nil {
-			if filter.ID != o.GetParam().ID {
+			if filter.ID != "" && filter.ID != o.GetParam().ID {
 				continue
+			}
+			switch filter.Type {
+			case models.FilterObjectTypePlayer:
+				if !o.GetParam().IsPlayer {
+					continue
+				}
+			case models.FilterObjectTypeEnemy:
+				if o.GetParam().IsPlayer {
+					continue
+				}
 			}
 		}
 		res = append(res, o.GetParam().Pos)
