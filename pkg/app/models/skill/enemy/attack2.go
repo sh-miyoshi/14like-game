@@ -8,28 +8,27 @@ import (
 )
 
 const (
-	attackCastTime = 160
-	attackRange    = 110
+	attack2CastTime = 260
 )
 
-type Attack struct {
+type Attack2 struct {
 	count     int
 	ownerID   string
-	attackPos point.Point
+	attackPos [4]point.Point
 	manager   models.Manager
 }
 
-func (a *Attack) Init(manager models.Manager, ownerID string) {
+func (a *Attack2) Init(manager models.Manager, ownerID string) {
 	a.manager = manager
 	a.ownerID = ownerID
 }
 
-func (a *Attack) End() {
+func (a *Attack2) End() {
 }
 
-func (a *Attack) Draw() {
+func (a *Attack2) Draw() {
 	// 詠唱バー
-	castTime := attackCastTime - a.count
+	castTime := attack2CastTime - a.count
 	if a.count != 0 && castTime > 0 {
 		size := 200
 		posList := a.manager.GetPosList(&models.ObjectFilter{ID: a.ownerID})
@@ -39,34 +38,43 @@ func (a *Attack) Draw() {
 		px := posList[0].X - size/2
 		py := posList[0].Y + 50
 		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
-		castSize := size * castTime / attackCastTime
+		castSize := size * castTime / attack2CastTime
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
-		dxlib.DrawFormatString(px, py+25, 0xffffff, "範囲攻撃")
+		dxlib.DrawFormatString(px, py+25, 0xffffff, "範囲攻撃2")
 	}
 
 	// 範囲
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
-	dxlib.DrawCircle(a.attackPos.X, a.attackPos.Y, attackRange, dxlib.GetColor(255, 255, 0), true)
+	dxlib.DrawQuadrangle(
+		a.attackPos[0].X,
+		a.attackPos[0].Y,
+		a.attackPos[1].X,
+		a.attackPos[1].Y,
+		a.attackPos[2].X,
+		a.attackPos[2].Y,
+		a.attackPos[3].X,
+		a.attackPos[3].Y,
+		dxlib.GetColor(255, 255, 0),
+		true,
+	)
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 }
 
-func (a *Attack) Update() bool {
+func (a *Attack2) Update() bool {
 	if a.count == 0 {
-		posList := a.manager.GetPosList(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
-		if len(posList) == 0 {
-			return true
-		}
-		a.attackPos = posList[0]
+		a.attackPos[0] = point.Point{X: 300, Y: 300}
+		a.attackPos[1] = point.Point{X: 300, Y: 500}
+		a.attackPos[2] = point.Point{X: 600, Y: 500}
+		a.attackPos[3] = point.Point{X: 600, Y: 300}
 	}
 
 	// 詠唱
-	if a.count >= attackCastTime {
+	if a.count >= attack2CastTime {
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      10,
-			DamageType: models.TypeAreaCircle,
-			CenterPos:  a.attackPos,
-			Range:      attackRange,
+			DamageType: models.TypeAreaRect,
+			RectPos:    a.attackPos,
 		})
 		return true
 	}
