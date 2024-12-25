@@ -21,5 +21,5 @@ type Damage struct {
 	Range     int
 
 	// DamageTypeがTypeAreaRectの時使うパラメータ
-	RectPos [4]point.Point
+	RectPos [2]point.Point
 }

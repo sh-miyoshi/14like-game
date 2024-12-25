@@ -62,10 +62,12 @@ func (a *Attack2) Draw() {
 
 func (a *Attack2) Update() bool {
 	if a.count == 0 {
-		a.attackPos[0] = point.Point{X: 300, Y: 300}
-		a.attackPos[1] = point.Point{X: 300, Y: 500}
+		// WIP: とりあえず固定の位置に攻撃範囲を設定
+		// WIP: Rotate
+		a.attackPos[0] = point.Point{X: 100, Y: 100}
+		a.attackPos[1] = point.Point{X: 100, Y: 500}
 		a.attackPos[2] = point.Point{X: 600, Y: 500}
-		a.attackPos[3] = point.Point{X: 600, Y: 300}
+		a.attackPos[3] = point.Point{X: 600, Y: 100}
 	}
 
 	// 詠唱
@@ -74,7 +76,7 @@ func (a *Attack2) Update() bool {
 			ID:         uuid.New().String(),
 			Power:      10,
 			DamageType: models.TypeAreaRect,
-			RectPos:    a.attackPos,
+			RectPos:    [2]point.Point{a.attackPos[0], a.attackPos[2]},
 		})
 		return true
 	}
