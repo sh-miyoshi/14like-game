@@ -15,7 +15,8 @@ import (
 )
 
 const (
-	PlayerSkillMax = 3
+	PlayerSkillMax  = 3
+	PlayerDefaultHP = 1000
 )
 
 type playerSkill struct {
@@ -31,7 +32,7 @@ type Player struct {
 	imgSkillCircle int
 	castTime       int
 	castSkillIndex int
-	// hp          int
+	hp             int
 
 	manager models.Manager
 }
@@ -43,6 +44,7 @@ func (p *Player) Init(manager models.Manager) {
 		system.FailWithError("Failed to load skill circle image")
 	}
 	p.manager = manager
+	p.hp = PlayerDefaultHP
 
 	p.castTime = 0
 	p.castSkillIndex = 0
@@ -102,6 +104,14 @@ func (p *Player) Draw() {
 		}
 		dxlib.DrawStringToHandle(x, y, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%d", i+1))
 	}
+
+	// HP
+	size := 120
+	x := 250
+	y := config.ScreenSizeY - 60
+	dxlib.DrawBox(x, y, x+size, y+20, dxlib.GetColor(255, 255, 255), false)
+	dxlib.DrawBox(x, y, x+size*p.hp/PlayerDefaultHP, y+20, dxlib.GetColor(255, 255, 255), true)
+	dxlib.DrawFormatString(x+size/2-20, y+25, 0xffffff, "%4d", p.hp)
 
 	// 詠唱バー
 	if p.castTime > 0 {
@@ -186,7 +196,12 @@ func (p *Player) GetParam() Param {
 
 func (p *Player) HandleDamage(power int) {
 	logger.Debug("Player got damage %d", power)
-	// WIP: ダメージ処理
+	p.hp -= power
+	if p.hp < 0 {
+		p.hp = 0
+	} else if p.hp > PlayerDefaultHP {
+		p.hp = PlayerDefaultHP
+	}
 }
 
 func (p *Player) availableByDistance(s skill.Skill) bool {

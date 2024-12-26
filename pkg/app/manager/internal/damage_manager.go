@@ -39,6 +39,7 @@ func (m *DamageManager) Update() {
 						obj.HandleDamage(m.damages[i].Power)
 					}
 				} else if m.damages[i].DamageType == models.TypeAreaRect {
+					// WIP: Rotate
 					if isRectHit(obj.GetParam().Pos, config.PlayerHitRange, m.damages[i].RectPos) {
 						obj.HandleDamage(m.damages[i].Power)
 					}
