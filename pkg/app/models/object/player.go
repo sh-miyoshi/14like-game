@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models/buff"
 	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/player"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
@@ -33,6 +34,7 @@ type Player struct {
 	castTime       int
 	castSkillIndex int
 	hp             int
+	buffs          []buff.Buff
 
 	manager models.Manager
 }
@@ -68,6 +70,13 @@ func (p *Player) Init(manager models.Manager) {
 			s.info.Init()
 		}
 	}
+
+	p.buffs = make([]buff.Buff, 0)
+
+	// debug
+	poison := &buff.Poison{}
+	poison.Init(p.manager, p.id)
+	p.buffs = append(p.buffs, poison)
 }
 
 func (p *Player) End() {
@@ -123,9 +132,27 @@ func (p *Player) Draw() {
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
 		dxlib.DrawFormatString(px, py+25, 0xffffff, "CAST")
 	}
+
+	// バフ・デバフ
+	for i, b := range p.buffs {
+		icon := b.GetIcon()
+		px := p.pos.X + config.PlayerHitRange/2 + 20
+		py := p.pos.Y - config.PlayerHitRange/2 - 40
+		dxlib.DrawGraph(px, py+i*32, icon, true)
+		c := b.GetCount()/60 + 1
+		dxlib.DrawStringToHandle(px+8, py+i*32+28, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%2d", c))
+	}
 }
 
 func (p *Player) Update() {
+	for i := 0; i < len(p.buffs); i++ {
+		if p.buffs[i].Update() {
+			p.buffs[i].End()
+			p.buffs = append(p.buffs[:i], p.buffs[i+1:]...)
+			i--
+		}
+	}
+
 	// スキル発動
 	if p.castTime == 0 {
 		if inputs.CheckKey(inputs.Key1) == 1 && p.availableByDistance(p.skills[0].info) && p.skills[0].waitTime == 0 {
