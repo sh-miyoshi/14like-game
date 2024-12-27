@@ -227,7 +227,6 @@ func (p *Player) HandleDamage(power int) {
 	logger.Debug("Player got damage %d", power)
 	p.hp -= power
 	if power > 0 {
-		p.buffs = append(p.buffs, &buff.UpDamage{})
 		if p.hp < 0 {
 			p.hp = 0
 		}
@@ -256,16 +255,4 @@ func (p *Player) availableByDistance(s skill.Skill) bool {
 	hitRange := config.PlayerHitRange + s.GetParam().Range + Enemy1HitRange
 
 	return dist2 < hitRange*hitRange
-}
-
-func (p *Player) upDamage() {
-	for _, b := range p.buffs {
-		if dm, ok := b.(*buff.UpDamage); ok {
-			dm.UpStack()
-			return
-		}
-	}
-	d := &buff.UpDamage{}
-	d.Init(p.manager, p.id)
-	p.buffs = append(p.buffs, d)
 }

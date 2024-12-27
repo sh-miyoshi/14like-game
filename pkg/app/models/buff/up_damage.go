@@ -2,6 +2,7 @@ package buff
 
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 )
 
@@ -18,9 +19,14 @@ type UpDamage struct {
 }
 
 func (b *UpDamage) Init(manager models.Manager, ownerID string) {
-	b.icon = -1 // debug
+	b.icon = dxlib.LoadGraph("data/images/buff/up_damage.png")
+	if b.icon == -1 {
+		system.FailWithError("Failed to load up_damage buff image")
+	}
 	b.count = UpDamageCount
 	b.stack = 1
+	b.manager = manager
+	b.ownerID = ownerID
 }
 
 func (b *UpDamage) End() {
