@@ -54,3 +54,7 @@ func (p *Poison) GetIcon() int {
 func (p *Poison) GetCount() int {
 	return p.count
 }
+
+func (p *Poison) StackCount() int {
+	return 0
+}

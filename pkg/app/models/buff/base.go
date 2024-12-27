@@ -8,4 +8,5 @@ type Buff interface {
 	Update() bool
 	GetIcon() int
 	GetCount() int
+	StackCount() int
 }
