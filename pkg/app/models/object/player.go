@@ -190,17 +190,24 @@ func (p *Player) Update() {
 
 	moveLR := 0
 	moveUD := 0
-	// WIP: 移動ガード
 	if inputs.CheckKey(inputs.KeyUp) > 0 {
-		moveUD = -spd
+		if p.pos.Y > config.PlayerHitRange {
+			moveUD = -spd
+		}
 	} else if inputs.CheckKey(inputs.KeyDown) > 0 {
-		moveUD = spd
+		if p.pos.Y < config.ScreenSizeY-config.PlayerHitRange {
+			moveUD = spd
+		}
 	}
 
 	if inputs.CheckKey(inputs.KeyRight) > 0 {
-		moveLR = spd
+		if p.pos.X < config.ScreenSizeX-config.PlayerHitRange {
+			moveLR = spd
+		}
 	} else if inputs.CheckKey(inputs.KeyLeft) > 0 {
-		moveLR = -spd
+		if p.pos.X > config.PlayerHitRange {
+			moveLR = -spd
+		}
 	}
 	if moveLR != 0 && moveUD != 0 {
 		// NOTE: 本来は√2で割るべきだが、見栄え的な観点で1.2にしている
