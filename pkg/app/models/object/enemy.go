@@ -38,8 +38,8 @@ func (e *Enemy1) Init(manager models.Manager) {
 	e.hpMax = 1000
 	e.hp = e.hpMax
 	e.timeline = []enemySkill{
-		{triggerTime: 100, info: &skill.Attack2{}},
-		{triggerTime: 500, info: &skill.Attack{}},
+		{triggerTime: 4, info: &skill.Attack2{}},
+		{triggerTime: 8, info: &skill.Attack2{}},
 	}
 	e.manager = manager
 	e.currentSkill = nil
@@ -73,7 +73,7 @@ func (e *Enemy1) Update() {
 
 	e.count++
 	for i, s := range e.timeline {
-		if s.triggerTime == e.count {
+		if s.triggerTime*60 == e.count {
 			logger.Debug("Enemy1 trigger skill %d", i)
 			e.currentSkill = s.info
 			e.currentSkill.Init(e.manager, e.id)
