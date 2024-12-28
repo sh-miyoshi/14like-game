@@ -3,7 +3,6 @@ package manager
 import (
 	manager "github.com/sh-miyoshi/14like-game/pkg/app/manager/internal"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
@@ -12,7 +11,7 @@ type Manager struct {
 	objectMgr manager.ObjectManager
 }
 
-func (m *Manager) SetObjects(objs []object.Object) {
+func (m *Manager) SetObjects(objs []models.Object) {
 	m.objectMgr.SetObjects(objs)
 	m.damageMgr.SetManager(m.objectMgr)
 }

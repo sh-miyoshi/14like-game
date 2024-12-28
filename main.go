@@ -5,6 +5,7 @@ import (
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/manager"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/fps"
@@ -45,7 +46,7 @@ func main() {
 	enemy1 := object.Enemy1{}
 	enemy1.Init(&mgr)
 
-	mgr.SetObjects([]object.Object{&player, &enemy1})
+	mgr.SetObjects([]models.Object{&player, &enemy1})
 	player.SetTargetEnemy(&enemy1)
 
 MAIN:

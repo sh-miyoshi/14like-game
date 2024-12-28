@@ -2,20 +2,19 @@ package manager
 
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 type ObjectManager struct {
-	objects []object.Object
+	objects []models.Object
 }
 
-func (m *ObjectManager) SetObjects(objs []object.Object) {
+func (m *ObjectManager) SetObjects(objs []models.Object) {
 	m.objects = objs
 }
 
-func (m *ObjectManager) GetObjects(filter *models.ObjectFilter) []object.Object {
-	res := []object.Object{}
+func (m *ObjectManager) GetObjects(filter *models.ObjectFilter) []models.Object {
+	res := []models.Object{}
 	for _, o := range m.objects {
 		if filter != nil {
 			if filter.ID != "" && filter.ID != o.GetParam().ID {
@@ -56,7 +55,7 @@ func (m *ObjectManager) GetObjectsID(filter *models.ObjectFilter) []string {
 	return res
 }
 
-func (m *ObjectManager) Find(id string) object.Object {
+func (m *ObjectManager) Find(id string) models.Object {
 	for _, o := range m.objects {
 		if o.GetParam().ID == id {
 			return o

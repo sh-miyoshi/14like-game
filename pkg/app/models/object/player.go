@@ -21,7 +21,7 @@ const (
 )
 
 type playerSkill struct {
-	info     skill.Skill
+	info     models.PlayerSkill
 	waitTime int
 }
 
@@ -29,12 +29,12 @@ type Player struct {
 	id             string
 	pos            point.Point
 	skills         [PlayerSkillMax]*playerSkill
-	targetEnemy    Object
+	targetEnemy    models.Object
 	imgSkillCircle int
 	castTime       int
 	castSkillIndex int
 	hp             int
-	buffs          []buff.Buff
+	buffs          []models.Buff
 
 	manager models.Manager
 }
@@ -71,7 +71,7 @@ func (p *Player) Init(manager models.Manager) {
 		}
 	}
 
-	p.buffs = make([]buff.Buff, 0)
+	p.buffs = make([]models.Buff, 0)
 
 	// debug
 	poison := &buff.Poison{}
@@ -88,7 +88,7 @@ func (p *Player) End() {
 	}
 }
 
-func (p *Player) SetTargetEnemy(e Object) {
+func (p *Player) SetTargetEnemy(e models.Object) {
 	p.targetEnemy = e
 }
 
@@ -222,8 +222,8 @@ func (p *Player) Update() {
 	p.pos.Y += moveUD
 }
 
-func (p *Player) GetParam() Param {
-	return Param{
+func (p *Player) GetParam() models.ObjectParam {
+	return models.ObjectParam{
 		ID:       p.id,
 		Pos:      p.pos,
 		IsPlayer: true,
@@ -244,7 +244,7 @@ func (p *Player) HandleDamage(power int) {
 	}
 }
 
-func (p *Player) availableByDistance(s skill.Skill) bool {
+func (p *Player) availableByDistance(s models.PlayerSkill) bool {
 	if s.GetParam().Range < 0 {
 		return true
 	}

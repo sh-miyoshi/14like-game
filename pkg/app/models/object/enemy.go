@@ -16,7 +16,7 @@ const (
 )
 
 type enemySkill struct {
-	info        skill.Skill
+	info        models.EnemySkill
 	triggerTime int
 }
 
@@ -27,7 +27,7 @@ type Enemy1 struct {
 	hpMax        int
 	timeline     []enemySkill
 	count        int
-	currentSkill skill.Skill
+	currentSkill models.EnemySkill
 	manager      models.Manager
 }
 
@@ -82,8 +82,8 @@ func (e *Enemy1) Update() {
 	}
 }
 
-func (e *Enemy1) GetParam() Param {
-	return Param{
+func (e *Enemy1) GetParam() models.ObjectParam {
+	return models.ObjectParam{
 		ID:       e.id,
 		Pos:      e.pos,
 		IsPlayer: false,

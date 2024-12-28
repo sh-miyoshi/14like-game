@@ -25,8 +25,8 @@ func (h *Heal1) Exec(manager models.Manager) {
 	// WIP: HPを回復する
 }
 
-func (h *Heal1) GetParam() Param {
-	return Param{
+func (h *Heal1) GetParam() models.PlayerSkillParam {
+	return models.PlayerSkillParam{
 		CastTime:   120,
 		RecastTime: 150,
 		Power:      30,

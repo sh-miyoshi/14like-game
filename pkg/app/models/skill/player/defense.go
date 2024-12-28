@@ -25,8 +25,8 @@ func (d *Defense1) Exec(manager models.Manager) {
 	// WIP: 自分の防御力をアップ or 味方全体の防御力をアップ
 }
 
-func (d *Defense1) GetParam() Param {
-	return Param{
+func (d *Defense1) GetParam() models.PlayerSkillParam {
+	return models.PlayerSkillParam{
 		CastTime:   0,
 		RecastTime: 540,
 		Power:      30,

@@ -36,8 +36,8 @@ func (a *Attack1) Exec(manager models.Manager) {
 	})
 }
 
-func (a *Attack1) GetParam() Param {
-	return Param{
+func (a *Attack1) GetParam() models.PlayerSkillParam {
+	return models.PlayerSkillParam{
 		CastTime:   0,
 		RecastTime: 150,
 		Power:      30,
