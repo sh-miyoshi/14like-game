@@ -78,6 +78,8 @@ func (a *LandSlide) Update() bool {
 		w := 150
 		view := point.Point{X: myPos.X - w/2, Y: myPos.Y}
 		a.attack[0].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi/2)
+		a.attack[1].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi*4/6)
+		a.attack[2].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi*2/6)
 	}
 
 	// 詠唱
