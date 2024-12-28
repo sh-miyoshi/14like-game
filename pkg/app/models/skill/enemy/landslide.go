@@ -24,6 +24,8 @@ type landslideAttack struct {
 }
 
 type LandSlide struct {
+	AttackNum int
+
 	count   int
 	ownerID string
 	manager models.Manager
@@ -52,7 +54,7 @@ func (a *LandSlide) Draw() {
 		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
 		castSize := size * castTime / landslideCastTime
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
-		dxlib.DrawFormatString(px, py+25, 0xffffff, "範囲攻撃2")
+		dxlib.DrawFormatString(px, py+25, 0xffffff, "ランドスライド")
 	}
 
 	// 範囲
@@ -78,8 +80,10 @@ func (a *LandSlide) Update() bool {
 		w := 150
 		view := point.Point{X: myPos.X - w/2, Y: myPos.Y}
 		a.attack[0].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi/2)
-		a.attack[1].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi*4/6)
-		a.attack[2].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi*2/6)
+		if a.AttackNum >= 3 {
+			a.attack[1].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi*4/6)
+			a.attack[2].SetParams(myPos, view, w, config.ScreenSizeX, angle+math.Pi*2/6)
+		}
 	}
 
 	// 詠唱

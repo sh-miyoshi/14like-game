@@ -38,8 +38,8 @@ func (e *Enemy1) Init(manager models.Manager) {
 	e.hpMax = 1000
 	e.hp = e.hpMax
 	e.timeline = []enemySkill{
-		{triggerTime: 2, info: &skill.LandSlide{}},
-		{triggerTime: 8, info: &skill.LandSlide{}},
+		{triggerTime: 2, info: &skill.LandSlide{AttackNum: 1}},
+		{triggerTime: 8, info: &skill.LandSlide{AttackNum: 3}},
 	}
 	e.manager = manager
 	e.currentSkill = nil
