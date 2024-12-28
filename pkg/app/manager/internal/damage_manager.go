@@ -3,6 +3,7 @@ package manager
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
@@ -39,8 +40,8 @@ func (m *DamageManager) Update() {
 						obj.HandleDamage(m.damages[i].Power)
 					}
 				} else if m.damages[i].DamageType == models.TypeAreaRect {
-					// WIP: Rotate
-					if isRectHit(obj.GetParam().Pos, config.PlayerHitRange, m.damages[i].RectPos) {
+					pos := math.Rotate(m.damages[i].RotateBase, obj.GetParam().Pos, -m.damages[i].RotateAngle)
+					if isRectHit(pos, config.PlayerHitRange, m.damages[i].RectPos) {
 						obj.HandleDamage(m.damages[i].Power)
 					}
 				}

@@ -2,20 +2,27 @@ package skill
 
 import (
 	"github.com/google/uuid"
+	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 const (
-	attack2CastTime = 260
+	attack2CastTime = 2 * 60
 )
 
 type Attack2 struct {
-	count     int
-	ownerID   string
-	attackPos [4]point.Point
-	manager   models.Manager
+	count   int
+	ownerID string
+	manager models.Manager
+
+	rotateBase   point.Point
+	viewStartPos point.Point
+	width        int
+	length       int
+	angle        float64
 }
 
 func (a *Attack2) Init(manager models.Manager, ownerID string) {
@@ -45,15 +52,17 @@ func (a *Attack2) Draw() {
 
 	// 範囲
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
+	b := a.rotateBase
+	s := a.viewStartPos
+	p1 := math.Rotate(b, s, a.angle)
+	p2 := math.Rotate(b, point.Point{X: s.X + a.width, Y: s.Y}, a.angle)
+	p3 := math.Rotate(b, point.Point{X: s.X + a.width, Y: s.Y + a.length}, a.angle)
+	p4 := math.Rotate(b, point.Point{X: s.X, Y: s.Y + a.length}, a.angle)
 	dxlib.DrawQuadrangle(
-		a.attackPos[0].X,
-		a.attackPos[0].Y,
-		a.attackPos[1].X,
-		a.attackPos[1].Y,
-		a.attackPos[2].X,
-		a.attackPos[2].Y,
-		a.attackPos[3].X,
-		a.attackPos[3].Y,
+		p1.X, p1.Y,
+		p2.X, p2.Y,
+		p3.X, p3.Y,
+		p4.X, p4.Y,
 		dxlib.GetColor(255, 255, 0),
 		true,
 	)
@@ -62,25 +71,34 @@ func (a *Attack2) Draw() {
 
 func (a *Attack2) Update() bool {
 	if a.count == 0 {
-		// WIP: とりあえず固定の位置に攻撃範囲を設定
-		// WIP: Rotate
-		a.attackPos[0] = point.Point{X: 100, Y: 100}
-		a.attackPos[1] = point.Point{X: 100, Y: 500}
-		a.attackPos[2] = point.Point{X: 600, Y: 500}
-		a.attackPos[3] = point.Point{X: 600, Y: 100}
+		posList := a.manager.GetPosList(&models.ObjectFilter{ID: a.ownerID})
+		a.setParams(posList[0], posList[0], 100, config.ScreenSizeX, math.Pi/2)
 	}
 
 	// 詠唱
 	if a.count >= attack2CastTime {
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
-			Power:      10,
+			Power:      100,
 			DamageType: models.TypeAreaRect,
-			RectPos:    [2]point.Point{a.attackPos[0], a.attackPos[2]},
+			RectPos: [2]point.Point{
+				a.viewStartPos,
+				{X: a.viewStartPos.X + a.width, Y: a.viewStartPos.Y + a.length},
+			},
+			RotateBase:  a.rotateBase,
+			RotateAngle: a.angle,
 		})
 		return true
 	}
 
 	a.count++
 	return false
+}
+
+func (a *Attack2) setParams(rotBase, viewStart point.Point, width, length int, angle float64) {
+	a.rotateBase = rotBase
+	a.viewStartPos = viewStart
+	a.width = width
+	a.length = length
+	a.angle = angle
 }
