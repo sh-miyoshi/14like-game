@@ -101,9 +101,9 @@ func (e *Enemy1) GetParam() models.ObjectParam {
 	}
 }
 
-func (e *Enemy1) HandleDamage(power int) {
-	logger.Debug("Enemy1 got damage %d", power)
-	e.hp -= power
+func (e *Enemy1) HandleDamage(dm models.Damage) {
+	logger.Debug("Enemy1 got damage %d", dm.Power)
+	e.hp -= dm.Power
 	if e.hp < 0 {
 		e.hp = 0
 	}

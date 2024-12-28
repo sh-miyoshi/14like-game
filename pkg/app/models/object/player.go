@@ -225,17 +225,15 @@ func (p *Player) GetParam() models.ObjectParam {
 	}
 }
 
-func (p *Player) HandleDamage(power int) {
-	logger.Debug("Player got damage %d", power)
-	p.hp -= power
-	if power > 0 {
-		if p.hp < 0 {
-			p.hp = 0
-		}
-	} else {
-		if p.hp > PlayerDefaultHP {
-			p.hp = PlayerDefaultHP
-		}
+func (p *Player) HandleDamage(dm models.Damage) {
+	logger.Debug("Player got damage %d", dm.Power)
+	p.hp -= dm.Power
+	p.buffs = append(p.buffs, dm.Buffs...) // WIP stack
+
+	if p.hp < 0 {
+		p.hp = 0
+	} else if p.hp > PlayerDefaultHP {
+		p.hp = PlayerDefaultHP
 	}
 }
 

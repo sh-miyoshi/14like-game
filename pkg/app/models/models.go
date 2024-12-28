@@ -41,6 +41,7 @@ type Damage struct {
 	ID         string
 	Power      int
 	DamageType int
+	Buffs      []Buff
 
 	// DamageTypeがTypeObjectの時使うパラメータ
 	TargetID string
@@ -72,7 +73,7 @@ type Object interface {
 	Draw()
 	Update()
 
-	HandleDamage(power int)
+	HandleDamage(dm Damage)
 	GetParam() ObjectParam
 }
 

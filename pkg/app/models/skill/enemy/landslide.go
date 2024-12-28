@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models/buff"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
@@ -73,7 +74,7 @@ func (a *LandSlide) Update() bool {
 	// 詠唱
 	if a.count >= landslideCastTime {
 		for _, atk := range a.attack {
-			atk.AddDamage(a.manager)
+			atk.AddDamage(a.manager, a.ownerID)
 		}
 		return true
 	}
@@ -118,7 +119,10 @@ func (a *landslideAttack) Draw() {
 	)
 }
 
-func (a *landslideAttack) AddDamage(manager models.Manager) {
+func (a *landslideAttack) AddDamage(manager models.Manager, ownerID string) {
+	dm := &buff.UpDamage{}
+	dm.Init(manager, ownerID)
+
 	manager.AddDamage(models.Damage{
 		ID:         uuid.New().String(),
 		Power:      100,
@@ -129,5 +133,6 @@ func (a *landslideAttack) AddDamage(manager models.Manager) {
 		},
 		RotateBase:  a.rotateBase,
 		RotateAngle: a.angle,
+		Buffs:       []models.Buff{dm},
 	})
 }
