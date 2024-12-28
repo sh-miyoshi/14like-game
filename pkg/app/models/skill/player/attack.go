@@ -23,8 +23,8 @@ func (a *Attack1) End() {
 }
 
 func (a *Attack1) Exec(manager models.Manager) {
-	ids := manager.GetObjectsID(&models.ObjectFilter{Type: models.FilterObjectTypeEnemy})
-	if len(ids) == 0 {
+	objs := manager.GetObjectParams(&models.ObjectFilter{Type: models.FilterObjectTypeEnemy})
+	if len(objs) == 0 {
 		return
 	}
 
@@ -32,7 +32,7 @@ func (a *Attack1) Exec(manager models.Manager) {
 		ID:         uuid.New().String(),
 		Power:      a.GetParam().Power,
 		DamageType: models.TypeObject,
-		TargetID:   ids[0],
+		TargetID:   objs[0].ID,
 	})
 }
 

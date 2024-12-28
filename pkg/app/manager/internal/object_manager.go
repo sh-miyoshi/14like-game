@@ -2,7 +2,6 @@ package manager
 
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 type ObjectManager struct {
@@ -37,20 +36,11 @@ func (m *ObjectManager) GetObjects(filter *models.ObjectFilter) []models.Object 
 	return res
 }
 
-func (m *ObjectManager) GetPosList(filter *models.ObjectFilter) []point.Point {
-	res := []point.Point{}
+func (m *ObjectManager) GetObjectParams(filter *models.ObjectFilter) []models.ObjectParam {
+	res := []models.ObjectParam{}
 	objs := m.GetObjects(filter)
 	for _, o := range objs {
-		res = append(res, o.GetParam().Pos)
-	}
-	return res
-}
-
-func (m *ObjectManager) GetObjectsID(filter *models.ObjectFilter) []string {
-	res := []string{}
-	objs := m.GetObjects(filter)
-	for _, o := range objs {
-		res = append(res, o.GetParam().ID)
+		res = append(res, o.GetParam())
 	}
 	return res
 }

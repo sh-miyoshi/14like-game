@@ -28,8 +28,7 @@ type ObjectParam struct {
 
 type Manager interface {
 	AddDamage(damage Damage)
-	GetPosList(filter *ObjectFilter) []point.Point
-	GetObjectsID(filter *ObjectFilter) []string
+	GetObjectParams(filter *ObjectFilter) []ObjectParam
 }
 
 type Buff interface {

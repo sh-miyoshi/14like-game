@@ -32,12 +32,12 @@ func (a *Attack) Draw() {
 	castTime := attackCastTime - a.count
 	if a.count != 0 && castTime > 0 {
 		size := 200
-		posList := a.manager.GetPosList(&models.ObjectFilter{ID: a.ownerID})
-		if len(posList) == 0 {
+		objs := a.manager.GetObjectParams(&models.ObjectFilter{ID: a.ownerID})
+		if len(objs) == 0 {
 			return
 		}
-		px := posList[0].X - size/2
-		py := posList[0].Y + 50
+		px := objs[0].Pos.X - size/2
+		py := objs[0].Pos.Y + 50
 		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
 		castSize := size * castTime / attackCastTime
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
@@ -52,11 +52,11 @@ func (a *Attack) Draw() {
 
 func (a *Attack) Update() bool {
 	if a.count == 0 {
-		posList := a.manager.GetPosList(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
-		if len(posList) == 0 {
+		objs := a.manager.GetObjectParams(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
+		if len(objs) == 0 {
 			return true
 		}
-		a.attackPos = posList[0]
+		a.attackPos = objs[0].Pos
 	}
 
 	// 詠唱
