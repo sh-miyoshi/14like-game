@@ -23,23 +23,23 @@ func (m *DamageManager) AddDamage(damage models.Damage) {
 func (m *DamageManager) Update() {
 	for i := 0; i < len(m.damages); i++ {
 		switch m.damages[i].DamageType {
-		case models.TypeObject:
+		case models.DamageTypeObject:
 			// 対象のObjectにダメージを追加
 			obj := m.objManager.Find(m.damages[i].TargetID)
 			if obj != nil {
 				obj.HandleDamage(m.damages[i].Power)
 			}
-		case models.TypeAreaCircle, models.TypeAreaRect:
+		case models.DamageTypeAreaCircle, models.DamageTypeAreaRect:
 			// WIP: 現状は敵の攻撃のみサポート
 			// 範囲内のObjectにダメージを追加
 			objs := m.objManager.GetObjects(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
 			for _, obj := range objs {
-				if m.damages[i].DamageType == models.TypeAreaCircle {
+				if m.damages[i].DamageType == models.DamageTypeAreaCircle {
 					hitRange := config.PlayerHitRange + m.damages[i].Range
 					if isCircleHit(obj.GetParam().Pos, m.damages[i].CenterPos, hitRange) {
 						obj.HandleDamage(m.damages[i].Power)
 					}
-				} else if m.damages[i].DamageType == models.TypeAreaRect {
+				} else if m.damages[i].DamageType == models.DamageTypeAreaRect {
 					pos := math.Rotate(m.damages[i].RotateBase, obj.GetParam().Pos, -m.damages[i].RotateAngle)
 					if isRectHit(pos, config.PlayerHitRange, m.damages[i].RectPos) {
 						obj.HandleDamage(m.damages[i].Power)

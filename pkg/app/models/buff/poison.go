@@ -38,7 +38,7 @@ func (p *Poison) Update() bool {
 		p.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      PoisonPower,
-			DamageType: models.TypeObject,
+			DamageType: models.DamageTypeObject,
 			TargetID:   p.ownerID,
 		})
 	}

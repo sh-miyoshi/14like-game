@@ -31,7 +31,7 @@ func (a *Attack1) Exec(manager models.Manager) {
 	manager.AddDamage(models.Damage{
 		ID:         uuid.New().String(),
 		Power:      a.GetParam().Power,
-		DamageType: models.TypeObject,
+		DamageType: models.DamageTypeObject,
 		TargetID:   objs[0].ID,
 	})
 }

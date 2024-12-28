@@ -64,7 +64,7 @@ func (a *Attack2) Update() bool {
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      100,
-			DamageType: models.TypeAreaRect,
+			DamageType: models.DamageTypeAreaRect,
 			RectPos: [2]point.Point{
 				a.viewStartPos,
 				{X: a.viewStartPos.X + a.width, Y: a.viewStartPos.Y + a.length},

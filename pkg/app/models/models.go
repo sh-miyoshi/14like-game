@@ -8,6 +8,12 @@ const (
 	FilterObjectTypeEnemy
 )
 
+const (
+	DamageTypeObject int = iota
+	DamageTypeAreaCircle
+	DamageTypeAreaRect
+)
+
 type ObjectFilter struct {
 	ID   string
 	Type int
@@ -31,6 +37,23 @@ type ObjectParam struct {
 	IsPlayer bool
 }
 
+type Damage struct {
+	ID         string
+	Power      int
+	DamageType int
+
+	// DamageTypeがTypeObjectの時使うパラメータ
+	TargetID string
+
+	// DamageTypeがTypeAreaCircleの時使うパラメータ
+	CenterPos point.Point
+	Range     int
+
+	// DamageTypeがTypeAreaRectの時使うパラメータ
+	RectPos     [2]point.Point
+	RotateBase  point.Point
+	RotateAngle float64
+}
 type Manager interface {
 	AddDamage(damage Damage)
 	GetObjectParams(filter *ObjectFilter) []ObjectParam

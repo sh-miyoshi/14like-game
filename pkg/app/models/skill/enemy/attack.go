@@ -48,7 +48,7 @@ func (a *Attack) Update() bool {
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      10,
-			DamageType: models.TypeAreaCircle,
+			DamageType: models.DamageTypeAreaCircle,
 			CenterPos:  a.attackPos,
 			Range:      attackRange,
 		})
