@@ -29,7 +29,7 @@ type Player struct {
 	pos            point.Point
 	skills         [PlayerSkillMax]*playerSkill
 	targetEnemy    models.Object
-	imgSkillCircle int
+	image          int
 	castTime       int
 	castSkillIndex int
 	hp             int
@@ -40,9 +40,9 @@ type Player struct {
 
 func (p *Player) Init(manager models.Manager) {
 	p.id = uuid.New().String()
-	p.imgSkillCircle = dxlib.LoadGraph("data/images/skill_circle.png")
-	if p.imgSkillCircle == -1 {
-		system.FailWithError("Failed to load skill circle image")
+	p.image = dxlib.LoadGraph("data/images/objects/player.png")
+	if p.image == -1 {
+		system.FailWithError("Failed to load player image")
 	}
 	p.manager = manager
 	p.hp = PlayerDefaultHP
@@ -74,7 +74,7 @@ func (p *Player) Init(manager models.Manager) {
 }
 
 func (p *Player) End() {
-	dxlib.DeleteGraph(p.imgSkillCircle)
+	dxlib.DeleteGraph(p.image)
 	for _, s := range p.skills {
 		if s != nil {
 			s.info.End()
@@ -88,6 +88,7 @@ func (p *Player) SetTargetEnemy(e models.Object) {
 
 func (p *Player) Draw() {
 	dxlib.DrawCircle(p.pos.X, p.pos.Y, config.PlayerHitRange, dxlib.GetColor(255, 255, 255), false)
+	dxlib.DrawRotaGraph(p.pos.X, p.pos.Y, 1, 0, p.image, true)
 
 	for i, s := range p.skills {
 		size := 32
