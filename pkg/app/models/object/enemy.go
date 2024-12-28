@@ -5,6 +5,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
+	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
@@ -29,6 +30,7 @@ type Enemy1 struct {
 	count        int
 	currentSkill models.EnemySkill
 	manager      models.Manager
+	image        int
 }
 
 func (e *Enemy1) Init(manager models.Manager) {
@@ -37,6 +39,11 @@ func (e *Enemy1) Init(manager models.Manager) {
 	e.pos.Y = config.ScreenSizeY / 2
 	e.hpMax = 1000
 	e.hp = e.hpMax
+	e.image = dxlib.LoadGraph("data/images/objects/enemy1.png")
+	if e.image == -1 {
+		system.FailWithError("Failed to load enemy1 image")
+	}
+
 	e.timeline = []enemySkill{
 		{triggerTime: 2, info: &skill.LandSlide{AttackNum: 1}},
 		{triggerTime: 8, info: &skill.LandSlide{AttackNum: 3}},
@@ -46,10 +53,16 @@ func (e *Enemy1) Init(manager models.Manager) {
 }
 
 func (e *Enemy1) End() {
+	dxlib.DeleteGraph(e.image)
 }
 
 func (e *Enemy1) Draw() {
+	if e.currentSkill != nil {
+		e.currentSkill.Draw()
+	}
+
 	dxlib.DrawCircle(e.pos.X, e.pos.Y, Enemy1HitRange, dxlib.GetColor(255, 255, 255), false)
+	dxlib.DrawRotaGraph(e.pos.X, e.pos.Y, 1, 0, e.image, true)
 
 	tx := config.ScreenSizeX - EnemyHPSize - 40
 	ty := 30
@@ -57,9 +70,7 @@ func (e *Enemy1) Draw() {
 	size := EnemyHPSize * e.hp / e.hpMax
 	dxlib.DrawBox(tx, ty, tx+size, ty+20, dxlib.GetColor(255, 255, 255), true)
 
-	if e.currentSkill != nil {
-		e.currentSkill.Draw()
-	}
+	e.drawCastBar()
 }
 
 func (e *Enemy1) Update() {
@@ -95,5 +106,23 @@ func (e *Enemy1) HandleDamage(power int) {
 	e.hp -= power
 	if e.hp < 0 {
 		e.hp = 0
+	}
+}
+
+func (e *Enemy1) drawCastBar() {
+	if e.currentSkill == nil {
+		return
+	}
+
+	pm := e.currentSkill.GetParam()
+	castTime := pm.CastTime - e.currentSkill.GetCount()
+	if e.currentSkill.GetCount() != 0 && castTime > 0 {
+		size := 200
+		px := e.pos.X - size/2
+		py := e.pos.Y + Enemy1HitRange - 20
+		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
+		castSize := size * castTime / pm.CastTime
+		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
+		dxlib.DrawFormatString(px, py+25, 0xffffff, pm.Name)
 	}
 }

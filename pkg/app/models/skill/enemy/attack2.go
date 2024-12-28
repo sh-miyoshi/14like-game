@@ -34,22 +34,6 @@ func (a *Attack2) End() {
 }
 
 func (a *Attack2) Draw() {
-	// 詠唱バー
-	castTime := attack2CastTime - a.count
-	if a.count != 0 && castTime > 0 {
-		size := 200
-		objs := a.manager.GetObjectParams(&models.ObjectFilter{ID: a.ownerID})
-		if len(objs) == 0 {
-			return
-		}
-		px := objs[0].Pos.X - size/2
-		py := objs[0].Pos.Y + 50
-		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
-		castSize := size * castTime / attack2CastTime
-		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
-		dxlib.DrawFormatString(px, py+25, 0xffffff, "範囲攻撃2")
-	}
-
 	// 範囲
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
 	b := a.rotateBase
@@ -93,6 +77,17 @@ func (a *Attack2) Update() bool {
 
 	a.count++
 	return false
+}
+
+func (a *Attack2) GetCount() int {
+	return a.count
+}
+
+func (a *Attack2) GetParam() models.EnemySkillParam {
+	return models.EnemySkillParam{
+		CastTime: attack2CastTime,
+		Name:     "Attack2",
+	}
 }
 
 func (a *Attack2) setParams(rotBase, viewStart point.Point, width, length int, angle float64) {

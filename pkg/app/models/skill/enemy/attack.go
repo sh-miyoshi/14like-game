@@ -28,22 +28,6 @@ func (a *Attack) End() {
 }
 
 func (a *Attack) Draw() {
-	// 詠唱バー
-	castTime := attackCastTime - a.count
-	if a.count != 0 && castTime > 0 {
-		size := 200
-		objs := a.manager.GetObjectParams(&models.ObjectFilter{ID: a.ownerID})
-		if len(objs) == 0 {
-			return
-		}
-		px := objs[0].Pos.X - size/2
-		py := objs[0].Pos.Y + 50
-		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
-		castSize := size * castTime / attackCastTime
-		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
-		dxlib.DrawFormatString(px, py+25, 0xffffff, "範囲攻撃")
-	}
-
 	// 範囲
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
 	dxlib.DrawCircle(a.attackPos.X, a.attackPos.Y, attackRange, dxlib.GetColor(255, 255, 0), true)
@@ -73,4 +57,15 @@ func (a *Attack) Update() bool {
 
 	a.count++
 	return false
+}
+
+func (a *Attack) GetCount() int {
+	return a.count
+}
+
+func (a *Attack) GetParam() models.EnemySkillParam {
+	return models.EnemySkillParam{
+		CastTime: attackCastTime,
+		Name:     "範囲攻撃",
+	}
 }

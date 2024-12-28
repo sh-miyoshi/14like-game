@@ -13,6 +13,11 @@ type ObjectFilter struct {
 	Type int
 }
 
+type EnemySkillParam struct {
+	CastTime int
+	Name     string
+}
+
 type PlayerSkillParam struct {
 	CastTime   int
 	RecastTime int
@@ -53,6 +58,8 @@ type EnemySkill interface {
 	End()
 	Draw()
 	Update() bool
+	GetCount() int
+	GetParam() EnemySkillParam
 }
 
 type PlayerSkill interface {
