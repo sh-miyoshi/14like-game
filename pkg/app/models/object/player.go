@@ -6,7 +6,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	"github.com/sh-miyoshi/14like-game/pkg/app/models/buff"
 	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/player"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
@@ -72,11 +71,6 @@ func (p *Player) Init(manager models.Manager) {
 	}
 
 	p.buffs = make([]models.Buff, 0)
-
-	// debug
-	poison := &buff.Poison{}
-	poison.Init(p.manager, p.id)
-	p.buffs = append(p.buffs, poison)
 }
 
 func (p *Player) End() {
