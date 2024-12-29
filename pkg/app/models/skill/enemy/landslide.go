@@ -44,8 +44,8 @@ func (a *LandSlide) End() {
 func (a *LandSlide) Draw() {
 	// 範囲
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
-	for _, a := range a.attack {
-		a.Draw()
+	for i := 0; i < a.AttackNum; i++ {
+		a.attack[i].Draw()
 	}
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 }
@@ -73,8 +73,8 @@ func (a *LandSlide) Update() bool {
 
 	// 詠唱
 	if a.count >= landslideCastTime {
-		for _, atk := range a.attack {
-			atk.AddDamage(a.manager, a.ownerID)
+		for i := 0; i < a.AttackNum; i++ {
+			a.attack[i].AddDamage(a.manager, a.ownerID)
 		}
 		return true
 	}

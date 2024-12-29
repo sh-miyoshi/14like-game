@@ -3,20 +3,22 @@ package manager
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 type DamageManager struct {
 	damages    []models.Damage
-	objManager ObjectManager
+	objManager *ObjectManager
 }
 
-func (m *DamageManager) SetManager(objManager ObjectManager) {
+func (m *DamageManager) SetManager(objManager *ObjectManager) {
 	m.objManager = objManager
 }
 
 func (m *DamageManager) AddDamage(damage models.Damage) {
+	logger.Debug("Add Damage: %+v", damage)
 	m.damages = append(m.damages, damage)
 }
 

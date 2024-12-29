@@ -6,7 +6,6 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/manager"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/fps"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
@@ -39,27 +38,16 @@ func main() {
 
 	// WIP: 別の場所で管理
 	mgr := manager.Manager{}
-
-	player := object.Player{}
-	player.Init(&mgr)
-
-	enemy1 := object.Enemy1{}
-	enemy1.Init(&mgr)
-
-	mgr.SetObjects([]models.Object{&player, &enemy1})
-	player.SetTargetEnemy(&enemy1)
-
+	mgr.Init()
+	mgr.AddObject(models.ObjectTypePlayer, nil)
+	mgr.AddObject(models.ObjectTypeEnemy, nil)
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {
 		inputs.KeyStateUpdate()
 
 		// Main Game Proc
-		player.Update()
-		enemy1.Update()
 		mgr.Update()
-
-		player.Draw()
-		enemy1.Draw()
+		mgr.Draw()
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
 			logger.Info("Game end by escape command")
@@ -68,9 +56,6 @@ MAIN:
 
 		fpsMgr.Wait()
 	}
-
-	player.End()
-	enemy1.End()
 
 	dxlib.DxLib_End()
 }

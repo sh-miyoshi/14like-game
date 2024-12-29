@@ -8,8 +8,8 @@ type ObjectManager struct {
 	objects []models.Object
 }
 
-func (m *ObjectManager) SetObjects(objs []models.Object) {
-	m.objects = objs
+func (m *ObjectManager) AddObject(obj models.Object) {
+	m.objects = append(m.objects, obj)
 }
 
 func (m *ObjectManager) GetObjects(filter *models.ObjectFilter) []models.Object {
@@ -52,4 +52,16 @@ func (m *ObjectManager) Find(id string) models.Object {
 		}
 	}
 	return nil
+}
+
+func (m *ObjectManager) Draw() {
+	for _, o := range m.objects {
+		o.Draw()
+	}
+}
+
+func (m *ObjectManager) Update() {
+	for _, o := range m.objects {
+		o.Update()
+	}
 }

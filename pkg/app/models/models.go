@@ -14,6 +14,12 @@ const (
 	DamageTypeAreaRect
 )
 
+const (
+	ObjectTypePlayer int = iota
+	ObjectTypeEnemy
+	ObjectTypeBombBoulder
+)
+
 type ObjectFilter struct {
 	ID   string
 	Type int
@@ -56,8 +62,10 @@ type Damage struct {
 	RotateAngle float64
 }
 type Manager interface {
+	AddObject(objType int, pm interface{})
 	AddDamage(damage Damage)
 	GetObjectParams(filter *ObjectFilter) []ObjectParam
+	GetObjects(filter *ObjectFilter) []Object
 }
 
 type Buff interface {

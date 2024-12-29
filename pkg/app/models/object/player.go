@@ -34,8 +34,7 @@ type Player struct {
 	castSkillIndex int
 	hp             int
 	buffs          []models.Buff
-
-	manager models.Manager
+	manager        models.Manager
 }
 
 func (p *Player) Init(manager models.Manager) {
@@ -80,10 +79,6 @@ func (p *Player) End() {
 			s.info.End()
 		}
 	}
-}
-
-func (p *Player) SetTargetEnemy(e models.Object) {
-	p.targetEnemy = e
 }
 
 func (p *Player) Draw() {
@@ -142,6 +137,14 @@ func (p *Player) Draw() {
 }
 
 func (p *Player) Update() {
+	if p.targetEnemy == nil {
+		// WIP: manual focus
+		objs := p.manager.GetObjects(&models.ObjectFilter{Type: models.FilterObjectTypeEnemy})
+		if len(objs) > 0 {
+			p.targetEnemy = objs[0]
+		}
+	}
+
 	for i := 0; i < len(p.buffs); i++ {
 		if p.buffs[i].Update() {
 			p.buffs[i].End()
