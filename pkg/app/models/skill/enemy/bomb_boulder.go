@@ -1,6 +1,9 @@
 package skill
 
 import (
+	"math/rand"
+
+	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
@@ -9,7 +12,7 @@ import (
 )
 
 const (
-	bombBoulderInitDelay = 120
+	bombBoulderInitDelay = 45
 	bombBoulderCastTime  = 180
 	bombBoulderRange     = 180
 )
@@ -18,6 +21,8 @@ type bombBoulder struct {
 	pos       point.Point
 	count     int
 	startTime int
+	manager   models.Manager
+	isEnd     bool
 }
 
 type BombBoulderMgr struct {
@@ -29,14 +34,20 @@ type BombBoulderMgr struct {
 func (a *BombBoulderMgr) Init(manager models.Manager, ownerID string) {
 	a.manager = manager
 	a.ownerID = ownerID
+	yindex := [3]int{1, 0, 2}
+	if rand.Intn(2) == 0 {
+		yindex = [3]int{1, 2, 0}
+	}
+
 	for y := 0; y < 3; y++ {
 		for x := 0; x < 3; x++ {
 			a.attacks[y*3+x] = bombBoulder{
 				pos: point.Point{
 					X: (config.ScreenSizeX/4+40)*(x+1) - 40,
-					Y: config.ScreenSizeY/4*(y+1) - 20,
+					Y: config.ScreenSizeY/4*(yindex[y]+1) - 20,
 				},
 				startTime: bombBoulderInitDelay * y,
+				manager:   manager,
 			}
 		}
 	}
@@ -48,14 +59,17 @@ func (a *BombBoulderMgr) End() {
 
 func (a *BombBoulderMgr) Draw() {
 	for _, b := range a.attacks {
-		b.Draw()
+		if !b.IsEnd() {
+			b.Draw()
+		}
 	}
 }
 
 func (a *BombBoulderMgr) Update() bool {
 	end := true
 	for i := range a.attacks {
-		if !a.attacks[i].Update() {
+		if !a.attacks[i].IsEnd() {
+			a.attacks[i].Update()
 			end = false
 		}
 	}
@@ -78,7 +92,9 @@ func (b *bombBoulder) Draw() {
 		w := 30
 		h := 50
 		dxlib.DrawBox(b.pos.X-w/2, b.pos.Y, b.pos.X+w/2, b.pos.Y+h, dxlib.GetColor(255, 255, 255), true)
+	}
 
+	if b.count >= b.startTime+bombBoulderCastTime-20 {
 		// 範囲
 		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
 		dxlib.DrawCircle(b.pos.X, b.pos.Y, bombBoulderRange, dxlib.GetColor(255, 255, 0), true)
@@ -86,7 +102,20 @@ func (b *bombBoulder) Draw() {
 	}
 }
 
-func (b *bombBoulder) Update() bool {
+func (b *bombBoulder) Update() {
 	b.count++
-	return false
+	if b.count == b.startTime+bombBoulderCastTime {
+		b.manager.AddDamage(models.Damage{
+			ID:         uuid.New().String(),
+			Power:      120,
+			DamageType: models.DamageTypeAreaCircle,
+			CenterPos:  b.pos,
+			Range:      bombBoulderRange,
+		})
+		b.isEnd = true
+	}
+}
+
+func (b *bombBoulder) IsEnd() bool {
+	return b.isEnd
 }
