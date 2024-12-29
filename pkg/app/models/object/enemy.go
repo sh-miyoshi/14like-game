@@ -45,9 +45,10 @@ func (e *Enemy1) Init(manager models.Manager) {
 	}
 
 	e.timeline = []enemySkill{
+		{triggerTime: 2, info: &skill.BombBoulderMgr{}},
 		// {triggerTime: 2, info: &skill.LandSlide{AttackNum: 1}},
-		{triggerTime: 4, info: &skill.FullAttack{Name: "激震", CastTime: 30, Power: 100}},
-		{triggerTime: 8, info: &skill.LandSlide{AttackNum: 3}},
+		// {triggerTime: 4, info: &skill.FullAttack{Name: "激震", CastTime: 30, Power: 100}},
+		// {triggerTime: 8, info: &skill.LandSlide{AttackNum: 3}},
 	}
 	e.manager = manager
 	e.currentSkill = nil
