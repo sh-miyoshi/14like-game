@@ -41,8 +41,7 @@ func main() {
 	mgr := manager.Manager{}
 	mgr.Init()
 	mgr.AddObject(models.ObjectTypeNonAttackPlayer, nil)
-	// mgr.AddObject(models.ObjectTypePlayer, nil)
-	// mgr.AddObject(models.ObjectTypeEnemy, nil)
+	mgr.AddObject(models.ObjectTypeCloudOfDarkness, nil)
 
 	bg := background.BackGround{}
 MAIN:
@@ -50,11 +49,11 @@ MAIN:
 		inputs.KeyStateUpdate()
 
 		// Main Game Proc
-		mgr.Update()
 		bg.Update()
+		mgr.Update()
 
-		mgr.Draw()
 		bg.Draw()
+		mgr.Draw()
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
 			logger.Info("Game end by escape command")

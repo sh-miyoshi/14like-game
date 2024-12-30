@@ -19,6 +19,7 @@ const (
 	ObjectTypeEnemy
 	ObjectTypeBombBoulder
 	ObjectTypeNonAttackPlayer
+	ObjectTypeCloudOfDarkness
 )
 
 type ObjectFilter struct {

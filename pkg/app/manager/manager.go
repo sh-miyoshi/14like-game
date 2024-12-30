@@ -16,30 +16,31 @@ func (m *Manager) Init() {
 }
 
 func (m *Manager) AddObject(objType int, pm interface{}) string {
-	var id string
+	var obj models.Object
 	switch objType {
 	case models.ObjectTypePlayer:
-		player := &object.Player{}
-		player.Init(m)
-		m.objectMgr.AddObject(player)
-		id = player.GetParam().ID
+		tmp := &object.Player{}
+		tmp.Init(m)
+		obj = tmp
 	case models.ObjectTypeEnemy:
-		enemy1 := &object.Enemy1{}
-		enemy1.Init(m)
-		m.objectMgr.AddObject(enemy1)
-		id = enemy1.GetParam().ID
+		tmp := &object.Enemy1{}
+		tmp.Init(m)
+		obj = tmp
 	case models.ObjectTypeBombBoulder:
-		obj := &object.BombBoulder{}
-		obj.Init(pm, m)
-		m.objectMgr.AddObject(obj)
-		id = obj.GetParam().ID
+		tmp := &object.BombBoulder{}
+		tmp.Init(pm, m)
+		obj = tmp
 	case models.ObjectTypeNonAttackPlayer:
-		obj := &object.NonAttackPlayer{}
-		obj.Init(m)
-		m.objectMgr.AddObject(obj)
-		id = obj.GetParam().ID
+		tmp := &object.NonAttackPlayer{}
+		tmp.Init(m)
+		obj = tmp
+	case models.ObjectTypeCloudOfDarkness:
+		tmp := &object.CloudOfDarkness{}
+		tmp.Init(m)
+		obj = tmp
 	}
-	return id
+	m.objectMgr.AddObject(obj)
+	return obj.GetParam().ID
 }
 
 func (m *Manager) AddDamage(damage models.Damage) {

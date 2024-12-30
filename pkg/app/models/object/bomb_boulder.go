@@ -22,7 +22,6 @@ type BombBoulder struct {
 }
 
 func (b *BombBoulder) Init(pm interface{}, manager models.Manager) {
-	// WIP set
 	b.id = uuid.New().String()
 	parsedParam := pm.(*skill.BombBoulderParam)
 	b.pos = parsedParam.Pos
