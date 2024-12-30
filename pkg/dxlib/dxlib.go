@@ -278,12 +278,19 @@ func DrawCircle(x, y int, r int, color uint, fillFlag bool) {
 	dxlib.DrawCircle(int32(x), int32(y), int32(r), uint32(color), makeFlag(fillFlag))
 }
 
-func DrawLine(x1, y1, x2, y2 int, color uint) {
+func DrawLine(x1, y1, x2, y2 int, color uint, opt ...DrawLineOption) {
 	if disabled {
 		return
 	}
 
-	dxlib.DrawLine(int32(x1), int32(y1), int32(x2), int32(y2), uint32(color))
+	if opt != nil {
+		dxopt := dxlib.DrawLineOption{
+			Thickness: opt[0].Thickness,
+		}
+		dxlib.DrawLine(int32(x1), int32(y1), int32(x2), int32(y2), uint32(color), dxopt)
+	} else {
+		dxlib.DrawLine(int32(x1), int32(y1), int32(x2), int32(y2), uint32(color))
+	}
 }
 
 func SetWindowSize(width int32, height int32) {

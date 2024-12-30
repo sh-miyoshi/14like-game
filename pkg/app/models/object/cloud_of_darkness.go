@@ -33,7 +33,8 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		triggerTime int
 		info        models.EnemySkill
 	}{
-		{1, &skill.WaveGun{}},
+		// {1, &skill.WaveGun{}},
+		{1, &skill.GrimEmbrace{}},
 	}
 }
 

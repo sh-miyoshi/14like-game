@@ -25,6 +25,10 @@ type DrawCircleGaugeOption struct {
 	ReverseY     *int32
 }
 
+type DrawLineOption struct {
+	Thickness *int32
+}
+
 const (
 	DX_BLENDMODE_INVSRC  = dxlib.DX_BLENDMODE_INVSRC
 	DX_BLENDMODE_ADD     = dxlib.DX_BLENDMODE_ADD
