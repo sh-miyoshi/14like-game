@@ -10,5 +10,6 @@ var (
 )
 
 const (
-	PlayerHitRange = 30
+	PlayerHitRange          = 30
+	NonAttackPlayerHitRange = 10
 )

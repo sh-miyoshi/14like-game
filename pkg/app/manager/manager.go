@@ -33,6 +33,11 @@ func (m *Manager) AddObject(objType int, pm interface{}) string {
 		obj.Init(pm, m)
 		m.objectMgr.AddObject(obj)
 		id = obj.GetParam().ID
+	case models.ObjectTypeNonAttackPlayer:
+		obj := &object.NonAttackPlayer{}
+		obj.Init(m)
+		m.objectMgr.AddObject(obj)
+		id = obj.GetParam().ID
 	}
 	return id
 }

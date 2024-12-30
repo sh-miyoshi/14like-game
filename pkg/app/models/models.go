@@ -18,6 +18,7 @@ const (
 	ObjectTypePlayer int = iota
 	ObjectTypeEnemy
 	ObjectTypeBombBoulder
+	ObjectTypeNonAttackPlayer
 )
 
 type ObjectFilter struct {

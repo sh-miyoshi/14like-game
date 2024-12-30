@@ -39,8 +39,9 @@ func main() {
 	// WIP: 別の場所で管理
 	mgr := manager.Manager{}
 	mgr.Init()
-	mgr.AddObject(models.ObjectTypePlayer, nil)
-	mgr.AddObject(models.ObjectTypeEnemy, nil)
+	mgr.AddObject(models.ObjectTypeNonAttackPlayer, nil)
+	// mgr.AddObject(models.ObjectTypePlayer, nil)
+	// mgr.AddObject(models.ObjectTypeEnemy, nil)
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {
 		inputs.KeyStateUpdate()
