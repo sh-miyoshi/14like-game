@@ -8,7 +8,8 @@ import (
 )
 
 type GrimEmbraceAttackerParam struct {
-	OwnerID string
+	TargetID string
+	IsFront  bool
 }
 
 type GrimEmbrace struct {
@@ -37,7 +38,13 @@ func (p *GrimEmbrace) Update() bool {
 	p.Count--
 	if p.Count == 0 {
 		logger.Debug("add GrimEmbrace action")
-		p.manager.AddObject(models.ObjectTypeGrimEmbraceAttacker, &GrimEmbraceAttackerParam{OwnerID: p.ownerID})
+		p.manager.AddObject(
+			models.ObjectTypeGrimEmbraceAttacker,
+			&GrimEmbraceAttackerParam{
+				TargetID: p.ownerID,
+				IsFront:  p.IsFront,
+			},
+		)
 		return true
 	}
 	return false

@@ -117,7 +117,10 @@ func (p *NonAttackPlayer) HandleDamage(dm models.Damage) {
 	if dm.Power > 0 {
 		p.hits++
 	}
-	p.buffs = append(p.buffs, dm.Buffs...) // WIP stack
+	for _, b := range dm.Buffs {
+		b.Init(p.manager, p.id)
+		p.buffs = append(p.buffs, b)
+	}
 }
 
 func (p *NonAttackPlayer) setDirect(moveLR, moveUD int) {

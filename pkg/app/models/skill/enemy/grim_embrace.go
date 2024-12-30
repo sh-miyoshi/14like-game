@@ -55,15 +55,12 @@ func (a *GrimEmbrace) Update() bool {
 
 	a.count++
 	if a.count == grimEmbraceCastTime {
-		bf := &buff.GrimEmbrace{Count: 3 * 60, IsFront: false}
-		bf.Init(a.manager, a.ownerID)
-
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      0,
 			DamageType: models.DamageTypeObject,
 			TargetID:   a.targetObjParam.ID,
-			Buffs:      []models.Buff{bf},
+			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: 3 * 60, IsFront: false}},
 		})
 		return true
 	}

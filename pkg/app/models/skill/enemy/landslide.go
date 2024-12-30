@@ -120,9 +120,6 @@ func (a *landslideAttack) Draw() {
 }
 
 func (a *landslideAttack) AddDamage(manager models.Manager, ownerID string) {
-	dm := &buff.UpDamage{}
-	dm.Init(manager, ownerID)
-
 	manager.AddDamage(models.Damage{
 		ID:         uuid.New().String(),
 		Power:      100,
@@ -133,6 +130,6 @@ func (a *landslideAttack) AddDamage(manager models.Manager, ownerID string) {
 		},
 		RotateBase:  a.rotateBase,
 		RotateAngle: a.angle,
-		Buffs:       []models.Buff{dm},
+		Buffs:       []models.Buff{&buff.UpDamage{}},
 	})
 }
