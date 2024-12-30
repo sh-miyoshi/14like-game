@@ -9,6 +9,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
@@ -18,6 +19,7 @@ type NonAttackPlayer struct {
 	buffs   []models.Buff
 	manager models.Manager
 	hits    int
+	direct  float64
 }
 
 func (p *NonAttackPlayer) Init(manager models.Manager) {
@@ -26,6 +28,7 @@ func (p *NonAttackPlayer) Init(manager models.Manager) {
 	p.pos.X = config.ScreenSizeX / 2
 	p.pos.Y = config.ScreenSizeY * 3 / 4
 	p.buffs = make([]models.Buff, 0)
+	p.direct = math.Pi
 }
 
 func (p *NonAttackPlayer) End() {
@@ -47,6 +50,12 @@ func (p *NonAttackPlayer) Draw() {
 
 		// WIP: stack count
 	}
+
+	s := 10
+	p1 := math.Rotate(p.pos, point.Point{X: p.pos.X - s/2, Y: p.pos.Y}, p.direct)
+	p2 := math.Rotate(p.pos, point.Point{X: p.pos.X + s/2, Y: p.pos.Y}, p.direct)
+	p3 := math.Rotate(p.pos, point.Point{X: p.pos.X, Y: p.pos.Y + s}, p.direct)
+	dxlib.DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, dxlib.GetColor(255, 255, 255), true)
 }
 
 func (p *NonAttackPlayer) Update() bool {
@@ -87,6 +96,7 @@ func (p *NonAttackPlayer) Update() bool {
 		moveLR = int(float64(moveLR) / 1.2)
 		moveUD = int(float64(moveUD) / 1.2)
 	}
+	p.setDirect(moveLR, moveUD)
 	p.pos.X += moveLR
 	p.pos.Y += moveUD
 
@@ -98,6 +108,7 @@ func (p *NonAttackPlayer) GetParam() models.ObjectParam {
 		ID:       p.id,
 		Pos:      p.pos,
 		IsPlayer: true,
+		Direct:   p.direct,
 	}
 }
 
@@ -107,4 +118,42 @@ func (p *NonAttackPlayer) HandleDamage(dm models.Damage) {
 		p.hits++
 	}
 	p.buffs = append(p.buffs, dm.Buffs...) // WIP stack
+}
+
+func (p *NonAttackPlayer) setDirect(moveLR, moveUD int) {
+	if moveLR == 0 && moveUD == 0 {
+		return
+	}
+
+	if moveLR == 0 {
+		if moveUD > 0 {
+			p.direct = 0
+		} else {
+			p.direct = math.Pi
+		}
+		return
+	}
+
+	if moveUD == 0 {
+		if moveLR > 0 {
+			p.direct = math.Pi * 3 / 2
+		} else {
+			p.direct = math.Pi / 2
+		}
+		return
+	}
+
+	if moveLR < 0 {
+		if moveUD > 0 {
+			p.direct = math.Pi / 4
+		} else {
+			p.direct = math.Pi * 3 / 4
+		}
+	} else {
+		if moveUD > 0 {
+			p.direct = math.Pi * 7 / 4
+		} else {
+			p.direct = math.Pi * 5 / 4
+		}
+	}
 }

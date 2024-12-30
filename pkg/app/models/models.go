@@ -45,6 +45,7 @@ type ObjectParam struct {
 	ID       string
 	Pos      point.Point
 	IsPlayer bool
+	Direct   float64
 }
 
 type Damage struct {
