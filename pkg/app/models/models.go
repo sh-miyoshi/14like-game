@@ -106,6 +106,44 @@ type PlayerSkill interface {
 }
 
 /*
+===Object===
+package object
+
+import (
+	"github.com/google/uuid"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
+)
+
+type Object struct {
+	id      string
+	pos     point.Point
+	manager models.Manager
+}
+
+func (p *Object) Init(pm interface{}, manager models.Manager) {
+	p.id = uuid.New().String()
+	p.manager = manager
+}
+
+func (p *Object) Draw() {
+}
+
+func (p *Object) Update() bool {
+	return false
+}
+
+func (p *Object) HandleDamage(dm models.Damage) {
+}
+
+func (p *Object) GetParam() models.ObjectParam {
+	return models.ObjectParam{
+		ID:       p.id,
+		Pos:      p.pos,
+		IsPlayer: false,
+	}
+}
+
 ===EnemySkill===
 package skill
 
@@ -143,5 +181,4 @@ func (a *Attack) GetParam() models.EnemySkillParam {
 		Name:     "Attack",
 	}
 }
-===
 */
