@@ -1,9 +1,12 @@
 package manager
 
 import (
+	"fmt"
+
 	manager "github.com/sh-miyoshi/14like-game/pkg/app/manager/internal"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/object"
+	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 )
 
 type Manager struct {
@@ -42,6 +45,12 @@ func (m *Manager) AddObject(objType int, pm interface{}) string {
 		tmp := &object.WaveGunAttacker{}
 		tmp.Init(pm, m)
 		obj = tmp
+	case models.ObjectTypeGrimEmbraceAttacker:
+		tmp := &object.GrimEmbraceAttacker{}
+		tmp.Init(pm, m)
+		obj = tmp
+	default:
+		system.FailWithError(fmt.Sprintf("Unknown object type %d", objType))
 	}
 	m.objectMgr.AddObject(obj)
 	return obj.GetParam().ID

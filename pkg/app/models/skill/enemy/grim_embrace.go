@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	grimEmbraceCastTime = 180
+	grimEmbraceCastTime = 120
 )
 
 type GrimEmbrace struct {
@@ -55,7 +55,7 @@ func (a *GrimEmbrace) Update() bool {
 
 	a.count++
 	if a.count == grimEmbraceCastTime {
-		bf := &buff.GrimEmbrace{Count: 54 * 60}
+		bf := &buff.GrimEmbrace{Count: 3 * 60, IsFront: false}
 		bf.Init(a.manager, a.ownerID)
 
 		a.manager.AddDamage(models.Damage{

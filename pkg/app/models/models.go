@@ -21,6 +21,7 @@ const (
 	ObjectTypeNonAttackPlayer
 	ObjectTypeCloudOfDarkness
 	ObjectTypeWaveGunAttacker
+	ObjectTypeGrimEmbraceAttacker
 )
 
 type ObjectFilter struct {

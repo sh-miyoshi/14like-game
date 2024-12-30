@@ -4,10 +4,16 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/logger"
 )
 
+type GrimEmbraceAttackerParam struct {
+	OwnerID string
+}
+
 type GrimEmbrace struct {
-	Count int
+	Count   int
+	IsFront bool
 
 	icon    int
 	manager models.Manager
@@ -29,7 +35,12 @@ func (p *GrimEmbrace) End() {
 
 func (p *GrimEmbrace) Update() bool {
 	p.Count--
-	return p.Count <= 0 // WIP action
+	if p.Count == 0 {
+		logger.Debug("add GrimEmbrace action")
+		p.manager.AddObject(models.ObjectTypeGrimEmbraceAttacker, &GrimEmbraceAttackerParam{OwnerID: p.ownerID})
+		return true
+	}
+	return false
 }
 
 func (p *GrimEmbrace) GetIcon() int {
