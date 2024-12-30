@@ -102,8 +102,9 @@ func (p *NonAttackPlayer) GetParam() models.ObjectParam {
 }
 
 func (p *NonAttackPlayer) HandleDamage(dm models.Damage) {
-	logger.Debug("NonAttackPlayer got damage %d", dm.Power)
+	logger.Debug("NonAttackPlayer got damage %+v", dm)
 	if dm.Power > 0 {
 		p.hits++
 	}
+	p.buffs = append(p.buffs, dm.Buffs...) // WIP stack
 }

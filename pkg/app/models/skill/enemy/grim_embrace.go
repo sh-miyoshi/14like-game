@@ -4,12 +4,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models/buff"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 const (
-	grimEmbraceCastTime = 240
+	grimEmbraceCastTime = 180
 )
 
 type GrimEmbrace struct {
@@ -54,11 +55,15 @@ func (a *GrimEmbrace) Update() bool {
 
 	a.count++
 	if a.count == grimEmbraceCastTime {
+		bf := &buff.GrimEmbrace{Count: 54 * 60}
+		bf.Init(a.manager, a.ownerID)
+
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      0,
 			DamageType: models.DamageTypeObject,
 			TargetID:   a.targetObjParam.ID,
+			Buffs:      []models.Buff{bf},
 		})
 		return true
 	}
