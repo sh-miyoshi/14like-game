@@ -136,7 +136,12 @@ func (p *Player) Draw() {
 	}
 }
 
-func (p *Player) Update() {
+func (p *Player) Update() bool {
+	if p.hp <= 0 {
+		// WIP: 死亡時エフェクト
+		return true
+	}
+
 	if p.targetEnemy == nil {
 		// WIP: manual focus
 		objs := p.manager.GetObjects(&models.ObjectFilter{Type: models.FilterObjectTypeEnemy})
@@ -218,6 +223,8 @@ func (p *Player) Update() {
 	}
 	p.pos.X += moveLR
 	p.pos.Y += moveUD
+
+	return false
 }
 
 func (p *Player) GetParam() models.ObjectParam {

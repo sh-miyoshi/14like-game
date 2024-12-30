@@ -6,6 +6,8 @@ github.com/sh-miyoshi/dxlib v1.4.1 h1:WOD1wDZKNP2pLOS7e+cEEoNUYaBTBomfEK5/eUrkUh
 github.com/sh-miyoshi/dxlib v1.4.1/go.mod h1:eYlq0yASGJkyLgQoEa7kqqpvuOi0uJg7E8UXckDHwOo=
 github.com/sh-miyoshi/dxlib v1.4.2 h1:W3jeMYhYtNnqYXSIOOfvUvLAAPj+s7LKe1QdnvKDpUE=
 github.com/sh-miyoshi/dxlib v1.4.2/go.mod h1:eYlq0yASGJkyLgQoEa7kqqpvuOi0uJg7E8UXckDHwOo=
+github.com/stretchr/stew v0.0.0-20130812190256-80ef0842b48b h1:DmfFjW6pLdaJNVHfKgCxTdKFI6tM+0YbMd0kx7kE78s=
+github.com/stretchr/stew v0.0.0-20130812190256-80ef0842b48b/go.mod h1:yS/5aMz+lfJhykLjlAGbnhUhZIvVapOvtmk0MtzHktE=
 golang.org/x/text v0.3.4 h1:0YWbFKbhXG/wIiuHDSKpS0Iy7FSA+u45VtBMfQcFTTc=
 golang.org/x/text v0.3.4/go.mod h1:5Zoc/QRtKVWzQhOtBMvqHzDpF6irO9z98xDceosuGiQ=
 golang.org/x/text v0.21.0 h1:zyQAAkrwaneQ066sspRyJaG9VNi/YJ1NfzcGB3hZ/qo=

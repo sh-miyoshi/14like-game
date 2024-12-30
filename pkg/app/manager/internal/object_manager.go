@@ -1,7 +1,10 @@
 package manager
 
 import (
+	"strings"
+
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/stretchr/stew/slice"
 )
 
 type ObjectManager struct {
@@ -16,8 +19,11 @@ func (m *ObjectManager) GetObjects(filter *models.ObjectFilter) []models.Object 
 	res := []models.Object{}
 	for _, o := range m.objects {
 		if filter != nil {
-			if filter.ID != "" && filter.ID != o.GetParam().ID {
-				continue
+			if filter.ID != "" {
+				ids := strings.Split(filter.ID, ",")
+				if !slice.Contains(ids, o.GetParam().ID) {
+					continue
+				}
 			}
 
 			switch filter.Type {
@@ -61,7 +67,10 @@ func (m *ObjectManager) Draw() {
 }
 
 func (m *ObjectManager) Update() {
-	for _, o := range m.objects {
-		o.Update()
+	for i := 0; i < len(m.objects); i++ {
+		if m.objects[i].Update() {
+			m.objects = append(m.objects[:i], m.objects[i+1:]...)
+			i--
+		}
 	}
 }

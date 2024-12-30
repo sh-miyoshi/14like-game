@@ -62,7 +62,7 @@ type Damage struct {
 	RotateAngle float64
 }
 type Manager interface {
-	AddObject(objType int, pm interface{})
+	AddObject(objType int, pm interface{}) string
 	AddDamage(damage Damage)
 	GetObjectParams(filter *ObjectFilter) []ObjectParam
 	GetObjects(filter *ObjectFilter) []Object
@@ -79,7 +79,7 @@ type Buff interface {
 
 type Object interface {
 	Draw()
-	Update()
+	Update() bool
 
 	HandleDamage(dm Damage)
 	GetParam() ObjectParam

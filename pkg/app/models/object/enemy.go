@@ -45,8 +45,8 @@ func (e *Enemy1) Init(manager models.Manager) {
 	}
 
 	e.timeline = []enemySkill{
-		// {triggerTime: 2, info: &skill.BombBoulderMgr{}},
-		{triggerTime: 2, info: &skill.LandSlide{AttackNum: 1}},
+		{triggerTime: 2, info: &skill.BombBoulderMgr{}},
+		// {triggerTime: 2, info: &skill.LandSlide{AttackNum: 1}},
 		// {triggerTime: 4, info: &skill.FullAttack{Name: "激震", CastTime: 30, Power: 100}},
 		// {triggerTime: 8, info: &skill.LandSlide{AttackNum: 3}},
 	}
@@ -75,13 +75,18 @@ func (e *Enemy1) Draw() {
 	e.drawCastBar()
 }
 
-func (e *Enemy1) Update() {
+func (e *Enemy1) Update() bool {
+	if e.hp <= 0 {
+		// WIP: 死亡時エフェクト
+		return true
+	}
+
 	if e.currentSkill != nil {
 		if e.currentSkill.Update() {
 			e.currentSkill.End()
 			e.currentSkill = nil
 		}
-		return
+		return false
 	}
 
 	e.count++
@@ -93,6 +98,7 @@ func (e *Enemy1) Update() {
 			break
 		}
 	}
+	return false
 }
 
 func (e *Enemy1) GetParam() models.ObjectParam {
