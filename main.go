@@ -3,6 +3,7 @@ package main
 import (
 	"runtime"
 
+	"github.com/sh-miyoshi/14like-game/pkg/app/background"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/manager"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
@@ -42,13 +43,18 @@ func main() {
 	mgr.AddObject(models.ObjectTypeNonAttackPlayer, nil)
 	// mgr.AddObject(models.ObjectTypePlayer, nil)
 	// mgr.AddObject(models.ObjectTypeEnemy, nil)
+
+	bg := background.BackGround{}
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {
 		inputs.KeyStateUpdate()
 
 		// Main Game Proc
 		mgr.Update()
+		bg.Update()
+
 		mgr.Draw()
+		bg.Draw()
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
 			logger.Info("Game end by escape command")
