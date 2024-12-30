@@ -45,7 +45,8 @@ func (e *Enemy1) Init(manager models.Manager) {
 	}
 
 	e.timeline = []enemySkill{
-		{triggerTime: 2, info: &skill.BombBoulderMgr{}},
+		{triggerTime: 2, info: &skill.DistanceDecayAttack{CastTime: 180, Name: "距離減衰攻撃", FixedPos: &point.Point{X: config.ScreenSizeX / 2, Y: config.ScreenSizeY / 2}}},
+		// {triggerTime: 2, info: &skill.BombBoulderMgr{}},
 		// {triggerTime: 2, info: &skill.LandSlide{AttackNum: 1}},
 		// {triggerTime: 4, info: &skill.FullAttack{Name: "激震", CastTime: 30, Power: 100}},
 		// {triggerTime: 8, info: &skill.LandSlide{AttackNum: 3}},
