@@ -56,7 +56,7 @@ func (p *NonAttackPlayer) Update() bool {
 	}
 
 	// Move
-	spd := 4
+	spd := 2
 
 	moveLR := 0
 	moveUD := 0

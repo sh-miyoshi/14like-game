@@ -91,8 +91,8 @@ func (e *CloudOfDarkness) drawCastBar() {
 	castTime := pm.CastTime - e.currentSkill.GetCount()
 	if e.currentSkill.GetCount() != 0 && castTime > 0 {
 		size := 200
-		px := config.ScreenSizeX/2 - size/2
-		py := config.ScreenSizeY - 100
+		px := config.ScreenSizeX*3/4 + 50 - size/2
+		py := 50
 		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
 		castSize := size * castTime / pm.CastTime
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)

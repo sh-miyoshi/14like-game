@@ -14,6 +14,10 @@ const (
 	WaveGunAttackRight
 )
 
+const (
+	waveGunCastTime = 120
+)
+
 type WaveGunAttackerParam struct {
 	StartTime int
 	Pos       point.Point
@@ -32,8 +36,8 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 	a.ownerID = ownerID
 
 	// WIP: ランダム化
-	startTimes := [10]int{0, 0, 0, 120, 120, 60, 60, 180, 180, 180}
-	const initDelay = 60
+	const interval = 90
+	startTimes := [10]int{0, 0, 0, 2, 2, 1, 1, 3, 3, 3}
 
 	// 左半分
 	for i := 0; i < 5; i++ {
@@ -46,7 +50,7 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 				Y: pos.Y + config.ScreenSizeY - 15,
 			},
 			Direct:    WaveGunAttackRight,
-			StartTime: startTimes[i] + initDelay,
+			StartTime: startTimes[i]*interval + waveGunCastTime,
 		})
 		a.attackIDs = fmt.Sprintf("%s,%s", a.attackIDs, id)
 	}
@@ -61,7 +65,7 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 				Y: pos.Y + config.ScreenSizeY - 50 - 15,
 			},
 			Direct:    WaveGunAttackLeft,
-			StartTime: startTimes[i+5] + initDelay,
+			StartTime: startTimes[i+5]*interval + waveGunCastTime,
 		})
 		a.attackIDs = fmt.Sprintf("%s,%s", a.attackIDs, id)
 	}
@@ -84,7 +88,7 @@ func (a *WaveGun) GetCount() int {
 
 func (a *WaveGun) GetParam() models.EnemySkillParam {
 	return models.EnemySkillParam{
-		CastTime: 10,
-		Name:     "Attack",
+		CastTime: waveGunCastTime,
+		Name:     "斉射式波動砲",
 	}
 }
