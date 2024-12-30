@@ -22,3 +22,11 @@ func Rotate(base, pos point.Point, angle float64) point.Point {
 		Y: base.Y + int(ry),
 	}
 }
+
+func MountainIndex(i, max int) int {
+	if i >= max/2 {
+		return max - i - 1
+	} else {
+		return i
+	}
+}

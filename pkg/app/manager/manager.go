@@ -38,6 +38,10 @@ func (m *Manager) AddObject(objType int, pm interface{}) string {
 		tmp := &object.CloudOfDarkness{}
 		tmp.Init(m)
 		obj = tmp
+	case models.ObjectTypeWaveGunAttacker:
+		tmp := &object.WaveGunAttacker{}
+		tmp.Init(pm, m)
+		obj = tmp
 	}
 	m.objectMgr.AddObject(obj)
 	return obj.GetParam().ID

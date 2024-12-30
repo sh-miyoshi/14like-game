@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
@@ -28,7 +29,12 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 	e.manager = manager
 	e.currentSkill = nil
 
-	// WIP: TimeLine
+	e.timeline = []struct {
+		triggerTime int
+		info        models.EnemySkill
+	}{
+		{1, &skill.WaveGun{}},
+	}
 }
 
 func (e *CloudOfDarkness) End() {
