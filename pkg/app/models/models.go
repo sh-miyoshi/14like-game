@@ -102,3 +102,44 @@ type PlayerSkill interface {
 	GetParam() PlayerSkillParam
 	GetIcon() int
 }
+
+/*
+===EnemySkill===
+package skill
+
+import "github.com/sh-miyoshi/14like-game/pkg/app/models"
+
+type Attack struct {
+	count   int
+	ownerID string
+	manager models.Manager
+}
+
+func (a *Attack) Init(manager models.Manager, ownerID string) {
+	a.manager = manager
+	a.ownerID = ownerID
+}
+
+func (a *Attack) End() {
+}
+
+func (a *Attack) Draw() {
+}
+
+func (a *Attack) Update() bool {
+	a.count++
+	return false
+}
+
+func (a *Attack) GetCount() int {
+	return a.count
+}
+
+func (a *Attack) GetParam() models.EnemySkillParam {
+	return models.EnemySkillParam{
+		CastTime: 10,
+		Name:     "Attack",
+	}
+}
+===
+*/
