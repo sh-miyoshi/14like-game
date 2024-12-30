@@ -17,6 +17,7 @@ type NonAttackPlayer struct {
 	pos     point.Point
 	buffs   []models.Buff
 	manager models.Manager
+	hits    int
 }
 
 func (p *NonAttackPlayer) Init(manager models.Manager) {
@@ -31,13 +32,15 @@ func (p *NonAttackPlayer) End() {
 }
 
 func (p *NonAttackPlayer) Draw() {
-	dxlib.DrawCircle(p.pos.X, p.pos.Y, config.NonAttackPlayerHitRange, dxlib.GetColor(255, 255, 255), false)
+	dxlib.DrawCircle(p.pos.X, p.pos.Y, config.PlayerHitRange, dxlib.GetColor(255, 255, 255), false)
+
+	dxlib.DrawFormatString(10, 30, 0xFFFFFF, "ダメージを食らった回数: %d", p.hits)
 
 	// バフ・デバフ
 	for i, b := range p.buffs {
 		icon := b.GetIcon()
-		px := p.pos.X + config.NonAttackPlayerHitRange/2 + 20
-		py := p.pos.Y - config.NonAttackPlayerHitRange/2 - 40
+		px := p.pos.X + config.PlayerHitRange/2 + 20
+		py := p.pos.Y - config.PlayerHitRange/2 - 40
 		dxlib.DrawGraph(px, py+i*32, icon, true)
 		c := b.GetCount()/60 + 1
 		dxlib.DrawStringToHandle(px+8, py+i*32+28, 0xffffff, config.SkillNumberFontHandle, fmt.Sprintf("%2d", c))
@@ -61,21 +64,21 @@ func (p *NonAttackPlayer) Update() bool {
 	moveLR := 0
 	moveUD := 0
 	if inputs.CheckKey(inputs.KeyUp) > 0 {
-		if p.pos.Y > config.NonAttackPlayerHitRange {
+		if p.pos.Y > config.PlayerHitRange {
 			moveUD = -spd
 		}
 	} else if inputs.CheckKey(inputs.KeyDown) > 0 {
-		if p.pos.Y < config.ScreenSizeY-config.NonAttackPlayerHitRange {
+		if p.pos.Y < config.ScreenSizeY-config.PlayerHitRange {
 			moveUD = spd
 		}
 	}
 
 	if inputs.CheckKey(inputs.KeyRight) > 0 {
-		if p.pos.X < config.ScreenSizeX-config.NonAttackPlayerHitRange {
+		if p.pos.X < config.ScreenSizeX-config.PlayerHitRange {
 			moveLR = spd
 		}
 	} else if inputs.CheckKey(inputs.KeyLeft) > 0 {
-		if p.pos.X > config.NonAttackPlayerHitRange {
+		if p.pos.X > config.PlayerHitRange {
 			moveLR = -spd
 		}
 	}
@@ -100,4 +103,5 @@ func (p *NonAttackPlayer) GetParam() models.ObjectParam {
 
 func (p *NonAttackPlayer) HandleDamage(dm models.Damage) {
 	logger.Debug("NonAttackPlayer got damage %d", dm.Power)
+	p.hits++
 }

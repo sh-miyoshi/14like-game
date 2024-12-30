@@ -15,7 +15,7 @@ const (
 )
 
 const (
-	waveGunCastTime = 120
+	waveGunCastTime = 90
 )
 
 type WaveGunAttackerParam struct {
@@ -36,7 +36,7 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 	a.ownerID = ownerID
 
 	// WIP: ランダム化
-	const interval = 90
+	const interval = 60
 	startTimes := [10]int{0, 0, 0, 2, 2, 1, 1, 3, 3, 3}
 
 	// 左半分

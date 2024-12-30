@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	waveGunAttackerCastTime = 240
+	waveGunAttackerDamageTime = 300
+	waveGunAttackerEndTime    = waveGunAttackerDamageTime + 50
 )
 
 type WaveGunAttacker struct {
@@ -42,24 +43,41 @@ func (p *WaveGunAttacker) Draw() {
 func (p *WaveGunAttacker) Update() bool {
 	p.count++
 
-	if p.count >= p.startTime+waveGunAttackerCastTime-30 {
+	width := 65 // 50 * sqrt(2)
+	base := p.pos
+	start := point.Point{X: p.pos.X - width/2, Y: p.pos.Y}
+	length := 352 // 250 * sqrt(2)
+	angle := math.Pi * 3 / 4
+	if p.direct == skill.WaveGunAttackRight {
+		angle = -math.Pi * 3 / 4
+	}
+
+	if p.count == p.startTime+waveGunAttackerDamageTime {
+		p.manager.AddDamage(models.Damage{
+			ID:         uuid.New().String(),
+			Power:      1,
+			DamageType: models.DamageTypeAreaRect,
+			RectPos: [2]point.Point{
+				start,
+				{X: start.X + width, Y: start.Y + length},
+			},
+			RotateBase:  base,
+			RotateAngle: angle,
+		})
+	}
+	if p.count >= p.startTime+waveGunAttackerDamageTime {
 		// 範囲
 		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
-		w := 65 // 50 * sqrt(2)
-		b := p.pos
-		s := point.Point{X: p.pos.X - w/2, Y: p.pos.Y}
-		l := 352 // 250 * sqrt(2)
-		angle := math.Pi * 3 / 4
-		if p.direct == skill.WaveGunAttackRight {
-			angle = -math.Pi * 3 / 4
-		}
-
-		p1 := math.Rotate(b, s, angle)
-		p2 := math.Rotate(b, point.Point{X: s.X + w, Y: s.Y}, angle)
-		p3 := math.Rotate(b, point.Point{X: s.X + w, Y: s.Y + l}, angle)
-		p4 := math.Rotate(b, point.Point{X: s.X, Y: s.Y + l}, angle)
+		p1 := math.Rotate(base, start, angle)
+		p2 := math.Rotate(base, point.Point{X: start.X + width, Y: start.Y}, angle)
+		p3 := math.Rotate(base, point.Point{X: start.X + width, Y: start.Y + length}, angle)
+		p4 := math.Rotate(base, point.Point{X: start.X, Y: start.Y + length}, angle)
 		dxlib.DrawQuadrangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, p4.X, p4.Y, dxlib.GetColor(255, 255, 0), true)
 		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
+	}
+
+	if p.count == p.startTime+waveGunAttackerEndTime {
+		return true
 	}
 	return false
 }
