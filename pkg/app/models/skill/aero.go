@@ -30,7 +30,10 @@ func (a *Aero) End() {
 }
 
 func (a *Aero) Draw() {
-	dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, aeroCenterRange, dxlib.GetColor(0, 0, 255), true)
+	dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, 10, dxlib.GetColor(0, 255, 0), true)
+	if a.count > aeroCastTime-40 {
+		dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, aeroCenterRange, dxlib.GetColor(0, 0, 255), true)
+	}
 }
 
 func (a *Aero) Update() bool {
