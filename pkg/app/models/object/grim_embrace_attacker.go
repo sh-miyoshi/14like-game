@@ -11,10 +11,12 @@ import (
 )
 
 type GrimEmbraceAttacker struct {
-	id      string
-	pos     point.Point
-	manager models.Manager
-	direct  float64
+	id        string
+	pos       point.Point
+	manager   models.Manager
+	direct    float64
+	count     int
+	attackPos [4]point.Point
 }
 
 func (p *GrimEmbraceAttacker) Init(pm interface{}, manager models.Manager) {
@@ -34,19 +36,12 @@ func (p *GrimEmbraceAttacker) Init(pm interface{}, manager models.Manager) {
 
 func (p *GrimEmbraceAttacker) Draw() {
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
-	b := p.pos
-	s := b
-	width := 30
-	length := 100
-	p1 := math.Rotate(b, s, p.direct)
-	p2 := math.Rotate(b, point.Point{X: s.X + width, Y: s.Y}, p.direct)
-	p3 := math.Rotate(b, point.Point{X: s.X + width, Y: s.Y + length}, p.direct)
-	p4 := math.Rotate(b, point.Point{X: s.X, Y: s.Y + length}, p.direct)
+
 	dxlib.DrawQuadrangle(
-		p1.X, p1.Y,
-		p2.X, p2.Y,
-		p3.X, p3.Y,
-		p4.X, p4.Y,
+		p.attackPos[0].X, p.attackPos[0].Y,
+		p.attackPos[1].X, p.attackPos[1].Y,
+		p.attackPos[2].X, p.attackPos[2].Y,
+		p.attackPos[3].X, p.attackPos[3].Y,
 		dxlib.GetColor(255, 255, 0),
 		true,
 	)
@@ -54,6 +49,30 @@ func (p *GrimEmbraceAttacker) Draw() {
 }
 
 func (p *GrimEmbraceAttacker) Update() bool {
+	if p.count == 0 {
+		width := 30
+		length := 100
+		b := p.pos
+		s := point.Point{X: b.X - width/2, Y: b.Y}
+		p.attackPos[0] = math.Rotate(b, s, p.direct)
+		p.attackPos[1] = math.Rotate(b, point.Point{X: s.X + width, Y: s.Y}, p.direct)
+		p.attackPos[2] = math.Rotate(b, point.Point{X: s.X + width, Y: s.Y + length}, p.direct)
+		p.attackPos[3] = math.Rotate(b, point.Point{X: s.X, Y: s.Y + length}, p.direct)
+	}
+
+	if p.count > 30 {
+		p.manager.AddDamage(models.Damage{
+			ID:          uuid.New().String(),
+			Power:       1,
+			DamageType:  models.DamageTypeAreaRect,
+			RectPos:     [2]point.Point{p.attackPos[0], p.attackPos[2]},
+			RotateBase:  p.pos,
+			RotateAngle: p.direct,
+		})
+		return true
+	}
+
+	p.count++
 	return false
 }
 
