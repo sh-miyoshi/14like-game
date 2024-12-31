@@ -69,19 +69,20 @@ func (a *BladeOfDarkness) Draw() {
 		)
 	}
 
-	// WIP: タイミング
-	dxlib.SetDrawArea(0, 200, config.ScreenSizeX, config.ScreenSizeY)
-	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
-	switch a.AttackType {
-	case BladeOfDarknessAttackLeft:
-		dxlib.DrawRotaGraph(250, 200, 2, 0, a.image, true)
-	case BladeOfDarknessAttackRight:
-		dxlib.DrawRotaGraph(550, 200, 2, 0, a.image, true)
-	case BladeOfDarknessAttackCenter:
-		dxlib.DrawCircle(config.ScreenSizeX/2, 200, 250, dxlib.GetColor(255, 255, 0), true)
+	if a.count >= bladeOfDarknessCastTime-40 {
+		dxlib.SetDrawArea(0, 200, config.ScreenSizeX, config.ScreenSizeY)
+		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
+		switch a.AttackType {
+		case BladeOfDarknessAttackLeft:
+			dxlib.DrawRotaGraph(250, 200, 2, 0, a.image, true)
+		case BladeOfDarknessAttackRight:
+			dxlib.DrawRotaGraph(550, 200, 2, 0, a.image, true)
+		case BladeOfDarknessAttackCenter:
+			dxlib.DrawCircle(config.ScreenSizeX/2, 200, 250, dxlib.GetColor(255, 255, 0), true)
+		}
+		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
+		dxlib.SetDrawArea(0, 0, config.ScreenSizeX, config.ScreenSizeY)
 	}
-	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
-	dxlib.SetDrawArea(0, 0, config.ScreenSizeX, config.ScreenSizeY)
 }
 
 func (a *BladeOfDarkness) Update() bool {
