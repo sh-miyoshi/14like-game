@@ -12,6 +12,7 @@ const (
 	DamageTypeObject int = iota
 	DamageTypeAreaCircle
 	DamageTypeAreaRect
+	DamageTypeAreaRing
 )
 
 const (
@@ -47,9 +48,10 @@ type Damage struct {
 	// DamageTypeがTypeObjectの時使うパラメータ
 	TargetID string
 
-	// DamageTypeがTypeAreaCircleの時使うパラメータ
-	CenterPos point.Point
-	Range     int
+	// DamageTypeがTypeAreaCircle, DamageTypeAreaRingの時使うパラメータ
+	CenterPos  point.Point
+	Range      int
+	InnerRange int // DamageTypeがTypeAreaRingの時のみ使用
 
 	// DamageTypeがTypeAreaRectの時使うパラメータ
 	RectPos     [2]point.Point

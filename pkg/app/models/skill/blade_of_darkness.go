@@ -1,14 +1,16 @@
 package skill
 
 import (
+	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 const (
-	bladeOfDarknessCastTime = 120
+	bladeOfDarknessCastTime = 180
 )
 
 const (
@@ -84,6 +86,37 @@ func (a *BladeOfDarkness) Draw() {
 
 func (a *BladeOfDarkness) Update() bool {
 	a.count++
+	if a.count == bladeOfDarknessCastTime {
+		switch a.AttackType {
+		case BladeOfDarknessAttackLeft:
+			a.manager.AddDamage(models.Damage{
+				ID:         uuid.New().String(),
+				Power:      1,
+				DamageType: models.DamageTypeAreaRing,
+				CenterPos:  point.Point{X: 250, Y: 200},
+				Range:      500,
+				InnerRange: 90,
+			})
+		case BladeOfDarknessAttackRight:
+			a.manager.AddDamage(models.Damage{
+				ID:         uuid.New().String(),
+				Power:      1,
+				DamageType: models.DamageTypeAreaRing,
+				CenterPos:  point.Point{X: 550, Y: 200},
+				Range:      500,
+				InnerRange: 90,
+			})
+		case BladeOfDarknessAttackCenter:
+			a.manager.AddDamage(models.Damage{
+				ID:         uuid.New().String(),
+				Power:      1,
+				DamageType: models.DamageTypeAreaCircle,
+				CenterPos:  point.Point{X: config.ScreenSizeX / 2, Y: 200},
+				Range:      250,
+			})
+		}
+		return true
+	}
 	return false
 }
 

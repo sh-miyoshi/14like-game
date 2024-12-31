@@ -31,7 +31,7 @@ func (m *DamageManager) Update() {
 			if obj != nil {
 				obj.HandleDamage(m.damages[i])
 			}
-		case models.DamageTypeAreaCircle, models.DamageTypeAreaRect:
+		case models.DamageTypeAreaCircle, models.DamageTypeAreaRect, models.DamageTypeAreaRing:
 			// WIP: 現状は敵の攻撃のみサポート
 			// 範囲内のObjectにダメージを追加
 			objs := m.objManager.GetObjects(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
@@ -44,6 +44,12 @@ func (m *DamageManager) Update() {
 				} else if m.damages[i].DamageType == models.DamageTypeAreaRect {
 					pos := math.Rotate(m.damages[i].RotateBase, obj.GetParam().Pos, -m.damages[i].RotateAngle)
 					if isRectHit(pos, config.PlayerHitRange, m.damages[i].RectPos) {
+						obj.HandleDamage(m.damages[i])
+					}
+				} else if m.damages[i].DamageType == models.DamageTypeAreaRing {
+					hitRange := config.PlayerHitRange + m.damages[i].Range
+					innerRange := m.damages[i].InnerRange
+					if isCircleHit(obj.GetParam().Pos, m.damages[i].CenterPos, hitRange) && !isCircleHit(obj.GetParam().Pos, m.damages[i].CenterPos, innerRange) {
 						obj.HandleDamage(m.damages[i])
 					}
 				}
