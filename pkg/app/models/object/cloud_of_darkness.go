@@ -16,10 +16,10 @@ type CloudOfDarkness struct {
 	pos      point.Point
 	timeline []struct {
 		triggerTime int
-		info        models.EnemySkill
+		info        models.Skill
 	}
 	count        int
-	currentSkill models.EnemySkill
+	currentSkill models.Skill
 	manager      models.Manager
 	image        int
 }
@@ -37,7 +37,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 
 	e.timeline = []struct {
 		triggerTime int
-		info        models.EnemySkill
+		info        models.Skill
 	}{
 		// {1, &skill.WaveGun{}},
 		{1, &skill.GrimEmbrace{}},

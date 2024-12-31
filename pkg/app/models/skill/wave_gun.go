@@ -44,7 +44,7 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 		pos := point.Point{X: i * 65, Y: 0}
 		pos = math.Rotate(point.Point{X: 65 * 5, Y: 0}, pos, math.Pi/4)
 
-		id := a.manager.AddObject(models.ObjectTypeWaveGunAttacker, &WaveGunAttackerParam{
+		id := a.manager.AddObject(models.ObjectInstWaveGunAttacker, &WaveGunAttackerParam{
 			Pos: point.Point{
 				X: pos.X + 60,
 				Y: pos.Y + config.ScreenSizeY - 15,
@@ -59,7 +59,7 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 		pos := point.Point{X: i * 65, Y: 0}
 		pos = math.Rotate(point.Point{X: 0, Y: 0}, pos, -math.Pi/4)
 
-		id := a.manager.AddObject(models.ObjectTypeWaveGunAttacker, &WaveGunAttackerParam{
+		id := a.manager.AddObject(models.ObjectInstWaveGunAttacker, &WaveGunAttackerParam{
 			Pos: point.Point{
 				X: pos.X + 50 + config.ScreenSizeX/2,
 				Y: pos.Y + config.ScreenSizeY - 50 - 15,
@@ -86,8 +86,8 @@ func (a *WaveGun) GetCount() int {
 	return a.count
 }
 
-func (a *WaveGun) GetParam() models.EnemySkillParam {
-	return models.EnemySkillParam{
+func (a *WaveGun) GetParam() models.SkillParam {
+	return models.SkillParam{
 		CastTime: waveGunCastTime,
 		Name:     "斉射式波動砲",
 	}

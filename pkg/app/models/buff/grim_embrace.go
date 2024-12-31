@@ -39,7 +39,7 @@ func (p *GrimEmbrace) Update() bool {
 	if p.Count == 0 {
 		logger.Debug("add GrimEmbrace action")
 		p.manager.AddObject(
-			models.ObjectTypeGrimEmbraceAttacker,
+			models.ObjectInstGrimEmbraceAttacker,
 			&GrimEmbraceAttackerParam{
 				TargetID: p.ownerID,
 				IsFront:  p.IsFront,

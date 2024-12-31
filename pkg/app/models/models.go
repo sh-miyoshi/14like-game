@@ -15,10 +15,10 @@ const (
 )
 
 const (
-	ObjectTypeNonAttackPlayer int = iota
-	ObjectTypeCloudOfDarkness
-	ObjectTypeWaveGunAttacker
-	ObjectTypeGrimEmbraceAttacker
+	ObjectInstPlayer int = iota
+	ObjectInstCloudOfDarkness
+	ObjectInstWaveGunAttacker
+	ObjectInstGrimEmbraceAttacker
 )
 
 type ObjectFilter struct {
@@ -26,7 +26,7 @@ type ObjectFilter struct {
 	Type int
 }
 
-type EnemySkillParam struct {
+type SkillParam struct {
 	CastTime int
 	Name     string
 }
@@ -80,13 +80,13 @@ type Object interface {
 	GetParam() ObjectParam
 }
 
-type EnemySkill interface {
+type Skill interface {
 	Init(manager Manager, ownerID string)
 	End()
 	Draw()
 	Update() bool
 	GetCount() int
-	GetParam() EnemySkillParam
+	GetParam() SkillParam
 }
 
 /*
@@ -128,7 +128,7 @@ func (p *Object) GetParam() models.ObjectParam {
 	}
 }
 
-===EnemySkill===
+===Skill===
 package skill
 
 import "github.com/sh-miyoshi/14like-game/pkg/app/models"
@@ -159,8 +159,8 @@ func (a *Attack) GetCount() int {
 	return a.count
 }
 
-func (a *Attack) GetParam() models.EnemySkillParam {
-	return models.EnemySkillParam{
+func (a *Attack) GetParam() models.SkillParam {
+	return models.SkillParam{
 		CastTime: 10,
 		Name:     "Attack",
 	}

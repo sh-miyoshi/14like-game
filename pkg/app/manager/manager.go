@@ -21,19 +21,19 @@ func (m *Manager) Init() {
 func (m *Manager) AddObject(objType int, pm interface{}) string {
 	var obj models.Object
 	switch objType {
-	case models.ObjectTypeNonAttackPlayer:
-		tmp := &object.NonAttackPlayer{}
+	case models.ObjectInstPlayer:
+		tmp := &object.Player{}
 		tmp.Init(m)
 		obj = tmp
-	case models.ObjectTypeCloudOfDarkness:
+	case models.ObjectInstCloudOfDarkness:
 		tmp := &object.CloudOfDarkness{}
 		tmp.Init(m)
 		obj = tmp
-	case models.ObjectTypeWaveGunAttacker:
+	case models.ObjectInstWaveGunAttacker:
 		tmp := &object.WaveGunAttacker{}
 		tmp.Init(pm, m)
 		obj = tmp
-	case models.ObjectTypeGrimEmbraceAttacker:
+	case models.ObjectInstGrimEmbraceAttacker:
 		tmp := &object.GrimEmbraceAttacker{}
 		tmp.Init(pm, m)
 		obj = tmp

@@ -40,8 +40,8 @@ func main() {
 	// WIP: 別の場所で管理
 	mgr := manager.Manager{}
 	mgr.Init()
-	mgr.AddObject(models.ObjectTypeNonAttackPlayer, nil)
-	mgr.AddObject(models.ObjectTypeCloudOfDarkness, nil)
+	mgr.AddObject(models.ObjectInstPlayer, nil)
+	mgr.AddObject(models.ObjectInstCloudOfDarkness, nil)
 
 	bg := background.BackGround{}
 MAIN:

@@ -13,7 +13,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
-type NonAttackPlayer struct {
+type Player struct {
 	id      string
 	pos     point.Point
 	buffs   []models.Buff
@@ -22,7 +22,7 @@ type NonAttackPlayer struct {
 	direct  float64
 }
 
-func (p *NonAttackPlayer) Init(manager models.Manager) {
+func (p *Player) Init(manager models.Manager) {
 	p.id = uuid.New().String()
 	p.manager = manager
 	p.pos.X = config.ScreenSizeX / 2
@@ -31,10 +31,10 @@ func (p *NonAttackPlayer) Init(manager models.Manager) {
 	p.direct = math.Pi
 }
 
-func (p *NonAttackPlayer) End() {
+func (p *Player) End() {
 }
 
-func (p *NonAttackPlayer) Draw() {
+func (p *Player) Draw() {
 	dxlib.DrawCircle(p.pos.X, p.pos.Y, config.PlayerHitRange, dxlib.GetColor(255, 255, 255), false)
 
 	dxlib.DrawFormatString(10, 30, 0xFFFFFF, "ダメージを食らった回数: %d", p.hits)
@@ -58,7 +58,7 @@ func (p *NonAttackPlayer) Draw() {
 	dxlib.DrawTriangle(p1.X, p1.Y, p2.X, p2.Y, p3.X, p3.Y, dxlib.GetColor(255, 255, 255), true)
 }
 
-func (p *NonAttackPlayer) Update() bool {
+func (p *Player) Update() bool {
 	for i := 0; i < len(p.buffs); i++ {
 		if p.buffs[i].Update() {
 			p.buffs[i].End()
@@ -103,7 +103,7 @@ func (p *NonAttackPlayer) Update() bool {
 	return false
 }
 
-func (p *NonAttackPlayer) GetParam() models.ObjectParam {
+func (p *Player) GetParam() models.ObjectParam {
 	return models.ObjectParam{
 		ID:       p.id,
 		Pos:      p.pos,
@@ -112,7 +112,7 @@ func (p *NonAttackPlayer) GetParam() models.ObjectParam {
 	}
 }
 
-func (p *NonAttackPlayer) HandleDamage(dm models.Damage) {
+func (p *Player) HandleDamage(dm models.Damage) {
 	logger.Debug("NonAttackPlayer got damage %+v", dm)
 	if dm.Power > 0 {
 		p.hits++
@@ -123,7 +123,7 @@ func (p *NonAttackPlayer) HandleDamage(dm models.Damage) {
 	}
 }
 
-func (p *NonAttackPlayer) setDirect(moveLR, moveUD int) {
+func (p *Player) setDirect(moveLR, moveUD int) {
 	if moveLR == 0 && moveUD == 0 {
 		return
 	}

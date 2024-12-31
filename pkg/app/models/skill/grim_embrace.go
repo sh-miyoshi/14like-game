@@ -104,8 +104,8 @@ func (a *GrimEmbrace) GetCount() int {
 	return a.count
 }
 
-func (a *GrimEmbrace) GetParam() models.EnemySkillParam {
-	return models.EnemySkillParam{
+func (a *GrimEmbrace) GetParam() models.SkillParam {
+	return models.SkillParam{
 		CastTime: grimEmbraceCastTime,
 		Name:     "グリムエンブレイス",
 	}
