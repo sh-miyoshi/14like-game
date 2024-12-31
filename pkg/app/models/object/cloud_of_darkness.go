@@ -5,6 +5,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
+	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
@@ -20,6 +21,7 @@ type CloudOfDarkness struct {
 	count        int
 	currentSkill models.EnemySkill
 	manager      models.Manager
+	image        int
 }
 
 func (e *CloudOfDarkness) Init(manager models.Manager) {
@@ -28,6 +30,10 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 	e.pos.Y = 50
 	e.manager = manager
 	e.currentSkill = nil
+	e.image = dxlib.LoadGraph("data/images/objects/cloud_of_darkness.png")
+	if e.image == -1 {
+		system.FailWithError("Failed to load cloud_of_darkness image")
+	}
 
 	e.timeline = []struct {
 		triggerTime int
@@ -42,6 +48,7 @@ func (e *CloudOfDarkness) End() {
 }
 
 func (e *CloudOfDarkness) Draw() {
+	dxlib.DrawRotaGraph(e.pos.X, e.pos.Y, 0.5, 0.0, e.image, true)
 	if e.currentSkill != nil {
 		e.currentSkill.Draw()
 	}

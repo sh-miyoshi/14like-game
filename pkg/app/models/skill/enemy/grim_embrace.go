@@ -5,6 +5,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models/buff"
+	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
@@ -19,15 +20,28 @@ type GrimEmbrace struct {
 	manager        models.Manager
 	pos            point.Point
 	targetObjParam models.ObjectParam
+	imgFront       int
+	imgBack        int
+	isFront        bool
 }
 
 func (a *GrimEmbrace) Init(manager models.Manager, ownerID string) {
 	a.manager = manager
 	a.ownerID = ownerID
-	a.pos = point.Point{X: config.ScreenSizeX / 2, Y: 50}
+	a.pos = point.Point{X: config.ScreenSizeX / 2, Y: 90}
+	a.imgFront = dxlib.LoadGraph("data/images/grim_embrace_front.png")
+	if a.imgFront == -1 {
+		system.FailWithError("Failed to load grim_embrace_front image")
+	}
+	a.imgBack = dxlib.LoadGraph("data/images/grim_embrace_back.png")
+	if a.imgBack == -1 {
+		system.FailWithError("Failed to load grim_embrace_back image")
+	}
 }
 
 func (a *GrimEmbrace) End() {
+	dxlib.DeleteGraph(a.imgFront)
+	dxlib.DeleteGraph(a.imgBack)
 }
 
 func (a *GrimEmbrace) Draw() {
@@ -44,6 +58,12 @@ func (a *GrimEmbrace) Draw() {
 			Thickness: &t,
 		},
 	)
+
+	if a.isFront {
+		dxlib.DrawRotaGraph(a.pos.X, a.pos.Y, 1.0, 0.0, a.imgFront, true)
+	} else {
+		dxlib.DrawRotaGraph(a.pos.X, a.pos.Y, 1.0, 0.0, a.imgBack, true)
+	}
 }
 
 func (a *GrimEmbrace) Update() bool {
@@ -53,14 +73,27 @@ func (a *GrimEmbrace) Update() bool {
 	}
 	a.targetObjParam = objs[0]
 
+	if a.count == 0 {
+		// WIP: random
+		a.isFront = false
+	}
+
 	a.count++
+	if a.count >= grimEmbraceCastTime-20 {
+		if a.isFront {
+			a.pos.Y -= 4
+		} else {
+			a.pos.Y += 4
+		}
+	}
+
 	if a.count == grimEmbraceCastTime {
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      0,
 			DamageType: models.DamageTypeObject,
 			TargetID:   a.targetObjParam.ID,
-			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: 3 * 60, IsFront: false}},
+			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: 3 * 60, IsFront: a.isFront}},
 		})
 		return true
 	}
