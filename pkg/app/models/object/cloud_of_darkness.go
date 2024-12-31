@@ -40,7 +40,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		info        models.Skill
 	}{
 		// {1, &skill.WaveGun{}},
-		{1, &skill.GrimEmbrace{}},
+		{1, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackRight}},
 	}
 }
 

@@ -133,6 +133,10 @@ package skill
 
 import "github.com/sh-miyoshi/14like-game/pkg/app/models"
 
+const (
+	attackCastTime = 120
+)
+
 type Attack struct {
 	count   int
 	ownerID string
@@ -161,7 +165,7 @@ func (a *Attack) GetCount() int {
 
 func (a *Attack) GetParam() models.SkillParam {
 	return models.SkillParam{
-		CastTime: 10,
+		CastTime: attackCastTime,
 		Name:     "Attack",
 	}
 }

@@ -429,3 +429,7 @@ func DrawCircleGauge(centerX int, centerY int, percent float64, grHandle int, op
 func DrawQuadrangle(x1, y1, x2, y2, x3, y3, x4, y4 int, color uint, fillFlag bool) {
 	dxlib.DrawQuadrangle(int32(x1), int32(y1), int32(x2), int32(y2), int32(x3), int32(y3), int32(x4), int32(y4), uint32(color), makeFlag(fillFlag))
 }
+
+func SetDrawArea(x1, y1, x2, y2 int) {
+	dxlib.SetDrawArea(int32(x1), int32(y1), int32(x2), int32(y2))
+}

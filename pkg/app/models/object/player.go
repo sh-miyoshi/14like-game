@@ -68,7 +68,7 @@ func (p *Player) Update() bool {
 	}
 
 	// Move
-	spd := 2
+	spd := 3
 
 	moveLR := 0
 	moveUD := 0
