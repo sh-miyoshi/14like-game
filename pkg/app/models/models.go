@@ -15,10 +15,7 @@ const (
 )
 
 const (
-	ObjectTypePlayer int = iota
-	ObjectTypeEnemy
-	ObjectTypeBombBoulder
-	ObjectTypeNonAttackPlayer
+	ObjectTypeNonAttackPlayer int = iota
 	ObjectTypeCloudOfDarkness
 	ObjectTypeWaveGunAttacker
 	ObjectTypeGrimEmbraceAttacker
@@ -32,13 +29,6 @@ type ObjectFilter struct {
 type EnemySkillParam struct {
 	CastTime int
 	Name     string
-}
-
-type PlayerSkillParam struct {
-	CastTime   int
-	RecastTime int
-	Power      int
-	Range      int
 }
 
 type ObjectParam struct {
@@ -97,15 +87,6 @@ type EnemySkill interface {
 	Update() bool
 	GetCount() int
 	GetParam() EnemySkillParam
-}
-
-type PlayerSkill interface {
-	Init()
-	End()
-	Exec(manager Manager)
-
-	GetParam() PlayerSkillParam
-	GetIcon() int
 }
 
 /*

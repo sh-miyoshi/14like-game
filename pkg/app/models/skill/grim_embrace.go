@@ -67,7 +67,7 @@ func (a *GrimEmbrace) Draw() {
 }
 
 func (a *GrimEmbrace) Update() bool {
-	objs := a.manager.GetObjectParams(&models.ObjectFilter{Type: models.ObjectTypePlayer})
+	objs := a.manager.GetObjectParams(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
 	if len(objs) == 0 {
 		return true
 	}
@@ -93,7 +93,7 @@ func (a *GrimEmbrace) Update() bool {
 			Power:      0,
 			DamageType: models.DamageTypeObject,
 			TargetID:   a.targetObjParam.ID,
-			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: 3 * 60, IsFront: a.isFront}},
+			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: 54 * 60, IsFront: a.isFront}},
 		})
 		return true
 	}

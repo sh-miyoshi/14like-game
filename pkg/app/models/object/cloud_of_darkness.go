@@ -4,7 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"

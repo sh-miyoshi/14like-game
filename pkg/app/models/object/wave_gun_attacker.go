@@ -3,7 +3,7 @@ package object
 import (
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
-	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill/enemy"
+	skill "github.com/sh-miyoshi/14like-game/pkg/app/models/skill"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
