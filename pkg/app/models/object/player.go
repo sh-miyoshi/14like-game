@@ -2,6 +2,7 @@ package object
 
 import (
 	"fmt"
+	orgmath "math"
 
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
@@ -120,6 +121,11 @@ func (p *Player) HandleDamage(dm models.Damage) {
 	for _, b := range dm.Buffs {
 		b.Init(p.manager, p.id)
 		p.buffs = append(p.buffs, b)
+	}
+	if dm.Push != nil {
+		rad := orgmath.Atan2(float64(p.pos.Y-dm.Push.At.Y), float64(p.pos.X-dm.Push.At.X))
+		p.pos.X += int(dm.Push.Length * orgmath.Cos(rad))
+		p.pos.Y += int(dm.Push.Length * orgmath.Sin(rad))
 	}
 }
 

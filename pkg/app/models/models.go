@@ -39,11 +39,18 @@ type ObjectParam struct {
 	Direct   float64
 }
 
+type DamagePush struct {
+	At     point.Point
+	Length float64
+	IsBack bool
+}
+
 type Damage struct {
 	ID         string
 	Power      int
 	DamageType int
 	Buffs      []Buff
+	Push       *DamagePush
 
 	// DamageTypeがTypeObjectの時使うパラメータ
 	TargetID string
