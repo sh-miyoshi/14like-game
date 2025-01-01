@@ -9,7 +9,10 @@ import (
 )
 
 const (
-	deathCastTime = 120
+	deathCastTime  = 120
+	deathCastTime2 = deathCastTime + 30
+	deathCastTime3 = deathCastTime2 + 30
+	deathHitRange  = 50
 )
 
 type Death struct {
@@ -30,6 +33,16 @@ func (a *Death) End() {
 
 func (a *Death) Draw() {
 	dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, 10, dxlib.GetColor(185, 122, 87), true)
+	if a.count >= deathCastTime && a.count < deathCastTime2 {
+		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
+		dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, deathHitRange, dxlib.GetColor(255, 255, 0), true)
+		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
+	} else if a.count >= deathCastTime2 {
+		// WIP
+		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
+		dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, deathHitRange, dxlib.GetColor(255, 0, 0), true)
+		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
+	}
 }
 
 func (a *Death) Update() bool {
@@ -50,6 +63,16 @@ func (a *Death) Update() bool {
 			})
 		}
 	}
+	if a.count == deathCastTime2 {
+		a.manager.AddDamage(models.Damage{
+			ID:         uuid.New().String(),
+			Power:      1,
+			DamageType: models.DamageTypeAreaCircle,
+			CenterPos:  a.centerPos,
+			Range:      deathHitRange,
+		})
+	}
+
 	return false
 }
 
