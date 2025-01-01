@@ -123,9 +123,18 @@ func (p *Player) HandleDamage(dm models.Damage) {
 		p.buffs = append(p.buffs, b)
 	}
 	if dm.Push != nil {
-		rad := orgmath.Atan2(float64(p.pos.Y-dm.Push.At.Y), float64(p.pos.X-dm.Push.At.X))
-		p.pos.X += int(dm.Push.Length * orgmath.Cos(rad))
-		p.pos.Y += int(dm.Push.Length * orgmath.Sin(rad))
+		if !dm.Push.IsBack && point.Distance2(p.pos, dm.Push.At) < int(dm.Push.Length*dm.Push.Length) {
+			p.pos = dm.Push.At
+		} else {
+			rad := orgmath.Atan2(float64(p.pos.Y-dm.Push.At.Y), float64(p.pos.X-dm.Push.At.X))
+			if dm.Push.IsBack {
+				p.pos.X += int(dm.Push.Length * orgmath.Cos(rad))
+				p.pos.Y += int(dm.Push.Length * orgmath.Sin(rad))
+			} else {
+				p.pos.X -= int(dm.Push.Length * orgmath.Cos(rad))
+				p.pos.Y -= int(dm.Push.Length * orgmath.Sin(rad))
+			}
+		}
 	}
 }
 
