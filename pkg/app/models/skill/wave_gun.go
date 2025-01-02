@@ -2,6 +2,7 @@ package skill
 
 import (
 	"fmt"
+	"math/rand"
 
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
@@ -38,6 +39,20 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 	// WIP: ランダム化
 	const interval = 60
 	startTimes := [10]int{0, 0, 0, 2, 2, 1, 1, 3, 3, 3}
+	isLeftFirst := rand.Intn(2) == 0
+	if isLeftFirst {
+		tmp := startTimes[0:5]
+		math.Shuffle(tmp)
+		for i := 0; i < 5; i++ {
+			startTimes[i] = tmp[i]
+		}
+	} else {
+		tmp := startTimes[5:10]
+		math.Shuffle(tmp)
+		for i := 0; i < 5; i++ {
+			startTimes[i+5] = tmp[i]
+		}
+	}
 
 	// 左半分
 	for i := 0; i < 5; i++ {

@@ -2,6 +2,7 @@ package math
 
 import (
 	"math"
+	"math/rand"
 
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
@@ -29,4 +30,10 @@ func MountainIndex(i, max int) int {
 	} else {
 		return i
 	}
+}
+
+func Shuffle(ary []int) {
+	rand.Shuffle(len(ary), func(i, j int) {
+		ary[i], ary[j] = ary[j], ary[i]
+	})
 }
