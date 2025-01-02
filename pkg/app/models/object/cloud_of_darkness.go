@@ -47,7 +47,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		// グリムエンブレス1回目
 		// {x + 6, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
 		{60, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
-		{90, &skill.Aero{CastTime: 60}},
+		{60 + 30, &skill.Aero{CastTime: 60}},
 	}
 }
 

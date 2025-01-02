@@ -1,6 +1,8 @@
 package skill
 
 import (
+	"math/rand"
+
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
@@ -74,8 +76,7 @@ func (a *GrimEmbrace) Update() bool {
 	a.targetObjParam = objs[0]
 
 	if a.count == 0 {
-		// WIP: random
-		a.isFront = false
+		a.isFront = rand.Intn(2) == 0
 	}
 
 	a.count++
