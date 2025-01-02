@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	grimEmbraceCastTime = 120
+	grimEmbraceCastTime = 300
 )
 
 type GrimEmbrace struct {

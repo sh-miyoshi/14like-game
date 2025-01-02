@@ -39,8 +39,11 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		triggerTime int
 		info        models.Skill
 	}{
-		// {1, &skill.WaveGun{}},
-		{1, &skill.Break{}},
+		// {1, &skill.GrimEmbrace{}},
+		// {1 + 2, &skill.WaveGun{}},
+		// {1+2+6, &skill.Aero{}},
+		{1, &skill.Aero{}},
+		// {1 + 2 + 6 + 2, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}},
 	}
 }
 

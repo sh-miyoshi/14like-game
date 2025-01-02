@@ -15,7 +15,7 @@ const (
 )
 
 const (
-	waveGunCastTime = 90
+	waveGunCastTime = 180
 )
 
 type WaveGunAttackerParam struct {
@@ -79,7 +79,7 @@ func (a *WaveGun) Draw() {
 
 func (a *WaveGun) Update() bool {
 	a.count++
-	return false
+	return a.count >= waveGunCastTime
 }
 
 func (a *WaveGun) GetCount() int {
