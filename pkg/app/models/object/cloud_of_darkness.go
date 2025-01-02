@@ -42,8 +42,12 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		// {1, &skill.GrimEmbrace{}},
 		// {1 + 2, &skill.WaveGun{}},
 		// {1+2+6, &skill.Aero{}},
-		{1, &skill.Aero{}},
 		// {1 + 2 + 6 + 2, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}},
+		// WIP: 連射式波動砲
+		// グリムエンブレス1回目
+		// {x + 6, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
+		{60, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
+		{90, &skill.Aero{CastTime: 60}},
 	}
 }
 
@@ -71,7 +75,7 @@ func (e *CloudOfDarkness) Update() bool {
 
 	e.count++
 	for i, s := range e.timeline {
-		if s.triggerTime*60 == e.count {
+		if s.triggerTime == e.count {
 			logger.Debug("CloudOfDarkness trigger skill %d", i)
 			e.currentSkill = s.info
 			e.currentSkill.Init(e.manager, e.id)

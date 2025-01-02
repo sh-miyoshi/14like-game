@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	bladeOfDarknessCastTime = 180
+	bladeOfDarknessCastTime = 300
 )
 
 const (

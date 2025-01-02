@@ -14,6 +14,8 @@ const (
 )
 
 type Aero struct {
+	CastTime int
+
 	count     int
 	ownerID   string
 	manager   models.Manager
@@ -24,16 +26,19 @@ func (a *Aero) Init(manager models.Manager, ownerID string) {
 	a.manager = manager
 	a.ownerID = ownerID
 	a.centerPos = point.Point{X: config.ScreenSizeX / 2, Y: config.ScreenSizeY / 2}
+	if a.CastTime == 0 {
+		a.CastTime = aeroCastTime
+	}
 }
 
 func (a *Aero) End() {
 }
 
 func (a *Aero) Draw() {
-	if a.count > aeroCastTime-120 {
+	if a.count > a.CastTime-120 {
 		dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, 10, dxlib.GetColor(0, 255, 0), true)
 	}
-	if a.count > aeroCastTime-40 {
+	if a.count > a.CastTime-40 {
 		dxlib.DrawCircle(a.centerPos.X, a.centerPos.Y, aeroCenterRange, dxlib.GetColor(0, 0, 255), true)
 	}
 }
@@ -41,7 +46,7 @@ func (a *Aero) Draw() {
 func (a *Aero) Update() bool {
 	a.count++
 
-	if a.count == aeroCastTime {
+	if a.count == a.CastTime {
 		objs := a.manager.GetObjectParams(&models.ObjectFilter{Type: models.FilterObjectTypePlayer})
 		for _, obj := range objs {
 			d2 := point.Distance2(a.centerPos, obj.Pos)
@@ -80,7 +85,7 @@ func (a *Aero) GetCount() int {
 
 func (a *Aero) GetParam() models.SkillParam {
 	return models.SkillParam{
-		CastTime: aeroCastTime,
+		CastTime: a.CastTime,
 		Name:     "エアロジャ",
 	}
 }
