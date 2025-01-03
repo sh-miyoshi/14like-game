@@ -1,6 +1,8 @@
 package object
 
 import (
+	"math/rand"
+
 	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
@@ -12,12 +14,9 @@ import (
 )
 
 type CloudOfDarkness struct {
-	id       string
-	pos      point.Point
-	timeline []struct {
-		triggerTime int
-		info        models.Skill
-	}
+	id           string
+	pos          point.Point
+	timeline     []SkillTimeline
 	count        int
 	currentSkill models.Skill
 	manager      models.Manager
@@ -35,20 +34,40 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		system.FailWithError("Failed to load cloud_of_darkness image")
 	}
 
-	e.timeline = []struct {
-		triggerTime int
-		info        models.Skill
-	}{
-		// {1, &skill.GrimEmbrace{}},
-		// {1 + 2, &skill.WaveGun{}},
-		// {1+2+6, &skill.Aero{}},
-		// {1 + 2 + 6 + 2, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}},
-		// WIP: 連射式波動砲
-		// グリムエンブレス1回目
-		// {x + 6, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
-		{60, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
-		{60 + 30, &skill.Aero{CastTime: 60}},
+	// パターン1
+	e.timeline = []SkillTimeline{
+		{60, &skill.GrimEmbrace{}},
+		{180, &skill.WaveGun{}},
 	}
+	n := rand.Intn(4)
+	if n%2 == 0 {
+		e.timeline = append(e.timeline, SkillTimeline{540, &skill.Aero{}})
+	} else {
+		e.timeline = append(e.timeline, SkillTimeline{540, &skill.Death{}})
+	}
+	if n/2 == 0 {
+		e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}})
+	} else {
+		e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンデスジャ"}})
+	}
+	e.timeline = append(e.timeline, []SkillTimeline{
+		// {780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
+		{720, &skill.OnlyCast{CastTime: 240, Name: "連射式波動砲"}},
+		{780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
+		{960, &skill.WaveGun{}},
+		{1320, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
+	}...)
+	if n/2 == 0 {
+		e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Aero{CastTime: 60}})
+	} else {
+		e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Death{CastTime: 60}})
+	}
+	e.timeline = append(e.timeline, []SkillTimeline{
+		{1530, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス2回目"}},
+		{1710, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
+	}...)
+
+	// WIP: パターン2
 }
 
 func (e *CloudOfDarkness) End() {
@@ -75,9 +94,9 @@ func (e *CloudOfDarkness) Update() bool {
 
 	e.count++
 	for i, s := range e.timeline {
-		if s.triggerTime == e.count {
+		if s.TriggerTime == e.count {
 			logger.Debug("CloudOfDarkness trigger skill %d", i)
-			e.currentSkill = s.info
+			e.currentSkill = s.Info
 			e.currentSkill.Init(e.manager, e.id)
 			break
 		}
