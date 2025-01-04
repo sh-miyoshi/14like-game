@@ -1,14 +1,17 @@
 package skill
 
 import (
+	"github.com/google/uuid"
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
 const (
 	rapidWaveGunCastTime = 180
+	rapidWaveGunEndTime  = 240
 )
 
 type RapidWaveGun struct {
@@ -40,15 +43,45 @@ func (a *RapidWaveGun) Draw() {
 
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
 	w := 100
-	h := 200
-	dxlib.DrawBox(x-w/2, y, x+w/2, y+h, dxlib.GetColor(0, 0, 255), true) // WIP color
+	h := 230
+	dxlib.DrawBox(x-w/2, y, x+w/2, y+h, dxlib.GetColor(126, 132, 247), true)
+	// Hit Area
+	if a.count >= rapidWaveGunCastTime {
+		w2 := 200
+		dxlib.DrawBox(x-w/2, 200, x+w/2, y, dxlib.GetColor(255, 255, 0), true)
+		dxlib.DrawBox(x-w/2-w2, 200, x-w/2, y+h, dxlib.GetColor(255, 255, 0), true)
+		dxlib.DrawBox(x+w/2, 200, x+w/2+w2, y+h, dxlib.GetColor(255, 255, 0), true)
+	}
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 }
 
 func (a *RapidWaveGun) Update() bool {
 	a.count++
-	// WIP: damage, end
-	return false
+	if a.count == rapidWaveGunCastTime {
+		dm := models.Damage{
+			ID:         uuid.New().String(),
+			Power:      1,
+			DamageType: models.DamageTypeAreaRect,
+			RectPos: [2]point.Point{
+				{X: 0, Y: 0},
+				{X: config.ScreenSizeX/2 - 50, Y: config.ScreenSizeY},
+			},
+		}
+
+		a.manager.AddDamage(dm)
+		dm.RectPos = [2]point.Point{
+			{X: config.ScreenSizeX/2 + 50, Y: 0},
+			{X: config.ScreenSizeX, Y: config.ScreenSizeY},
+		}
+		a.manager.AddDamage(dm)
+		dm.RectPos = [2]point.Point{
+			{X: 0, Y: 0},
+			{X: config.ScreenSizeX, Y: 300},
+		}
+		a.manager.AddDamage(dm)
+	}
+
+	return a.count >= rapidWaveGunEndTime
 }
 
 func (a *RapidWaveGun) GetCount() int {
