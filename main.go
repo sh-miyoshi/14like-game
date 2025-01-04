@@ -7,6 +7,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/manager"
 	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/app/result"
 	"github.com/sh-miyoshi/14like-game/pkg/app/title"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/fps"
@@ -52,6 +53,7 @@ func main() {
 	bg := background.BackGround{}
 
 	titleInst := title.NewTitle()
+	resultInst := result.NewResult()
 
 MAIN:
 	for dxlib.ScreenFlip() == 0 && dxlib.ProcessMessage() == 0 && dxlib.ClearDrawScreen() == 0 {
@@ -78,7 +80,8 @@ MAIN:
 			bg.Draw()
 			mgr.Draw()
 		case 2:
-			// WIP
+			resultInst.Update()
+			resultInst.Draw()
 		}
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
