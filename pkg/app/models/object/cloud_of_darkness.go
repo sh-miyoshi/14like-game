@@ -41,7 +41,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 	if debug {
 		// デバッグ
 		e.timeline = []SkillTimeline{
-			{60, &skill.RapidWaveGun{}},
+			{60, &skill.OnlyCast{CastTime: 120, Name: "フレア", Text: "散会～"}},
 		}
 	} else {
 		// パターン1
@@ -71,8 +71,8 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 			e.timeline = append(e.timeline, SkillTimeline{1470, &skill.Death{CastTime: 60}})
 		}
 		e.timeline = append(e.timeline, []SkillTimeline{
-			{1830, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
-			{1890, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫"}},
+			{1830, &skill.OnlyCast{CastTime: 240, Name: "フレア", Text: "本番は散会～"}},
+			{1890, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫", Text: "おわり～"}},
 		}...)
 
 		// WIP: パターン2

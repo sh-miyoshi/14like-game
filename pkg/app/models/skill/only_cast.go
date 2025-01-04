@@ -1,10 +1,15 @@
 package skill
 
-import "github.com/sh-miyoshi/14like-game/pkg/app/models"
+import (
+	"github.com/sh-miyoshi/14like-game/pkg/app/config"
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+)
 
 type OnlyCast struct {
 	CastTime int
 	Name     string
+	Text     string
 
 	count   int
 	ownerID string
@@ -20,6 +25,10 @@ func (a *OnlyCast) End() {
 }
 
 func (a *OnlyCast) Draw() {
+	if a.Text != "" {
+		ofs := dxlib.GetDrawStringWidth(a.Text, len(a.Text))
+		dxlib.DrawFormatString(config.ScreenSizeX/2-ofs/2, config.ScreenSizeY/2-20, dxlib.GetColor(255, 255, 255), a.Text)
+	}
 }
 
 func (a *OnlyCast) Update() bool {
