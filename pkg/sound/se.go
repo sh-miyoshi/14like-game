@@ -7,6 +7,7 @@ import (
 
 const (
 	SEFailed int = iota
+	SEEnter
 
 	SEMax
 )
@@ -17,6 +18,7 @@ var (
 
 func Init() {
 	soundEffects[SEFailed] = dxlib.LoadSoundMem("data/sounds/failed.mp3")
+	soundEffects[SEEnter] = dxlib.LoadSoundMem("data/sounds/enter.mp3")
 
 	for _, se := range soundEffects {
 		if se == -1 {
@@ -31,7 +33,7 @@ func On(typ int) {
 	}
 
 	if dxlib.CheckSoundMem(soundEffects[typ]) == 1 {
-		return
+		dxlib.StopSoundMem(soundEffects[typ])
 	}
 	dxlib.PlaySoundMem(soundEffects[typ], dxlib.DX_PLAYTYPE_BACK, true)
 }

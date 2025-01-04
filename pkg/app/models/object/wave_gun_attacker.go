@@ -65,6 +65,8 @@ func (p *WaveGunAttacker) Update() bool {
 			RotateAngle: angle,
 		})
 	}
+
+	// WIP: リファクタリング
 	if p.count >= p.startTime+waveGunAttackerDamageTime {
 		// 範囲
 		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)

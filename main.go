@@ -41,7 +41,7 @@ func main() {
 
 	sound.Init()
 
-	state := 1
+	state := 0
 
 	mgr := manager.Manager{}
 	mgr.Init()
