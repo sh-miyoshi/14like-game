@@ -10,6 +10,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
+	"github.com/sh-miyoshi/14like-game/pkg/sound"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
@@ -116,6 +117,7 @@ func (p *Player) GetParam() models.ObjectParam {
 func (p *Player) HandleDamage(dm models.Damage) {
 	logger.Debug("NonAttackPlayer got damage %+v", dm)
 	if dm.Power > 0 {
+		sound.On(sound.SEFailed)
 		p.hits++
 	}
 	for _, b := range dm.Buffs {

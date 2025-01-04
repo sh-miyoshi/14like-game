@@ -12,6 +12,7 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/fps"
 	"github.com/sh-miyoshi/14like-game/pkg/inputs"
 	"github.com/sh-miyoshi/14like-game/pkg/logger"
+	"github.com/sh-miyoshi/14like-game/pkg/sound"
 )
 
 func init() {
@@ -38,7 +39,9 @@ func main() {
 		Size: dxlib.Int32Ptr(10),
 	})
 
-	state := 0
+	sound.Init()
+
+	state := 1
 
 	mgr := manager.Manager{}
 	mgr.Init()
