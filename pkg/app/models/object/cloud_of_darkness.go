@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	debug = true
+	debug = false
 )
 
 type CloudOfDarkness struct {
@@ -46,33 +46,33 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 	} else {
 		// パターン1
 		e.timeline = []SkillTimeline{
-			{60, &skill.GrimEmbrace{}},
-			{180, &skill.WaveGun{}},
+			{180, &skill.GrimEmbrace{}},
+			{300, &skill.WaveGun{}},
 		}
 		n := rand.Intn(4)
 		if n%2 == 0 {
-			e.timeline = append(e.timeline, SkillTimeline{540, &skill.Aero{}})
+			e.timeline = append(e.timeline, SkillTimeline{660, &skill.Aero{}})
 		} else {
-			e.timeline = append(e.timeline, SkillTimeline{540, &skill.Death{}})
+			e.timeline = append(e.timeline, SkillTimeline{660, &skill.Death{}})
 		}
 		if n/2 == 0 {
-			e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}})
+			e.timeline = append(e.timeline, SkillTimeline{800, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}})
 		} else {
-			e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンデスジャ"}})
+			e.timeline = append(e.timeline, SkillTimeline{800, &skill.OnlyCast{CastTime: 240, Name: "エンデスジャ"}})
 		}
 		e.timeline = append(e.timeline, []SkillTimeline{
-			{720, &skill.RapidWaveGun{}},
-			{960, &skill.WaveGun{}},
-			{1320, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
+			{1020, &skill.RapidWaveGun{}},
+			{1080, &skill.WaveGun{}},
+			{1440, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
 		}...)
 		if n/2 == 0 {
-			e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Aero{CastTime: 60}})
+			e.timeline = append(e.timeline, SkillTimeline{1470, &skill.Aero{CastTime: 60}})
 		} else {
-			e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Death{CastTime: 60}})
+			e.timeline = append(e.timeline, SkillTimeline{1470, &skill.Death{CastTime: 60}})
 		}
 		e.timeline = append(e.timeline, []SkillTimeline{
-			{1710, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
-			{1770, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫"}},
+			{1830, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
+			{1890, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫"}},
 		}...)
 
 		// WIP: パターン2
