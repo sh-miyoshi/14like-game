@@ -53,7 +53,6 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 	e.timeline = append(e.timeline, []SkillTimeline{
 		// {780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
 		{720, &skill.OnlyCast{CastTime: 240, Name: "連射式波動砲"}},
-		{780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
 		{960, &skill.WaveGun{}},
 		{1320, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
 	}...)
@@ -63,8 +62,8 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Death{CastTime: 60}})
 	}
 	e.timeline = append(e.timeline, []SkillTimeline{
-		{1530, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス2回目"}},
 		{1710, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
+		{1770, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫"}},
 	}...)
 
 	// WIP: パターン2

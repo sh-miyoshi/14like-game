@@ -89,12 +89,17 @@ func (a *GrimEmbrace) Update() bool {
 	}
 
 	if a.count == grimEmbraceCastTime {
+		tm := 22
+		if rand.Intn(2) == 0 {
+			tm = 54
+		}
+
 		a.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      0,
 			DamageType: models.DamageTypeObject,
 			TargetID:   a.targetObjParam.ID,
-			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: 54 * 60, IsFront: a.isFront}},
+			Buffs:      []models.Buff{&buff.GrimEmbrace{Count: tm * 60, IsFront: a.isFront}},
 		})
 		return true
 	}
