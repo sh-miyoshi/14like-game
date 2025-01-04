@@ -8,19 +8,15 @@ type keyboard struct {
 }
 
 func (k *keyboard) Init() error {
-	k.keyBind[KeyEnter] = dxlib.KEY_INPUT_Z
-	k.keyBind[KeyCancel] = dxlib.KEY_INPUT_X
+	k.keyBind[KeyEnter] = dxlib.KEY_INPUT_SPACE
 	k.keyBind[KeyLeft] = dxlib.KEY_INPUT_LEFT
 	k.keyBind[KeyRight] = dxlib.KEY_INPUT_RIGHT
 	k.keyBind[KeyUp] = dxlib.KEY_INPUT_UP
 	k.keyBind[KeyDown] = dxlib.KEY_INPUT_DOWN
-	k.keyBind[KeyLButton] = dxlib.KEY_INPUT_A
-	k.keyBind[KeyRButton] = dxlib.KEY_INPUT_S
-	k.keyBind[KeyDebug] = dxlib.KEY_INPUT_D
-	k.keyBind[Key1] = dxlib.KEY_INPUT_1
-	k.keyBind[Key2] = dxlib.KEY_INPUT_2
-	k.keyBind[Key3] = dxlib.KEY_INPUT_3
-	k.keyBind[Key4] = dxlib.KEY_INPUT_4
+	k.keyBind[KeyAnotherLeft] = dxlib.KEY_INPUT_A
+	k.keyBind[KeyAnotherRight] = dxlib.KEY_INPUT_D
+	k.keyBind[KeyAnotherUp] = dxlib.KEY_INPUT_W
+	k.keyBind[KeyAnotherDown] = dxlib.KEY_INPUT_S
 
 	return nil
 }
@@ -38,5 +34,16 @@ func (k *keyboard) KeyStateUpdate() {
 }
 
 func (k *keyboard) CheckKey(key KeyType) int {
+	switch key {
+	case KeyLeft:
+		return k.keyState[k.keyBind[key]] + k.keyState[k.keyBind[KeyAnotherLeft]]
+	case KeyRight:
+		return k.keyState[k.keyBind[key]] + k.keyState[k.keyBind[KeyAnotherRight]]
+	case KeyUp:
+		return k.keyState[k.keyBind[key]] + k.keyState[k.keyBind[KeyAnotherUp]]
+	case KeyDown:
+		return k.keyState[k.keyBind[key]] + k.keyState[k.keyBind[KeyAnotherDown]]
+	}
+
 	return k.keyState[k.keyBind[key]]
 }

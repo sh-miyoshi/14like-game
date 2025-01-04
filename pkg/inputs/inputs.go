@@ -6,18 +6,14 @@ type KeyType int
 
 const (
 	KeyEnter KeyType = iota
-	KeyCancel
 	KeyLeft
 	KeyRight
 	KeyUp
 	KeyDown
-	KeyLButton
-	KeyRButton
-	KeyDebug
-	Key1
-	Key2
-	Key3
-	Key4
+	KeyAnotherLeft
+	KeyAnotherRight
+	KeyAnotherUp
+	KeyAnotherDown
 
 	keyMax
 )

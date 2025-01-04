@@ -3,6 +3,7 @@ package title
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/inputs"
 	"github.com/sh-miyoshi/14like-game/pkg/sound"
 )
 
@@ -22,7 +23,7 @@ func (a *Title) Draw() {
 }
 
 func (a *Title) Update() bool {
-	if dxlib.CheckHitKey(dxlib.KEY_INPUT_SPACE) == 1 {
+	if inputs.CheckKey(inputs.KeyEnter) == 1 {
 		sound.On(sound.SEEnter)
 		return true
 	}

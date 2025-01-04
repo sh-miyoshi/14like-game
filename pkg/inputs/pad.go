@@ -11,15 +11,10 @@ type pad struct {
 
 func (p *pad) Init() error {
 	p.keyBind[KeyEnter] = 6
-	p.keyBind[KeyCancel] = 5
 	p.keyBind[KeyLeft] = 2
 	p.keyBind[KeyRight] = 3
 	p.keyBind[KeyUp] = 4
 	p.keyBind[KeyDown] = 1
-	p.keyBind[KeyLButton] = 9
-	p.keyBind[KeyRButton] = 10
-	p.keyBind[KeyDebug] = 12
-	// WIP: 1,2,3,4
 
 	return nil
 }
@@ -36,5 +31,10 @@ func (p *pad) KeyStateUpdate() {
 }
 
 func (p *pad) CheckKey(key KeyType) int {
+	// 別ボタンはなし
+	if key == KeyAnotherLeft || key == KeyAnotherRight || key == KeyAnotherUp || key == KeyAnotherDown {
+		return 0
+	}
+
 	return p.padState[p.keyBind[key]-1]
 }
