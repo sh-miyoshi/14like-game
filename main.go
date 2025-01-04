@@ -39,7 +39,7 @@ func main() {
 		Size: dxlib.Int32Ptr(10),
 	})
 
-	sound.Init()
+	sound.SEInit()
 
 	state := 0
 
@@ -61,6 +61,7 @@ MAIN:
 		case 0:
 			if titleInst.Update() {
 				state = 1
+				sound.BGMPlay()
 				continue
 			}
 			titleInst.Draw()
@@ -79,6 +80,8 @@ MAIN:
 
 		fpsMgr.Wait()
 	}
+
+	sound.BGMStop()
 
 	dxlib.DxLib_End()
 }

@@ -16,9 +16,9 @@ var (
 	soundEffects = [SEMax]int{}
 )
 
-func Init() {
-	soundEffects[SEFailed] = dxlib.LoadSoundMem("data/sounds/failed.mp3")
-	soundEffects[SEEnter] = dxlib.LoadSoundMem("data/sounds/enter.mp3")
+func SEInit() {
+	soundEffects[SEFailed] = dxlib.LoadSoundMem("data/sounds/se/failed.mp3")
+	soundEffects[SEEnter] = dxlib.LoadSoundMem("data/sounds/se/enter.mp3")
 
 	for _, se := range soundEffects {
 		if se == -1 {
