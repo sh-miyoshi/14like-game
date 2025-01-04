@@ -13,6 +13,10 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
+const (
+	debug = true
+)
+
 type CloudOfDarkness struct {
 	id           string
 	pos          point.Point
@@ -34,39 +38,46 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		system.FailWithError("Failed to load cloud_of_darkness image")
 	}
 
-	// パターン1
-	e.timeline = []SkillTimeline{
-		{60, &skill.GrimEmbrace{}},
-		{180, &skill.WaveGun{}},
-	}
-	n := rand.Intn(4)
-	if n%2 == 0 {
-		e.timeline = append(e.timeline, SkillTimeline{540, &skill.Aero{}})
+	if debug {
+		// デバッグ
+		e.timeline = []SkillTimeline{
+			{60, &skill.RapidWaveGun{}},
+		}
 	} else {
-		e.timeline = append(e.timeline, SkillTimeline{540, &skill.Death{}})
-	}
-	if n/2 == 0 {
-		e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}})
-	} else {
-		e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンデスジャ"}})
-	}
-	e.timeline = append(e.timeline, []SkillTimeline{
-		// {780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
-		{720, &skill.OnlyCast{CastTime: 240, Name: "連射式波動砲"}},
-		{960, &skill.WaveGun{}},
-		{1320, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
-	}...)
-	if n/2 == 0 {
-		e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Aero{CastTime: 60}})
-	} else {
-		e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Death{CastTime: 60}})
-	}
-	e.timeline = append(e.timeline, []SkillTimeline{
-		{1710, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
-		{1770, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫"}},
-	}...)
+		// パターン1
+		e.timeline = []SkillTimeline{
+			{60, &skill.GrimEmbrace{}},
+			{180, &skill.WaveGun{}},
+		}
+		n := rand.Intn(4)
+		if n%2 == 0 {
+			e.timeline = append(e.timeline, SkillTimeline{540, &skill.Aero{}})
+		} else {
+			e.timeline = append(e.timeline, SkillTimeline{540, &skill.Death{}})
+		}
+		if n/2 == 0 {
+			e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンエアロジャ"}})
+		} else {
+			e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンデスジャ"}})
+		}
+		e.timeline = append(e.timeline, []SkillTimeline{
+			// {780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
+			{720, &skill.OnlyCast{CastTime: 240, Name: "連射式波動砲"}},
+			{960, &skill.WaveGun{}},
+			{1320, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
+		}...)
+		if n/2 == 0 {
+			e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Aero{CastTime: 60}})
+		} else {
+			e.timeline = append(e.timeline, SkillTimeline{1350, &skill.Death{CastTime: 60}})
+		}
+		e.timeline = append(e.timeline, []SkillTimeline{
+			{1710, &skill.OnlyCast{CastTime: 240, Name: "フレア"}},
+			{1770, &skill.OnlyCast{CastTime: 240, Name: "闇の大氾濫"}},
+		}...)
 
-	// WIP: パターン2
+		// WIP: パターン2
+	}
 }
 
 func (e *CloudOfDarkness) End() {
