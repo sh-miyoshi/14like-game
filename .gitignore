@@ -8,3 +8,6 @@ secrets
 
 .DS_Store
 .vscode/
+
+data/images/
+data/sounds/
