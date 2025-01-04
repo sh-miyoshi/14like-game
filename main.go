@@ -68,9 +68,16 @@ MAIN:
 		case 1:
 			bg.Update()
 			mgr.Update()
+			if mgr.IsEnd() {
+				state = 2
+				sound.BGMStop()
+				continue
+			}
 
 			bg.Draw()
 			mgr.Draw()
+		case 2:
+			// WIP
 		}
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {

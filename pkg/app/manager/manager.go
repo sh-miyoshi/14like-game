@@ -10,11 +10,13 @@ import (
 )
 
 type Manager struct {
+	isEnd     bool
 	damageMgr manager.DamageManager
 	objectMgr manager.ObjectManager
 }
 
 func (m *Manager) Init() {
+	m.isEnd = false
 	m.damageMgr.SetManager(&m.objectMgr)
 }
 
@@ -63,4 +65,12 @@ func (m *Manager) Draw() {
 func (m *Manager) Update() {
 	m.damageMgr.Update()
 	m.objectMgr.Update()
+}
+
+func (m *Manager) SetEnd() {
+	m.isEnd = true
+}
+
+func (m *Manager) IsEnd() bool {
+	return m.isEnd
 }

@@ -41,7 +41,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 	if debug {
 		// デバッグ
 		e.timeline = []SkillTimeline{
-			{60, &skill.OnlyCast{CastTime: 120, Name: "フレア", Text: "散会～"}},
+			{60, &skill.OnlyCast{CastTime: 120, Name: "闇の大氾濫", Text: "おわり～"}},
 		}
 	} else {
 		// パターン1
@@ -110,6 +110,14 @@ func (e *CloudOfDarkness) Update() bool {
 			break
 		}
 	}
+
+	endTime := e.timeline[len(e.timeline)-1].TriggerTime + 1
+	if e.count == endTime {
+		// managerへ終了を通知
+		logger.Debug("Game finished")
+		e.manager.SetEnd()
+	}
+
 	return false
 }
 

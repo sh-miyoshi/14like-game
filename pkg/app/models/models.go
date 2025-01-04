@@ -70,6 +70,8 @@ type Manager interface {
 	AddDamage(damage Damage)
 	GetObjectParams(filter *ObjectFilter) []ObjectParam
 	GetObjects(filter *ObjectFilter) []Object
+	SetEnd()
+	IsEnd() bool
 }
 
 type Buff interface {
