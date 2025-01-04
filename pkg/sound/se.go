@@ -1,6 +1,7 @@
 package sound
 
 import (
+	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/app/system"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
 )
@@ -17,6 +18,10 @@ var (
 )
 
 func SEInit() {
+	if !config.Get().Sound.SEEnabled {
+		return
+	}
+
 	soundEffects[SEFailed] = dxlib.LoadSoundMem("data/sounds/se/failed.mp3")
 	soundEffects[SEEnter] = dxlib.LoadSoundMem("data/sounds/se/enter.mp3")
 
@@ -28,6 +33,10 @@ func SEInit() {
 }
 
 func On(typ int) {
+	if !config.Get().Sound.SEEnabled {
+		return
+	}
+
 	if typ < 0 || typ >= SEMax {
 		return
 	}

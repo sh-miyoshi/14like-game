@@ -39,6 +39,7 @@ func main() {
 		Size: dxlib.Int32Ptr(10),
 	})
 
+	config.Init()
 	sound.SEInit()
 
 	state := 0
