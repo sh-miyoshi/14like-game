@@ -49,8 +49,8 @@ func (a *RapidWaveGun) Draw() {
 	if a.count >= rapidWaveGunCastTime {
 		w2 := 200
 		dxlib.DrawBox(x-w/2, 200, x+w/2, y, dxlib.GetColor(255, 255, 0), true)
-		dxlib.DrawBox(x-w/2-w2, 200, x-w/2, y+h, dxlib.GetColor(255, 255, 0), true)
-		dxlib.DrawBox(x+w/2, 200, x+w/2+w2, y+h, dxlib.GetColor(255, 255, 0), true)
+		dxlib.DrawBox(x-w/2-w2, 200, x-w/2, config.ScreenSizeY, dxlib.GetColor(255, 255, 0), true)
+		dxlib.DrawBox(x+w/2, 200, x+w/2+w2, config.ScreenSizeY, dxlib.GetColor(255, 255, 0), true)
 	}
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 }
