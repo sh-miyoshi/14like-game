@@ -61,8 +61,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 			e.timeline = append(e.timeline, SkillTimeline{660, &skill.OnlyCast{CastTime: 240, Name: "エンデスジャ"}})
 		}
 		e.timeline = append(e.timeline, []SkillTimeline{
-			// {780, &skill.OnlyCast{CastTime: 240, Name: "グリムエンブレス1回目"}},
-			{720, &skill.OnlyCast{CastTime: 240, Name: "連射式波動砲"}},
+			{720, &skill.RapidWaveGun{}},
 			{960, &skill.WaveGun{}},
 			{1320, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
 		}...)

@@ -63,6 +63,7 @@ const (
 	KEY_INPUT_2      = dxlib.KEY_INPUT_2
 	KEY_INPUT_3      = dxlib.KEY_INPUT_3
 	KEY_INPUT_4      = dxlib.KEY_INPUT_4
+	KEY_INPUT_SPACE  = dxlib.KEY_INPUT_SPACE
 )
 
 const (
