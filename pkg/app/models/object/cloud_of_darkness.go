@@ -147,6 +147,6 @@ func (e *CloudOfDarkness) drawCastBar() {
 		dxlib.DrawBox(px, py, px+size, py+20, dxlib.GetColor(255, 255, 255), false)
 		castSize := size * castTime / pm.CastTime
 		dxlib.DrawBox(px, py, px+castSize, py+20, dxlib.GetColor(255, 255, 255), true)
-		dxlib.DrawFormatString(px, py+25, 0xffffff, pm.Name)
+		dxlib.DrawFormatString(px, py+25, 0xffffff, "%s", pm.Name)
 	}
 }

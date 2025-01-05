@@ -65,6 +65,11 @@ type Damage struct {
 	RotateBase  point.Point
 	RotateAngle float64
 }
+
+type ResultInfo struct {
+	Hits int
+}
+
 type Manager interface {
 	AddObject(objType int, pm interface{}) string
 	AddDamage(damage Damage)
@@ -72,6 +77,8 @@ type Manager interface {
 	GetObjects(filter *ObjectFilter) []Object
 	SetEnd()
 	IsEnd() bool
+	SetResult(info ResultInfo)
+	GetResult() ResultInfo
 }
 
 type Buff interface {

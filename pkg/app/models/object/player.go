@@ -119,6 +119,8 @@ func (p *Player) HandleDamage(dm models.Damage) {
 	if dm.Power > 0 {
 		sound.On(sound.SEFailed)
 		p.hits++
+		// WIP: リファクタリング
+		p.manager.SetResult(models.ResultInfo{Hits: p.hits})
 	}
 	for _, b := range dm.Buffs {
 		b.Init(p.manager, p.id)

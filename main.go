@@ -74,6 +74,7 @@ MAIN:
 			if mgr.IsEnd() {
 				state = 2
 				sound.BGMStop()
+				resultInst.SetValues(mgr.GetResult().Hits)
 				continue
 			}
 

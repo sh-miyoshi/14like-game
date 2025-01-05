@@ -11,6 +11,7 @@ import (
 
 type Manager struct {
 	isEnd     bool
+	result    models.ResultInfo
 	damageMgr manager.DamageManager
 	objectMgr manager.ObjectManager
 }
@@ -73,4 +74,12 @@ func (m *Manager) SetEnd() {
 
 func (m *Manager) IsEnd() bool {
 	return m.isEnd
+}
+
+func (m *Manager) SetResult(info models.ResultInfo) {
+	m.result = info
+}
+
+func (m *Manager) GetResult() models.ResultInfo {
+	return m.result
 }
