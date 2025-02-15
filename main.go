@@ -97,7 +97,7 @@ MAIN:
 			if count == 0 {
 				mgr.Init()
 				mgr.AddObject(models.ObjectInstPlayer, nil)
-				bg.Init(config.Phase2B)
+				bg.Init(config.Phase2A)
 			}
 
 			bg.Update()

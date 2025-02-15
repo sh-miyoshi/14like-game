@@ -26,6 +26,10 @@ func (b *BackGround) Draw() {
 		)
 		dxlib.DrawBox(0, 0, config.ScreenSizeX, 200, 0x000000, true)
 		dxlib.DrawLine(0, 200, config.ScreenSizeX, 200, 0xFFFFFF)
+	case config.Phase2A:
+		sizeX := 250
+		dxlib.DrawBox(config.ScreenSizeX/2-sizeX/2, 100, config.ScreenSizeX/2+sizeX/2, 480, 0xFFFFFF, false)
+		// WIP: 外周円
 	case config.Phase2B:
 		size := 60
 		ofsx := config.ScreenSizeX/2 - 4*size
