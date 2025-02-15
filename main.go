@@ -16,6 +16,11 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/sound"
 )
 
+var (
+	state = 0
+	count = 0
+)
+
 func init() {
 	runtime.LockOSThread()
 }
@@ -43,8 +48,6 @@ func main() {
 	config.Init()
 	sound.SEInit()
 
-	state := 0
-
 	mgr := manager.Manager{}
 
 	bg := background.BackGround{}
@@ -60,19 +63,22 @@ MAIN:
 		switch state {
 		case 0:
 			if titleInst.Update() {
-				state = 1
+				stateChange(1)
 				sound.BGMPlay()
-				mgr.Init()
-				mgr.AddObject(models.ObjectInstPlayer, nil)
-				mgr.AddObject(models.ObjectInstCloudOfDarkness, nil)
 				continue
 			}
 			titleInst.Draw()
 		case 1:
+			if count == 0 {
+				mgr.Init()
+				mgr.AddObject(models.ObjectInstPlayer, nil)
+				mgr.AddObject(models.ObjectInstCloudOfDarkness, nil)
+			}
+
 			bg.Update()
 			mgr.Update()
 			if mgr.IsEnd() {
-				state = 2
+				stateChange(2)
 				sound.BGMStop()
 				resultInst.SetValues(mgr.GetResult().Hits)
 				continue
@@ -82,11 +88,14 @@ MAIN:
 			mgr.Draw()
 		case 2:
 			if resultInst.Update() {
-				state = 0
+				stateChange(0)
 				continue
 			}
 			resultInst.Draw()
+		case 3: // Debug
+
 		}
+		count++
 
 		if dxlib.CheckHitKey(dxlib.KEY_INPUT_ESCAPE) == 1 {
 			logger.Info("Game end by escape command")
@@ -99,4 +108,9 @@ MAIN:
 	sound.BGMStop()
 
 	dxlib.DxLib_End()
+}
+
+func stateChange(next int) {
+	state = next
+	count = 0
 }

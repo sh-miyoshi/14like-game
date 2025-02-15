@@ -13,6 +13,10 @@ import (
 	"github.com/sh-miyoshi/14like-game/pkg/utils/point"
 )
 
+var (
+	debug = false
+)
+
 type CloudOfDarkness struct {
 	id           string
 	pos          point.Point
@@ -34,7 +38,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		system.FailWithError("Failed to load cloud_of_darkness image")
 	}
 
-	if config.IsDebug() && config.Get().Debug.Phase == 0 {
+	if debug {
 		// デバッグ
 		e.timeline = []SkillTimeline{
 			{60, &skill.OnlyCast{CastTime: 120, Name: "闇の大氾濫", Text: "おわり～"}},
