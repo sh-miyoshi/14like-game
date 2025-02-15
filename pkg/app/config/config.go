@@ -13,6 +13,10 @@ type Config struct {
 		BGMEnabled bool `yaml:"bgm_enabled"`
 		SEEnabled  bool `yaml:"se_enabled"`
 	} `yaml:"sound"`
+	Debug struct {
+		On    bool `yaml:"on"`
+		Phase int  `yaml:"phase"`
+	} `yaml:"debug"`
 }
 
 const (
@@ -43,4 +47,8 @@ func Init() {
 
 func Get() Config {
 	return conf
+}
+
+func IsDebug() bool {
+	return conf.Debug.On
 }

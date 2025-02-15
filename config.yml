@@ -1,3 +1,6 @@
 sound:
   bgm_enabled: true
   se_enabled: true
+debug:
+  on: true
+  phase: 1
