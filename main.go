@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	state = 0
+	state = 3
 	count = 0
 )
 
@@ -73,6 +73,7 @@ MAIN:
 				mgr.Init()
 				mgr.AddObject(models.ObjectInstPlayer, nil)
 				mgr.AddObject(models.ObjectInstCloudOfDarkness, nil)
+				bg.Init(config.Phase1)
 			}
 
 			bg.Update()
@@ -93,7 +94,17 @@ MAIN:
 			}
 			resultInst.Draw()
 		case 3: // Debug
+			if count == 0 {
+				mgr.Init()
+				mgr.AddObject(models.ObjectInstPlayer, nil)
+				bg.Init(config.Phase2B)
+			}
 
+			bg.Update()
+			mgr.Update()
+
+			bg.Draw()
+			mgr.Draw()
 		}
 		count++
 

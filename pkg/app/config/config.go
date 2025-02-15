@@ -29,6 +29,13 @@ const (
 	PlayerHitRange = 10
 )
 
+const (
+	Phase1 int = iota
+	Phase2A
+	Phase2B
+	Phase2C
+)
+
 func Init() {
 	fp, err := os.Open("config.yml")
 	if err != nil {
