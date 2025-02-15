@@ -11,6 +11,10 @@ type ObjectManager struct {
 	objects []models.Object
 }
 
+func (m *ObjectManager) Init() {
+	m.objects = []models.Object{}
+}
+
 func (m *ObjectManager) AddObject(obj models.Object) {
 	m.objects = append(m.objects, obj)
 }

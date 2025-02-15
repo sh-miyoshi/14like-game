@@ -18,6 +18,8 @@ type Manager struct {
 
 func (m *Manager) Init() {
 	m.isEnd = false
+	m.damageMgr.Init()
+	m.objectMgr.Init()
 	m.damageMgr.SetManager(&m.objectMgr)
 }
 

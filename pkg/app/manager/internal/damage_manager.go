@@ -13,6 +13,10 @@ type DamageManager struct {
 	objManager *ObjectManager
 }
 
+func (m *DamageManager) Init() {
+	m.damages = []models.Damage{}
+}
+
 func (m *DamageManager) SetManager(objManager *ObjectManager) {
 	m.objManager = objManager
 }

@@ -46,9 +46,6 @@ func main() {
 	state := 0
 
 	mgr := manager.Manager{}
-	mgr.Init()
-	mgr.AddObject(models.ObjectInstPlayer, nil)
-	mgr.AddObject(models.ObjectInstCloudOfDarkness, nil)
 
 	bg := background.BackGround{}
 
@@ -65,6 +62,9 @@ MAIN:
 			if titleInst.Update() {
 				state = 1
 				sound.BGMPlay()
+				mgr.Init()
+				mgr.AddObject(models.ObjectInstPlayer, nil)
+				mgr.AddObject(models.ObjectInstCloudOfDarkness, nil)
 				continue
 			}
 			titleInst.Draw()
@@ -81,7 +81,10 @@ MAIN:
 			bg.Draw()
 			mgr.Draw()
 		case 2:
-			resultInst.Update()
+			if resultInst.Update() {
+				state = 0
+				continue
+			}
 			resultInst.Draw()
 		}
 

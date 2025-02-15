@@ -3,6 +3,8 @@ package result
 import (
 	"github.com/sh-miyoshi/14like-game/pkg/app/config"
 	"github.com/sh-miyoshi/14like-game/pkg/dxlib"
+	"github.com/sh-miyoshi/14like-game/pkg/inputs"
+	"github.com/sh-miyoshi/14like-game/pkg/sound"
 )
 
 type Result struct {
@@ -36,11 +38,15 @@ func (r *Result) Draw() {
 	ofs := dxlib.GetDrawStringWidth(str, len(str)) * 48 / 16
 	dxlib.DrawStringToHandle(config.ScreenSizeX/2-ofs/2, 230, dxlib.GetColor(255, 255, 255), r.fontHandle, str)
 
-	str = "再プレイはできないのでXボタンかEscキーで閉じて再度やり直してね"
+	str = "スペースキーでタイトルに戻ります"
 	ofs = dxlib.GetDrawStringWidth(str, len(str))
-	dxlib.DrawFormatString(config.ScreenSizeX/2-ofs/2, 330, dxlib.GetColor(255, 255, 255), str)
+	dxlib.DrawFormatString(config.ScreenSizeX/2-ofs/2, 330, dxlib.GetColor(255, 255, 255), "%s", str)
 }
 
-func (r *Result) Update() {
-	// Nothing to do
+func (r *Result) Update() bool {
+	if inputs.CheckKey(inputs.KeyEnter) == 1 {
+		sound.On(sound.SEEnter)
+		return true
+	}
+	return false
 }
