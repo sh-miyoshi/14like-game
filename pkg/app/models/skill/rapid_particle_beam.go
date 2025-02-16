@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	rapidWaveGunCastTime = 180
-	rapidWaveGunEndTime  = 240
+	rapidParticleBeamCastTime = 180
+	rapidParticleBeamEndTime  = 240
 )
 
 type RapidParticleBeam struct {
@@ -46,7 +46,7 @@ func (a *RapidParticleBeam) Draw() {
 	h := 230
 	dxlib.DrawBox(x-w/2, y, x+w/2, y+h, dxlib.GetColor(126, 132, 247), true)
 	// Hit Area
-	if a.count >= rapidWaveGunCastTime {
+	if a.count >= rapidParticleBeamCastTime {
 		w2 := 200
 		dxlib.DrawBox(x-w/2, 200, x+w/2, y, dxlib.GetColor(255, 255, 0), true)
 		dxlib.DrawBox(x-w/2-w2, 200, x-w/2, config.ScreenSizeY, dxlib.GetColor(255, 255, 0), true)
@@ -57,7 +57,7 @@ func (a *RapidParticleBeam) Draw() {
 
 func (a *RapidParticleBeam) Update() bool {
 	a.count++
-	if a.count == rapidWaveGunCastTime {
+	if a.count == rapidParticleBeamCastTime {
 		dm := models.Damage{
 			ID:         uuid.New().String(),
 			Power:      1,
@@ -81,7 +81,7 @@ func (a *RapidParticleBeam) Update() bool {
 		a.manager.AddDamage(dm)
 	}
 
-	return a.count >= rapidWaveGunEndTime
+	return a.count >= rapidParticleBeamEndTime
 }
 
 func (a *RapidParticleBeam) GetCount() int {
@@ -90,7 +90,7 @@ func (a *RapidParticleBeam) GetCount() int {
 
 func (a *RapidParticleBeam) GetParam() models.SkillParam {
 	return models.SkillParam{
-		CastTime: rapidWaveGunCastTime,
+		CastTime: rapidParticleBeamCastTime,
 		Name:     "連射式波動砲",
 	}
 }

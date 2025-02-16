@@ -11,28 +11,28 @@ import (
 )
 
 const (
-	WaveGunAttackLeft int = iota
-	WaveGunAttackRight
+	CloudletsOfDarknessAttackLeft int = iota
+	CloudletsOfDarknessAttackRight
 )
 
 const (
-	waveGunCastTime = 180
+	cloudletsOfDarknessCastTime = 180
 )
 
-type WaveGunAttackerParam struct {
+type CloudletsOfDarknessAttackerParam struct {
 	StartTime int
 	Pos       point.Point
 	Direct    int
 }
 
-type WaveGun struct {
+type CloudletsOfDarkness struct {
 	count     int
 	ownerID   string
 	manager   models.Manager
 	attackIDs string
 }
 
-func (a *WaveGun) Init(manager models.Manager, ownerID string) {
+func (a *CloudletsOfDarkness) Init(manager models.Manager, ownerID string) {
 	a.manager = manager
 	a.ownerID = ownerID
 
@@ -59,13 +59,13 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 		pos := point.Point{X: i * 65, Y: 0}
 		pos = math.Rotate(point.Point{X: 65 * 5, Y: 0}, pos, math.Pi/4)
 
-		id := a.manager.AddObject(models.ObjectInstWaveGunAttacker, &WaveGunAttackerParam{
+		id := a.manager.AddObject(models.ObjectInstCloudletsOfDarknessAttacker, &CloudletsOfDarknessAttackerParam{
 			Pos: point.Point{
 				X: pos.X + 60,
 				Y: pos.Y + config.ScreenSizeY - 15,
 			},
-			Direct:    WaveGunAttackRight,
-			StartTime: startTimes[i]*interval + waveGunCastTime,
+			Direct:    CloudletsOfDarknessAttackRight,
+			StartTime: startTimes[i]*interval + cloudletsOfDarknessCastTime,
 		})
 		a.attackIDs = fmt.Sprintf("%s,%s", a.attackIDs, id)
 	}
@@ -74,36 +74,36 @@ func (a *WaveGun) Init(manager models.Manager, ownerID string) {
 		pos := point.Point{X: i * 65, Y: 0}
 		pos = math.Rotate(point.Point{X: 0, Y: 0}, pos, -math.Pi/4)
 
-		id := a.manager.AddObject(models.ObjectInstWaveGunAttacker, &WaveGunAttackerParam{
+		id := a.manager.AddObject(models.ObjectInstCloudletsOfDarknessAttacker, &CloudletsOfDarknessAttackerParam{
 			Pos: point.Point{
 				X: pos.X + 50 + config.ScreenSizeX/2,
 				Y: pos.Y + config.ScreenSizeY - 50 - 15,
 			},
-			Direct:    WaveGunAttackLeft,
-			StartTime: startTimes[i+5]*interval + waveGunCastTime,
+			Direct:    CloudletsOfDarknessAttackLeft,
+			StartTime: startTimes[i+5]*interval + cloudletsOfDarknessCastTime,
 		})
 		a.attackIDs = fmt.Sprintf("%s,%s", a.attackIDs, id)
 	}
 }
 
-func (a *WaveGun) End() {
+func (a *CloudletsOfDarkness) End() {
 }
 
-func (a *WaveGun) Draw() {
+func (a *CloudletsOfDarkness) Draw() {
 }
 
-func (a *WaveGun) Update() bool {
+func (a *CloudletsOfDarkness) Update() bool {
 	a.count++
-	return a.count >= waveGunCastTime
+	return a.count >= cloudletsOfDarknessCastTime
 }
 
-func (a *WaveGun) GetCount() int {
+func (a *CloudletsOfDarkness) GetCount() int {
 	return a.count
 }
 
-func (a *WaveGun) GetParam() models.SkillParam {
+func (a *CloudletsOfDarkness) GetParam() models.SkillParam {
 	return models.SkillParam{
-		CastTime: waveGunCastTime,
+		CastTime: cloudletsOfDarknessCastTime,
 		Name:     "斉射式波動砲",
 	}
 }

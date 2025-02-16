@@ -34,8 +34,8 @@ func (m *Manager) AddObject(objType int, pm interface{}) string {
 		tmp := &object.CloudOfDarkness{}
 		tmp.Init(m)
 		obj = tmp
-	case models.ObjectInstWaveGunAttacker:
-		tmp := &object.WaveGunAttacker{}
+	case models.ObjectInstCloudletsOfDarknessAttacker:
+		tmp := &object.CloudletsOfDarknessAttacker{}
 		tmp.Init(pm, m)
 		obj = tmp
 	case models.ObjectInstGrimEmbraceAttacker:

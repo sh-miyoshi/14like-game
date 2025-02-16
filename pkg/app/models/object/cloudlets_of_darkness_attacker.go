@@ -10,11 +10,11 @@ import (
 )
 
 const (
-	waveGunAttackerDamageTime = 300
-	waveGunAttackerEndTime    = waveGunAttackerDamageTime + 50
+	cloudletsOfDarknessAttackerDamageTime = 300
+	cloudletsOfDarknessAttackerEndTime    = cloudletsOfDarknessAttackerDamageTime + 50
 )
 
-type WaveGunAttacker struct {
+type CloudletsOfDarknessAttacker struct {
 	id        string
 	pos       point.Point
 	direct    int
@@ -23,16 +23,16 @@ type WaveGunAttacker struct {
 	manager   models.Manager
 }
 
-func (p *WaveGunAttacker) Init(pm interface{}, manager models.Manager) {
+func (p *CloudletsOfDarknessAttacker) Init(pm interface{}, manager models.Manager) {
 	p.id = uuid.New().String()
 	p.manager = manager
-	parsedParam := pm.(*skill.WaveGunAttackerParam)
+	parsedParam := pm.(*skill.CloudletsOfDarknessAttackerParam)
 	p.pos = parsedParam.Pos
 	p.direct = parsedParam.Direct
 	p.startTime = parsedParam.StartTime
 }
 
-func (p *WaveGunAttacker) Draw() {
+func (p *CloudletsOfDarknessAttacker) Draw() {
 	if p.count < p.startTime {
 		dxlib.DrawCircle(p.pos.X, p.pos.Y, 10, 0xFFFFFF, true)
 	} else {
@@ -40,7 +40,7 @@ func (p *WaveGunAttacker) Draw() {
 	}
 }
 
-func (p *WaveGunAttacker) Update() bool {
+func (p *CloudletsOfDarknessAttacker) Update() bool {
 	p.count++
 
 	width := 65 // 50 * sqrt(2)
@@ -48,11 +48,11 @@ func (p *WaveGunAttacker) Update() bool {
 	start := point.Point{X: p.pos.X - width/2, Y: p.pos.Y}
 	length := 352 // 250 * sqrt(2)
 	angle := math.Pi * 3 / 4
-	if p.direct == skill.WaveGunAttackRight {
+	if p.direct == skill.CloudletsOfDarknessAttackRight {
 		angle = -math.Pi * 3 / 4
 	}
 
-	if p.count == p.startTime+waveGunAttackerDamageTime {
+	if p.count == p.startTime+cloudletsOfDarknessAttackerDamageTime {
 		p.manager.AddDamage(models.Damage{
 			ID:         uuid.New().String(),
 			Power:      1,
@@ -67,7 +67,7 @@ func (p *WaveGunAttacker) Update() bool {
 	}
 
 	// WIP: リファクタリング
-	if p.count >= p.startTime+waveGunAttackerDamageTime {
+	if p.count >= p.startTime+cloudletsOfDarknessAttackerDamageTime {
 		// 範囲
 		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_ALPHA, 64)
 		p1 := math.Rotate(base, start, angle)
@@ -78,16 +78,16 @@ func (p *WaveGunAttacker) Update() bool {
 		dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 	}
 
-	if p.count == p.startTime+waveGunAttackerEndTime {
+	if p.count == p.startTime+cloudletsOfDarknessAttackerEndTime {
 		return true
 	}
 	return false
 }
 
-func (p *WaveGunAttacker) HandleDamage(dm models.Damage) {
+func (p *CloudletsOfDarknessAttacker) HandleDamage(dm models.Damage) {
 }
 
-func (p *WaveGunAttacker) GetParam() models.ObjectParam {
+func (p *CloudletsOfDarknessAttacker) GetParam() models.ObjectParam {
 	return models.ObjectParam{
 		ID:       p.id,
 		Pos:      p.pos,

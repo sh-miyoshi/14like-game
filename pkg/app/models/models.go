@@ -18,7 +18,7 @@ const (
 const (
 	ObjectInstPlayer int = iota
 	ObjectInstCloudOfDarkness
-	ObjectInstWaveGunAttacker
+	ObjectInstCloudletsOfDarknessAttacker
 	ObjectInstGrimEmbraceAttacker
 	ObjectInstStygianShadow
 )

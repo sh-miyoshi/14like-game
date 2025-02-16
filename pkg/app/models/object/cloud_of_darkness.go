@@ -47,7 +47,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		// パターン1
 		e.timeline = []SkillTimeline{
 			{180, &skill.GrimEmbrace{}},
-			{300, &skill.WaveGun{}},
+			{300, &skill.CloudletsOfDarkness{}},
 		}
 		n := rand.Intn(4)
 		if n%2 == 0 {
@@ -62,7 +62,7 @@ func (e *CloudOfDarkness) Init(manager models.Manager) {
 		}
 		e.timeline = append(e.timeline, []SkillTimeline{
 			{1020, &skill.RapidParticleBeam{}},
-			{1080, &skill.WaveGun{}},
+			{1080, &skill.CloudletsOfDarkness{}},
 			{1440, &skill.BladeOfDarkness{AttackType: skill.BladeOfDarknessAttackLeft}},
 		}...)
 		if n/2 == 0 {
