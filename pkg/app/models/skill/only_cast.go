@@ -27,7 +27,7 @@ func (a *OnlyCast) End() {
 func (a *OnlyCast) Draw() {
 	if a.Text != "" {
 		ofs := dxlib.GetDrawStringWidth(a.Text, len(a.Text))
-		dxlib.DrawFormatString(config.ScreenSizeX/2-ofs/2, config.ScreenSizeY/2-20, dxlib.GetColor(255, 255, 255), a.Text)
+		dxlib.DrawFormatString(config.ScreenSizeX/2-ofs/2, config.ScreenSizeY/2-20, dxlib.GetColor(255, 255, 255), "%s", a.Text)
 	}
 }
 
