@@ -1,25 +1,52 @@
 package skill
 
-import "github.com/sh-miyoshi/14like-game/pkg/app/models"
+import (
+	"math/rand"
+
+	"github.com/sh-miyoshi/14like-game/pkg/app/models"
+	"github.com/sh-miyoshi/14like-game/pkg/utils/math"
+)
 
 const (
 	thirdArtOfDarknessCastTime = 120
 )
 
+const (
+	thirdArtOfDarknessAttackTypeLeft int = iota
+	thirdArtOfDarknessAttackTypeRight
+	thirdArtOfDarknessAttackTypeSpread
+	thirdArtOfDarknessAttackTypeGroup
+)
+
 type ThirdArtOfDarkness struct {
-	count int
+	count   int
+	attacks [3]int
 }
 
 func (p *ThirdArtOfDarkness) Init(manager models.Manager, ownerID string) {
 	p.count = 0
+	// Note: Left, Rightの中から2回 + Spread, Groupの中から1回、順番はランダム
+	lr := []int{thirdArtOfDarknessAttackTypeLeft, thirdArtOfDarknessAttackTypeRight}
+	sg := []int{thirdArtOfDarknessAttackTypeSpread, thirdArtOfDarknessAttackTypeGroup}
+	p.attacks[0] = lr[rand.Intn(2)]
+	p.attacks[1] = lr[rand.Intn(2)]
+	p.attacks[2] = sg[rand.Intn(2)]
+	math.Shuffle(p.attacks[:])
 }
 
-func (p *ThirdArtOfDarkness) End() {}
+func (p *ThirdArtOfDarkness) End() {
+}
 
-func (p *ThirdArtOfDarkness) Draw() {}
+func (p *ThirdArtOfDarkness) Draw() {
+}
 
 func (p *ThirdArtOfDarkness) Update() bool {
 	p.count++
+	/*
+		技見せフェーズ x3
+		ちょっと開く
+		攻撃
+	*/
 	return false
 }
 
