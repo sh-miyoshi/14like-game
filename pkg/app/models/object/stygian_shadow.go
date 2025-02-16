@@ -32,7 +32,7 @@ func (e *StygianShadow) Init(manager models.Manager) {
 	e.pos = point.Point{X: config.ScreenSizeX / 2, Y: 200}
 
 	e.timeline = []SkillTimeline{
-		{60, &skill.OnlyCast{CastTime: 120, Name: "闇の大氾濫", Text: "おわり～"}},
+		{60, &skill.ThirdArtOfDarkness{}},
 	}
 }
 
