@@ -14,14 +14,14 @@ const (
 	rapidWaveGunEndTime  = 240
 )
 
-type RapidWaveGun struct {
+type RapidParticleBeam struct {
 	count   int
 	ownerID string
 	manager models.Manager
 	image   int
 }
 
-func (a *RapidWaveGun) Init(manager models.Manager, ownerID string) {
+func (a *RapidParticleBeam) Init(manager models.Manager, ownerID string) {
 	a.manager = manager
 	a.ownerID = ownerID
 	a.image = dxlib.LoadGraph("data/images/tank.png")
@@ -30,11 +30,11 @@ func (a *RapidWaveGun) Init(manager models.Manager, ownerID string) {
 	}
 }
 
-func (a *RapidWaveGun) End() {
+func (a *RapidParticleBeam) End() {
 	dxlib.DeleteGraph(a.image)
 }
 
-func (a *RapidWaveGun) Draw() {
+func (a *RapidParticleBeam) Draw() {
 	// Tank
 	x := config.ScreenSizeX / 2
 	y := 300
@@ -55,7 +55,7 @@ func (a *RapidWaveGun) Draw() {
 	dxlib.SetDrawBlendMode(dxlib.DX_BLENDMODE_NOBLEND, 0)
 }
 
-func (a *RapidWaveGun) Update() bool {
+func (a *RapidParticleBeam) Update() bool {
 	a.count++
 	if a.count == rapidWaveGunCastTime {
 		dm := models.Damage{
@@ -84,11 +84,11 @@ func (a *RapidWaveGun) Update() bool {
 	return a.count >= rapidWaveGunEndTime
 }
 
-func (a *RapidWaveGun) GetCount() int {
+func (a *RapidParticleBeam) GetCount() int {
 	return a.count
 }
 
-func (a *RapidWaveGun) GetParam() models.SkillParam {
+func (a *RapidParticleBeam) GetParam() models.SkillParam {
 	return models.SkillParam{
 		CastTime: rapidWaveGunCastTime,
 		Name:     "連射式波動砲",
