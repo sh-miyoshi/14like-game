@@ -20,6 +20,7 @@ const (
 	ObjectInstCloudOfDarkness
 	ObjectInstWaveGunAttacker
 	ObjectInstGrimEmbraceAttacker
+	ObjectInstStygianShadow
 )
 
 type ObjectFilter struct {

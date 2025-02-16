@@ -42,6 +42,10 @@ func (m *Manager) AddObject(objType int, pm interface{}) string {
 		tmp := &object.GrimEmbraceAttacker{}
 		tmp.Init(pm, m)
 		obj = tmp
+	case models.ObjectInstStygianShadow:
+		tmp := &object.StygianShadow{}
+		tmp.Init(m)
+		obj = tmp
 	default:
 		system.FailWithError(fmt.Sprintf("Unknown object type %d", objType))
 	}

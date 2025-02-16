@@ -97,6 +97,7 @@ MAIN:
 			if count == 0 {
 				mgr.Init()
 				mgr.AddObject(models.ObjectInstPlayer, nil)
+				mgr.AddObject(models.ObjectInstStygianShadow, nil)
 				bg.Init(config.Phase2A)
 			}
 
